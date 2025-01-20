@@ -1,3 +1,87 @@
+
+/* GENERAL STYLES */
+:root {
+    --body-bg: #ffffff;
+    --body-text: #0f0f0f;
+    --header-bg: #f5ecdc;
+    --header-text: #0f0f0f;
+    --footer-bg: #1f1f1f;
+    --footer-text: #ffffff;
+}
+
 body {
-    background-color: aqua;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    background-color: var(--body-bg);
+    color: var(--body-text);
+    box-sizing: border-box;
+}
+
+body > * {
+    display: flex;
+    justify-content: center;
+}
+
+body * {
+    box-sizing: border-box;
+}
+
+h1 {
+    padding: 0;
+    margin: 0;
+    text-align: center;
+}
+
+.container {
+    width: 100%;
+    border: 1px solid black;
+}
+
+/* Header */
+header {
+    background-color: var(--header-bg);
+}
+
+#top {
+    display: flex;
+    justify-content: space-between;
+    padding: 0.5rem 1rem;
+}
+
+#instructions-logo button {
+    padding: 0;
+    margin: 0;
+    background-color: transparent;
+    border: none;
+}
+
+/* Main */
+main {
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+    align-items: center;
+    justify-content: flex-start;
+    height: 100%;
+}
+
+/* Footer */
+footer {
+    background-color: var(--footer-bg);
+    color: var(--footer-text);
+    text-align: center;
+}
+
+footer i {
+    color: #f0f0f0
+}
+
+/* Media queries */
+@media screen and (min-width: 800px) {
+    .container {
+        width: 800px;
+    }
 }
