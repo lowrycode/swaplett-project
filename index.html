@@ -60,15 +60,26 @@
             <div id="game-board">
                 <p>Choose your settings then click the NEW GAME button above</p>
             </div>
-            <div id="swaps-info">
+            <div id="swaps-info" class="hidden">
                 <p>SWAPS REMAINING: <span id="swaps-remaining">15</span></p>
             </div>
-            <div id="game-end-info" class="hidden">
-                <div id="win">
-                    Win message
+            <div id="game-end-info">
+                <div id="win" class="">
+                    <div>
+                        <i class="fa-solid fa-circle-check"></i>
+                    </div>
+                    <div>
+                        <p class="game-end-title">Nice job!</p>
+                        <p class="game-end-details">Finished with <span id="end-swaps-remaining">3</span> swaps remaining</p>
+                    </div>
                 </div>
-                <div id="lose">
-                    Lose message
+                <div id="lose" class="hidden">
+                    <div>
+                        <i class="fa-solid fa-circle-xmark"></i>
+                    </div>
+                    <div>
+                        <p class="game-end-title">No swaps left</p>
+                    </div>
                 </div>
             </div>
             <div id="definitions" class="hidden">
