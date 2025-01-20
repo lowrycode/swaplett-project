@@ -40,7 +40,8 @@ h1 {
     border: 1px solid black;
 }
 
-/* use for hiding from screen whilst keeping accessible to screen readers */
+/* use for hiding from screen whilst keeping accessible to screen readers. 
+Code taken from https://gomakethings.com/revisting-aria-label-versus-a-visually-hidden-class/ */
 .visually-hidden {
     border: 0;
 	clip: rect(0 0 0 0);
