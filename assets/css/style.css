@@ -40,6 +40,12 @@ h1 {
     border: 1px solid black;
 }
 
+.container.center {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
 /* use for hiding from screen whilst keeping accessible to screen readers. 
 Code taken from https://gomakethings.com/revisting-aria-label-versus-a-visually-hidden-class/ */
 .visually-hidden {
@@ -84,6 +90,25 @@ main {
     align-items: center;
     justify-content: flex-start;
     height: 100%;
+}
+
+#game-settings {
+    padding: 2rem 1rem;
+    display: flex;
+    justify-content: center;
+    max-width: 500px;
+    flex-wrap: wrap;
+    gap: 1rem;
+}
+
+#game-settings select,
+#game-settings button {
+    padding: 0.2rem 0.8rem;
+    width: 120px;
+}
+
+#game-settings button {
+    font-size: 1.1rem;
 }
 
 /* Footer */
