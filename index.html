@@ -41,7 +41,21 @@
     <main>
         <div class="container">
             <div id="game-settings">
-                Game settings
+                <label for="grid-select" class="visually-hidden">Select Grid Size:</label>
+                <select id="grid-select">
+                    <option value="3">3x3 Grid</option>
+                    <option value="4">4x4 Grid</option>
+                    <option value="5" selected>5x5 Grid</option>
+                    <option value="6">6x6 Grid</option>
+                    <option value="7">7x7 Grid</option>
+                </select>
+                <label for="difficulty" class="visually-hidden">Select Difficulty:</label>
+                <select id="difficulty">
+                    <option value="easy">Easy</option>
+                    <option value="medium">Medium</option>
+                    <option value="hard">Hard</option>
+                </select>
+                <button id="btn-new-game">New Game</button>
             </div>
             <div id="game-board">
                 Game board
