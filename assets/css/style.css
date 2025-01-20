@@ -137,6 +137,35 @@ main {
     font-weight: bold;
 }
 
+#game-end-info {
+    padding: 2rem 1.5rem;
+}
+
+#game-end-info > div {
+    display: flex;
+}
+
+#game-end-info>div.hidden {
+    display: none;
+}
+
+#game-end-info i {
+    font-size: 3rem;
+}
+
+#game-end-info p {
+    padding: 0 1rem;
+    margin: 0;
+}
+
+.game-end-title {
+    font-size: 2rem;
+}
+
+.game-end-details {
+    font-size: 1rem;
+}
+
 /* Footer */
 footer {
     background-color: var(--footer-bg);
