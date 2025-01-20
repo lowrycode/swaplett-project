@@ -7,6 +7,7 @@
     --header-text: #0f0f0f;
     --footer-bg: #1f1f1f;
     --footer-text: #ffffff;
+    --game-board-text: #a0a0a0;
 }
 
 body {
@@ -111,6 +112,22 @@ main {
     font-size: 1.1rem;
 }
 
+#game-board {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 2rem;
+    width: 95%;
+    /* max-width ensures the number of remaining swaps is visible underneath */
+    max-width: 55vh;
+    aspect-ratio: 1 / 1;
+    background-color: rgb(231, 216, 198);
+    font-size: 1.5rem;
+    color: var(--game-board-text);
+    text-align: center;
+}
+
 /* Footer */
 footer {
     background-color: var(--footer-bg);
@@ -122,9 +139,35 @@ footer i {
     color: #f0f0f0
 }
 
-/* Media queries */
+/* MEDIA QUERIES */
+
+/* limit container size */
 @media screen and (min-width: 800px) {
     .container {
         width: 800px;
+    }
+}
+
+/* fallback dimensions for game board */
+@supports not (aspect-ratio: 1 / 1) {
+    @media screen and (min-width: 300px) {
+        #game-board {
+            width: 300px;
+            height: 300px;
+        }
+    }
+
+    @media screen and (min-width: 400px) {
+        #game-board {
+            width: 400px;
+            height: 400px;
+        }
+    }
+
+    @media screen and (min-width: 500px) {
+        #game-board {
+            width: 500px;
+            height: 500px;
+        }
     }
 }
