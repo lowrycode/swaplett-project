@@ -64,7 +64,7 @@
                 <p>SWAPS REMAINING: <span id="swaps-remaining">15</span></p>
             </div>
             <div id="game-end-info">
-                <div id="win" class="">
+                <div id="win" class="hidden">
                     <div>
                         <i class="fa-solid fa-circle-check"></i>
                     </div>
@@ -83,7 +83,7 @@
                     </div>
                 </div>
             </div>
-            <div id="definitions">
+            <div id="definitions" class="hidden">
                 <!-- This content will later be generated dynamically -->
                 <h2>Definitions</h2>
                 <dl>
@@ -118,8 +118,58 @@
                     </div>
                 </dl>
             </div>
-            <div id="modal-instructions" class="hidden">
-                Modal for instructions
+            <div id="modal-instructions" class="">
+                <div class="modal-dialogue-box" role="dialog" aria-labelledby="modal-instructions-title">
+                    <header class="modal-header">
+                        <h2 id="modal-instructions-title">INSTRUCTIONS</h2>
+                        <button class="btn-close-modal" aria-label="Close instructions">&times;</button>
+                    </header>
+                    <div class="modal-body">
+                        <div class="modal-container">
+                            <section>
+                                <h2>Aim of the Game</h2>
+                                <p>Swap the letters into the correct positions in the words within the specified number
+                                    of
+                                    swaps.
+                                </p>
+                                <p>Words are either horizontal or vertical within the grid.</p>
+                                <p>[PUT IMAGE HERE]</p>
+                                <ul>
+                                    <li><strong>GREEN:</strong> the letter is in the correct position and will no longer be movable</li>
+                                    <li><strong>YELLOW:</strong> the letter is found somewhere else in the same row or column</li>
+                                </ul>
+                                <hr>
+                            </section>
+                            <section>
+                                <h2>Before The Game</h2>
+                                <h3>Choose word length</h3>
+                                <p>This determines how many letters are in the word and therefore the shape of the grid
+                                </p>
+                                <h3>Choose difficulty level</h3>
+                                <p>Choose from one of the options below:</p>
+                                <ul>
+                                    <li><strong>EASY:</strong> can be solved within 6 swaps</li>
+                                    <li><strong>MEDIUM:</strong> can be solved within 8 swaps</li>
+                                    <li><strong>HARD:</strong> can be solved within 10 swaps</li>
+                                </ul>
+                                <hr>
+                            </section>
+                            <section>
+                                <h2>After The Game</h2>
+                                <p>Scroll down to view the definitions of the words.</p>
+                                <p>Click the PLAY AGAIN button</p>
+                            </section>
+                        </div>
+                        <footer class="modal-footer">
+                            <div class="modal-container">
+                                <p>This game is based on a popular game called <a href="https://wafflegame.net/daily"
+                                    title="Go to Waffle game (opens in a new window)" target="_blank" rel="noopener">Waffle</a> and was built as a portfolio
+                                    project for the Diploma in Full Stack Development course with <a href="https://codeinstitute.net/"
+                                    title="Go to Code Institute website (opens in a new window)" target="_blank" rel="noopener">Code Institute</a>.</p>
+                            </div>
+                        </footer>
+                    </div>
+                </div>
             </div>
             <div id="modal-error-msg" class="hidden">
                 Modal for errors
