@@ -215,7 +215,7 @@ main {
 
 /* MODAL */
 
-#modal-instructions {
+.modal-overlay {
     position: fixed;
     top: 0;
     left: 0;
@@ -228,15 +228,22 @@ main {
     align-items: center;
 }
 
-#modal-instructions.hidden {
+.modal-overlay.hidden {
     display: none;
 }
 
 .modal-dialogue-box {
     position: relative;
     width: 95%;
-    max-width: 700px;
     background-color: var(--modal-main-bg)
+}
+
+.modal-dialogue-box.modal-wide {
+    max-width: 700px;
+}
+
+.modal-dialogue-box.modal-narrow {
+    max-width: 480px;
 }
 
 .modal-header {
@@ -249,6 +256,10 @@ main {
     align-items: center;
     background-color: var(--modal-header-bg);
     z-index: 2;
+}
+
+.modal-header h2 {
+    margin: 0 3rem 0 1rem
 }
 
 .btn-close-modal {
