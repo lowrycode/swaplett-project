@@ -93,10 +93,6 @@
                                 aria-label="Play audio clip" title="Play audio clip">
                                 <i class="fa-solid fa-circle-play" aria-hidden="true"></i></button>
                         </dt>
-                        <audio id="audio1">
-                            <source src="https://api.dictionaryapi.dev/media/pronunciations/en/beech-us.mp3"
-                                type="audio/mpeg">
-                        </audio>
                         <dd>
                             <p><span class="partOfSpeech">noun:</span> <span class="definition-meaning">A tree of the
                                     genus Fagus having a smooth, light grey trunk, oval, pointed leaves and many
@@ -117,6 +113,12 @@
                         </dd>
                     </div>
                 </dl>
+                <div id="definition-audio">
+                    <audio id="audio1">
+                        <source src="https://api.dictionaryapi.dev/media/pronunciations/en/beech-us.mp3"
+                            type="audio/mpeg">
+                    </audio>
+                </div>
             </div>
             <div id="modal-instructions" class="modal-overlay hidden">
                 <div class="modal-dialogue-box modal-wide" role="dialog" aria-labelledby="modal-instructions-title">
@@ -176,7 +178,7 @@
                     </div>
                 </div>
             </div>
-            <div id="modal-alert" class="modal-overlay hiddenNOT">
+            <div id="modal-alert" class="modal-overlay hidden">
                 <div class="modal-dialogue-box modal-narrow" role="dialog" aria-labelledby="modal-alert-title"
                     aria-describedby="modal-alert-msg">
                     <header class="modal-header">
