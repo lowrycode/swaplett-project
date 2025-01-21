@@ -8,6 +8,7 @@
     --footer-bg: #1f1f1f;
     --footer-text: #ffffff;
     --game-board-text: #a0a0a0;
+    --highlight: #0000a0;
 }
 
 body {
@@ -30,7 +31,7 @@ body * {
     box-sizing: border-box;
 }
 
-h1 {
+h1, h2 {
     padding: 0;
     margin: 0;
     text-align: center;
@@ -164,6 +165,47 @@ main {
 
 .game-end-details {
     font-size: 1rem;
+}
+
+#definitions {
+    padding: 2rem 1rem;
+    min-width: 60%;
+}
+
+#definitions.hidden {
+    display: none;
+}
+
+.definition-entry {
+    padding: 1rem 0.5rem;
+    border-top: 1px solid var(--body-text);
+}
+
+.definition-entry dd {
+    margin-inline-start: 1.5rem;
+}
+
+.definition-word {
+    font-size: 1.2rem;
+    font-weight: bold;
+}
+
+.partOfSpeech {
+    font-style: italic;
+    font-weight: bold;
+    margin-right: 0.2rem;
+}
+
+.btn-audio {
+    background: transparent;
+    padding: 0;
+    margin: 0;
+    border: none;
+    font-size: 1.1rem;
+}
+
+.btn-audio:hover {
+    color: var(--highlight);
 }
 
 /* Footer */
