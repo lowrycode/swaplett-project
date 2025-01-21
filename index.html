@@ -36,7 +36,7 @@
             </div>
         </div>
     </header>
-    
+
     <!-- main -->
     <main>
         <div class="container center">
@@ -70,7 +70,8 @@
                     </div>
                     <div>
                         <p class="game-end-title">Nice job!</p>
-                        <p class="game-end-details">Finished with <span id="end-swaps-remaining">3</span> swaps remaining</p>
+                        <p class="game-end-details">Finished with <span id="end-swaps-remaining">3</span> swaps
+                            remaining</p>
                     </div>
                 </div>
                 <div id="lose" class="hidden">
@@ -82,8 +83,40 @@
                     </div>
                 </div>
             </div>
-            <div id="definitions" class="hidden">
-                Definitions
+            <div id="definitions">
+                <!-- This content will later be generated dynamically -->
+                <h2>Definitions</h2>
+                <dl>
+                    <div class="definition-entry">
+                        <dt class="definition-word">beech
+                            <button class="btn-audio" type="button" onclick="playAudio('audio1')"
+                                aria-label="Play audio clip" title="Play audio clip">
+                                <i class="fa-solid fa-circle-play" aria-hidden="true"></i></button>
+                        </dt>
+                        <audio id="audio1">
+                            <source src="https://api.dictionaryapi.dev/media/pronunciations/en/beech-us.mp3"
+                                type="audio/mpeg">
+                        </audio>
+                        <dd>
+                            <p><span class="partOfSpeech">noun:</span> <span class="definition-meaning">A tree of the
+                                    genus Fagus having a smooth, light grey trunk, oval, pointed leaves and many
+                                    branches.</span></p>
+                        </dd>
+                    </div>
+                    <div class="definition-entry">
+                        <dt class="definition-word">griot</dt>
+                        <dd>
+                            <p><span class="partOfSpeech">noun:</span> <span class="definition-meaning">A West African
+                                    storyteller who passes on oral traditions; a wandering musician and poet.</span></p>
+                        </dd>
+                    </div>
+                    <div class="definition-entry">
+                        <dt class="definition-word">keefs</dt>
+                        <dd>
+                            <p><span class="definition-meaning">No definition found</span></p>
+                        </dd>
+                    </div>
+                </dl>
             </div>
             <div id="modal-instructions" class="hidden">
                 Modal for instructions
@@ -93,11 +126,13 @@
             </div>
         </div>
     </main>
-    
+
     <!-- footer -->
     <footer>
         <div class="container">
-            <p>Check out the project on Github <a href="https://github.com/lowrycode/swaplett-project" title="Go to Github repository (opens in a new window)" target="_blank" rel="noopener"><i class="fa-brands fa-github"></i></a></p>
+            <p>Check out the project on Github <a href="https://github.com/lowrycode/swaplett-project"
+                    title="Go to Github repository (opens in a new window)" target="_blank" rel="noopener"><i
+                        class="fa-brands fa-github"></i></a></p>
         </div>
     </footer>
     <script src="assets/js/script.js"></script>
