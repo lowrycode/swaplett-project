@@ -9,6 +9,11 @@
     --footer-text: #ffffff;
     --game-board-text: #a0a0a0;
     --highlight: #0000a0;
+    --modal-overlay: rgba(0, 0, 0, 0.5);
+    --modal-header-bg: #d0d0d0;
+    --modal-body-bg: #ffffff;
+    --modal-footer-bg: #1f1f1f;
+    --link-text: #6aa9e5;
 }
 
 body {
@@ -208,6 +213,86 @@ main {
     color: var(--highlight);
 }
 
+/* MODAL */
+
+#modal-instructions {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: var(--modal-overlay);
+    z-index: 10;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#modal-instructions.hidden {
+    display: none;
+}
+
+.modal-dialogue-box {
+    position: relative;
+    width: 95%;
+    max-width: 700px;
+    background-color: var(--modal-main-bg)
+}
+
+.modal-header {
+    position: sticky;
+    top: 0;
+    height: 40px;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    background-color: var(--modal-header-bg);
+    z-index: 2;
+}
+
+.btn-close-modal {
+    font-size: 2rem;
+    color: var(--body-text);
+    position: absolute;
+    right: 0.8rem;
+    padding: 0;
+    margin: 0;
+    background-color: transparent;
+    border: none;
+}
+
+.btn-close-modal:hover {
+    color: var(--highlight);
+}
+
+.modal-body {
+    background-color: var(--modal-body-bg);
+    max-height: 77vh;
+    overflow-y: auto;
+}
+
+.modal-container {
+    padding: 0.1rem 2rem;
+}
+
+.modal-container > section {
+    margin-top: 1.5rem;
+}
+
+.modal-footer {
+    background-color: var(--modal-footer-bg);
+    color: #f0f0f0;
+    margin-top: 1.5rem;
+}
+
+.modal-footer a {
+    color: var(--link-text);
+    margin-top: 1.5rem;
+    text-decoration: none;
+    font-weight: bold;
+}
+
 /* Footer */
 footer {
     background-color: var(--footer-bg);
@@ -215,8 +300,8 @@ footer {
     text-align: center;
 }
 
-footer i {
-    color: #f0f0f0
+footer a {
+    color: var(--link-text);
 }
 
 /* MEDIA QUERIES */
