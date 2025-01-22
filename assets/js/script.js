@@ -158,6 +158,14 @@ async function fetchRandomWords(wordLength) {
     }
 }
 
+/**
+ * Generates a 2-D array representing the grid of words by positioning letters in the 
+ * correct row and column in the grid (in the format gridWords[row][column])
+ *
+ * @param {number} gridSize - The size of the grid (e.g., 5 for a 5x5 grid).
+ * @param {Array<string>} gridWords - An array of words to be placed in the grid.
+ * @returns {Array<Array<string | null>>} - A 2D array representing the grid.
+ */
 function getGridArr(gridSize, gridWords) {
 
     // Initialise rowsArr
@@ -269,6 +277,17 @@ function initialiseGridWords(wordLength) {
     }
 }
 
+/**
+ * Jumbles the grid by swapping random non-null values in the grid array a specified number of times.
+ *
+ * @param {Array<Array<string | null>>} gridArr - A 2D array representing the grid of words or null values. 
+ * @param {number} numSwaps - The number of swaps to perform on the grid.
+ *
+ * @returns {{gridArr: Array<Array<string | null>>, remainingBoxes: Set<string>}} - The function returns an object
+ * that contains:
+ *   - gridArr: the jumbled grid array after the swaps.
+ *   - remainingBoxes: a set containing the coordinates of the swapped grid cells (in the format "r,c")
+ */
 function jumbleGridArr(gridArr, numSwaps) {
 
     // Create a deep copy of gridArr
