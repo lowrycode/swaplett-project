@@ -27,7 +27,6 @@ async function newGame() {
     const wordLength = parseInt(document.getElementById("grid-select").value);
     const difficulty = document.getElementById("difficulty").value;
     let remainingSwaps = 15;
-    let remainingBoxes = new Set();
     let jumbleSwaps = getJumbleSwapNum(difficulty);
 
     // Get random words
@@ -40,7 +39,6 @@ async function newGame() {
         // NOTE could use fallback words here e.g. return fallbackWords.filter(word => word.length === wordLength);
         return;
     }
-    console.log(words);
 
     // Get criteria for gridWords array
     let criteria = [];
@@ -70,7 +68,15 @@ async function newGame() {
         return;
     }
     gridWords = getGridWords.data;
-    console.log(gridWords);
+
+    // Build gridAnswerArr
+    let gridAnswerArr = getGridArr(wordLength, gridWords);
+
+    // Build gridArr (by jumbling a copy of gridAnswerArr)
+    let getNewGridArr = jumbleGridArr(gridAnswerArr, jumbleSwaps);
+    let gridArr = getNewGridArr.gridArr;
+    let remainingBoxes = getNewGridArr.remainingBoxes;
+
 
 }
 
@@ -152,6 +158,39 @@ async function fetchRandomWords(wordLength) {
     }
 }
 
+function getGridArr(gridSize, gridWords) {
+
+    // Initialise rowsArr
+    let gridArr = Array(gridSize).fill(null).map(() => Array(gridSize).fill(null));
+
+    // Get wordGap - the number of rows down (or columns across) to position the next word
+    let wordGap = gridSize >= 5 ? Math.floor((gridSize - 1) / 2) : 2;
+
+    // Initialise iWord (the index of the word in gridWords)
+    let iWord = 0;
+
+    // Position horizontal words in correct rows
+    for (let r = 0; r < gridSize; r = r + wordGap) {
+        for (let c = 0; c < gridSize; c++) {
+            const word = gridWords[iWord];
+            gridArr[r][c] = word[c];
+        }
+        iWord++;
+    }
+
+    // Position vertical words in correct columns
+    for (let c = 0; c < gridSize; c = c + wordGap) {
+        for (let r = 1; r < gridSize; r++) {
+            const word = gridWords[iWord];
+            gridArr[r][c] = word[r];
+        }
+        iWord++;
+    }
+
+    // Output
+    return gridArr;
+}
+
 /**
  * Returns information about where the intersecting characters are between the grid words.
  * 
@@ -228,6 +267,53 @@ function initialiseGridWords(wordLength) {
         default:
             throw new Error("Unrecognised wordLength passed as argument");
     }
+}
+
+function jumbleGridArr(gridArr, numSwaps) {
+
+    // Create a deep copy of gridArr
+    let jumbledGridArr = structuredClone(gridArr);
+
+    // Define remainingBoxes (used later to keep track of game state)
+    const remainingBoxes = new Set();
+
+    // Make specified number of swaps
+    let swapsMade = 0;
+    let attempts = 0;
+    let maxAttempts = 1000;
+
+    while (swapsMade < numSwaps && attempts < maxAttempts) {
+        // Generate random coordinates for two grid cells
+        const r1 = Math.floor(Math.random() * jumbledGridArr.length);
+        const c1 = Math.floor(Math.random() * jumbledGridArr[r1].length);
+        const r2 = Math.floor(Math.random() * jumbledGridArr.length);
+        const c2 = Math.floor(Math.random() * jumbledGridArr[r2].length);
+
+        // Check swap is valid
+        if (jumbledGridArr[r1][c1] !== null
+            && jumbledGridArr[r2][c2] !== null
+            && jumbledGridArr[r1][c1] !== jumbledGridArr[r2][c2]
+            && jumbledGridArr[r1][c1] !== gridArr[r2][c2]
+            && jumbledGridArr[r2][c2] !== gridArr[r1][c1]
+        ) {
+            // Make the swap
+            const tempStr = jumbledGridArr[r1][c1];
+            jumbledGridArr[r1][c1] = jumbledGridArr[r2][c2];
+            jumbledGridArr[r2][c2] = tempStr;
+            remainingBoxes.add(`${r1},${c1}`);
+            remainingBoxes.add(`${r2},${c2}`);
+            swapsMade++;
+        }
+
+        attempts++;
+    }
+
+    // Show a warning in the console if maximum attempts reached
+    if (attempts >= maxAttempts) {
+        console.warn(`Max attempts (${maxAttempts}) reached - only ${swapsMade} of ${numSwaps} were made.`);
+    }
+
+    return { gridArr: jumbledGridArr, remainingBoxes: remainingBoxes };
 }
 
 /**
