@@ -76,6 +76,16 @@ async function newGame() {
 
 // HELPER FUNCTIONS
 
+/**
+ * Recursively assigns words to the gridWords array.
+ * 
+ * @param {string[]} words - An array of all available words.
+ * @param {string[]} gridWords - The array of words that is being being built recursively.
+ * @param {number[][]} criteria - Constraints defining relationships between grid words.
+ * @param {Set<string>} [usedWords=new Set()] - A set of words already being used in the gridWords array.
+ * @param {number} [i=0] - The current index in the gridWords array being processed.
+ * @returns {{data: string[], success: boolean}} The updated gridWords array and a success flag.
+ */
 function assignGridWords(words, gridWords, criteria, usedWords = new Set(), i = 0) {
     if (i >= gridWords.length) return { data: gridWords, success: true };  // gridWords complete
     for (let word of words) {
@@ -103,6 +113,13 @@ function displayAlert(title, msg) {
     document.getElementById("modal-alert").classList.remove("hidden");
 }
 
+/**
+ * Fetches a list of random words of a specified length from an external API.
+ * 
+ * @param {number} wordLength - The length of the words to fetch.
+ * @returns {Promise<string[]>} Promise which resolves to an array of random words.
+ * @throws {Error} If the word length is invalid or the fetch request fails.
+ */
 async function fetchRandomWords(wordLength) {
 
     // Validate input
@@ -136,8 +153,9 @@ async function fetchRandomWords(wordLength) {
 }
 
 /**
- * Returns information about where the common letters are within the grid words.
- * This is used when building the "gridWords" array.
+ * Returns information about where the intersecting characters are between the grid words.
+ * 
+ * This function is used when building the "gridWords" array.
  * 
  * @param {number} wordLength The length of the words used in the gridWords array
  * @returns {number[][]} A two-dimensional array where each sub-array contains four numbers:
@@ -212,6 +230,15 @@ function initialiseGridWords(wordLength) {
     }
 }
 
+/**
+ * Checks if the current gridWords array (particularly the last word added) satisfies 
+ * the specified grid criteria. It is called from within the assignGridWords function.
+ * 
+ * @param {number} lastIndex - The index of the last grid word added to the gridWords array.
+ * @param {string[]} gridWords - An array of words currently in the grid.
+ * @param {Array<[number, number, number, number]>} criteria - The 2 dimensional array of numbers (returned from the getGridWordsCriteria function)
+ * @returns {boolean} - Returns "true" if the current gridWords array satisfies the criteria or otherwise `false`.
+ */
 function matchesCriteria(lastIndex, gridWords, criteria) {
     for (let [iGridWord, jGridWord, iChar, jChar] of criteria) {
         if (((iGridWord === lastIndex || jGridWord === lastIndex)) &&
@@ -224,6 +251,10 @@ function matchesCriteria(lastIndex, gridWords, criteria) {
     return true;
 }
 
+/**
+ * Resets the visibility of game-related elements on the page and clears dynamic 
+ * content in the "definitions" and "game-board" sections
+ */
 function resetVisibility() {
     // Hide elements
     document.getElementById("game-end-info").classList.add("hidden");
