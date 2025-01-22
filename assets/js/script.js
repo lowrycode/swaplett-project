@@ -18,7 +18,7 @@ for (let btn of closeButtons) {
 document.getElementById("btn-new-game").addEventListener("click", newGame);
 
 // MAIN FUNCTION
-function newGame() {
+async function newGame() {
 
     // Reset styles (hidden class to hide/display elements)
     resetVisibility();
@@ -30,6 +30,16 @@ function newGame() {
     let remainingBoxes = new Set();
     let jumbleSwaps = getJumbleSwapNum(difficulty);
 
+    // Get random words
+    try {
+        const words = await fetchRandomWords(wordLength);
+        console.log(words);
+    } catch (error) {
+        displayAlert("Error", "Could not fetch words. Please check your internet connection.");
+        console.error("FAILED TO FETCH RANDOM WORDS", error);
+        // NOTE could use fallback words here e.g. return fallbackWords.filter(word => word.length === wordLength);
+    }
+
 }
 
 // HELPER FUNCTIONS
@@ -37,6 +47,38 @@ function displayAlert(title, msg) {
     document.getElementById("modal-alert-title").innerText = title;
     document.getElementById("modal-alert-msg").innerHTML = `<p>${msg}</p>`;
     document.getElementById("modal-alert").classList.remove("hidden");
+}
+
+async function fetchRandomWords(wordLength) {
+
+    // Validate input
+    const MIN_WORD_LENGTH = 3;
+    const MAX_WORD_LENGTH = 7;
+    if (!Number.isInteger(wordLength) || wordLength < MIN_WORD_LENGTH || wordLength > MAX_WORD_LENGTH) {
+        throw new Error(`Invalid word length - must be between ${MIN_WORD_LENGTH} and ${MAX_WORD_LENGTH}`);
+    }
+
+    // Write query string
+    const NUM_WORDS = 1000;
+    const LANGUAGE = "en";
+    const queryStr = `https://random-word-api.herokuapp.com/word?length=${wordLength}&number=${NUM_WORDS}&lang=${LANGUAGE}`;
+
+    // Fetch data
+    try {
+        const response = await fetch(queryStr);
+
+        if (!response.ok) {
+            // Fetch request (was successful but) returned a HTTP error
+            throw new Error(`HTTP error (status: ${response.status})`);
+        }
+
+        const data = await response.json();
+        return data;
+
+    } catch (error) {
+        // Includes network errors, JSON parsing errors, and runtime errors
+        throw error;  // to be handled by the caller function
+    }
 }
 
 function getJumbleSwapNum(difficulty) {
@@ -48,7 +90,7 @@ function getJumbleSwapNum(difficulty) {
         case "hard":
             return 10;
         default:
-            displayAlert("An Error Occurred", "Unrecognised difficulty rating")
+            displayAlert("An Error Occurred", "Unrecognised difficulty rating");
             throw new Error("Unrecognised difficulty rating");
     }
 }
