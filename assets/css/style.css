@@ -134,6 +134,29 @@ main {
     text-align: center;
 }
 
+.box {
+    position: absolute;
+    padding: 5px;
+    touch-action: none;
+    font-size: 2rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #1f1f1f;
+    background-color: lightgrey;
+    border: 1px #a0a0a0 solid;
+    box-shadow: inset 2px 2px 5px rgba(255, 255, 255, 0.5),
+        inset -2px -2px 5px rgba(0, 0, 0, 0.5);
+}
+
+.box.green {
+    background-color: green;
+}
+
+.box.yellow {
+    background-color: yellow;
+}
+
 #swaps-info {
     padding: 1.5rem 0;
     font-size: 1.3rem;
