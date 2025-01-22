@@ -12,7 +12,7 @@ for (let btn of closeButtons) {
         let modalElement = e.target.closest(".modal-overlay");
         modalElement.classList.add("hidden");
     });
-};
+}
 
 // Click "New Game" button
 document.getElementById("btn-new-game").addEventListener("click", newGame);
@@ -53,7 +53,7 @@ async function newGame() {
     }
 
     // Initialise gridWords array
-    let gridWords = []
+    let gridWords = [];
     try {
         gridWords = initialiseGridWords(wordLength);
     } catch (error) {
@@ -77,7 +77,7 @@ async function newGame() {
 // HELPER FUNCTIONS
 
 function assignGridWords(words, gridWords, criteria, usedWords = new Set(), i = 0) {
-    if (i >= gridWords.length) return {data: gridWords, success: true};  // gridWords complete
+    if (i >= gridWords.length) return { data: gridWords, success: true };  // gridWords complete
     for (let word of words) {
         if (usedWords.has(word)) continue;
         // Add word
@@ -94,7 +94,7 @@ function assignGridWords(words, gridWords, criteria, usedWords = new Set(), i = 
         usedWords.delete(word);
         // console.log(word, "failed tests - try next word", gridWords);
     }
-    return {data: gridWords, success: false};
+    return { data: gridWords, success: false };
 }
 
 function displayAlert(title, msg) {
@@ -153,7 +153,7 @@ function getGridWordsCriteria(wordLength) {
                 [0, 3, 2, 0],
                 [1, 2, 0, 2],
                 [1, 3, 2, 2]
-            ]
+            ];
         case 5:
         case 6:
             return [
@@ -166,7 +166,7 @@ function getGridWordsCriteria(wordLength) {
                 [2, 3, 0, 4],
                 [2, 4, 2, 4],
                 [2, 5, 4, 4]
-            ]
+            ];
         case 7:
             return [
                 [0, 3, 0, 0],
@@ -178,7 +178,7 @@ function getGridWordsCriteria(wordLength) {
                 [2, 3, 0, 6],
                 [2, 4, 3, 6],
                 [2, 5, 6, 6]
-            ]
+            ];
         default:
             throw new Error("Invalid wordLength passed as argument");
     }
@@ -214,10 +214,9 @@ function initialiseGridWords(wordLength) {
 
 function matchesCriteria(lastIndex, gridWords, criteria) {
     for (let [iGridWord, jGridWord, iChar, jChar] of criteria) {
-        if (((iGridWord === lastIndex || jGridWord === lastIndex))
-            && gridWords[iGridWord]
-            && gridWords[jGridWord]
-            && (gridWords[iGridWord][iChar] !== gridWords[jGridWord][jChar])
+        if (((iGridWord === lastIndex || jGridWord === lastIndex)) &&
+            gridWords[iGridWord] && gridWords[jGridWord] &&
+            (gridWords[iGridWord][iChar] !== gridWords[jGridWord][jChar])
         ) {
             return false;
         }
