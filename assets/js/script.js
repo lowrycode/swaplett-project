@@ -7,7 +7,7 @@ document.getElementById("btn-show-instructions").addEventListener("click", () =>
 
 // Click close buttons (in all modal headers)
 const closeButtons = document.getElementsByClassName("btn-close-modal");
-for (btn of closeButtons) {
+for (let btn of closeButtons) {
     btn.addEventListener("click", (e) => {
         let modalElement = e.target.closest(".modal-overlay");
         modalElement.classList.add("hidden");
@@ -29,7 +29,6 @@ function newGame() {
     let remainingSwaps = 15;
     let remainingBoxes = new Set();
     let jumbleSwaps = getJumbleSwapNum(difficulty);
-    console.log(jumbleSwaps);
 
 }
 
