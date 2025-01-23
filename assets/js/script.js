@@ -77,6 +77,8 @@ async function newGame() {
     let gridArr = getNewGridArr.gridArr;
     let unresolvedGridCells = getNewGridArr.unresolvedGridCells;
 
+    // Draw grid
+    drawGrid(gridArr, gridAnswerArr);
 
 }
 
@@ -111,6 +113,81 @@ function assignGridWords(words, gridWords, criteria, usedWords = new Set(), i = 
         // console.log(word, "failed tests - try next word", gridWords);
     }
     return { data: gridWords, success: false };
+}
+
+function createGridCell(char, xPos, yPos, offset, w, h, r, c) {
+    const gridCell = document.createElement("div");
+    gridCell.innerText = char;
+    gridCell.style.left = `${xPos + offset}%`;
+    gridCell.style.top = `${yPos + offset}%`;
+    gridCell.style.width = `${w - (2 * offset)}%`;
+    gridCell.style.height = `${h - (2 * offset)}%`;
+    gridCell.setAttribute("data-row", `${r}`);
+    gridCell.setAttribute("data-col", `${c}`);
+    return gridCell;
+}
+
+function setGridCellClassNames(gridCell, row, r, c, gridArr, gridAnswerArr) {
+    // set class names
+    if (row[c] === gridAnswerArr[r][c]) {
+        gridCell.classList = "grid-cell green";
+    } else {
+        gridCell.classList = "grid-cell draggable";
+        // check if letter is in correct column
+        for (let rTest = 0; rTest < gridArr.length; rTest++) {
+            if (row[c] === gridAnswerArr[rTest][c]) {
+                gridCell.classList.add("yellow");
+                return gridCell;
+            }
+        }
+        // check if letter is in correct row
+        for (let cTest = 0; cTest < row.length; cTest++) {
+            if (row[c] === gridAnswerArr[r][cTest]) {
+                gridCell.classList.add("yellow");
+                return gridCell;
+            }
+        }
+    }
+    return gridCell;
+}
+
+function drawGrid(gridArr, gridAnswerArr) {
+
+    // Remove text from game-board
+    const gameBoard = document.getElementById("game-board");
+    gameBoard.innerText = "";
+
+    // Define position variables
+    const xPosStart = 0, yPosStart = 0;
+    let xPos = xPosStart
+    let yPos = yPosStart;
+    let offset = 0.5;  // used for spacing between blocks
+
+    // Define width and height for grid cells
+    let w = 100 / gridArr.length;
+    let h = w;
+
+    // Define document fragment (improves performance by reducing number of reflows & repaints)
+    const fragment = document.createDocumentFragment();
+
+    // Draw grid (as fragment)
+    for (let r = 0; r < gridArr.length; r++) {
+        const row = gridArr[r];
+        xPos = xPosStart;
+        for (let c = 0; c < row.length; c++) {
+            const char = row[c];
+            if (char !== null) {
+                let gridCell = createGridCell(char, xPos, yPos, offset, w, h, r, c);
+                setGridCellClassNames(gridCell, row, r, c, gridArr, gridAnswerArr);
+                fragment.appendChild(gridCell);
+            }
+            xPos += w;
+        }
+        yPos += h;
+    }
+
+    // Add to DOM
+    gameBoard.appendChild(fragment);
 }
 
 function displayAlert(title, msg) {
