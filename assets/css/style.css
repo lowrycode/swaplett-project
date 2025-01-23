@@ -135,7 +135,7 @@ main {
     text-align: center;
 }
 
-.box {
+.grid-cell {
     position: absolute;
     padding: 5px;
     touch-action: none;
@@ -150,11 +150,11 @@ main {
         inset -2px -2px 5px rgba(0, 0, 0, 0.5);
 }
 
-.box.green {
+.grid-cell.green {
     background-color: green;
 }
 
-.box.yellow {
+.grid-cell.yellow {
     background-color: yellow;
 }
 
