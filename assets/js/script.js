@@ -75,7 +75,7 @@ async function newGame() {
     // Build gridArr (by jumbling a copy of gridAnswerArr)
     let getNewGridArr = jumbleGridArr(gridAnswerArr, jumbleSwaps);
     let gridArr = getNewGridArr.gridArr;
-    let remainingBoxes = getNewGridArr.remainingBoxes;
+    let unresolvedGridCells = getNewGridArr.unresolvedGridCells;
 
 
 }
@@ -283,18 +283,18 @@ function initialiseGridWords(wordLength) {
  * @param {Array<Array<string | null>>} gridArr - A 2D array representing the grid of words or null values. 
  * @param {number} numSwaps - The number of swaps to perform on the grid.
  *
- * @returns {{gridArr: Array<Array<string | null>>, remainingBoxes: Set<string>}} - The function returns an object
+ * @returns {{gridArr: Array<Array<string | null>>, unresolvedGridCells: Set<string>}} - The function returns an object
  * that contains:
  *   - gridArr: the jumbled grid array after the swaps.
- *   - remainingBoxes: a set containing the coordinates of the swapped grid cells (in the format "r,c")
+ *   - unresolvedGridCells: a set containing the coordinates of the swapped grid cells (in the format "r,c")
  */
 function jumbleGridArr(gridArr, numSwaps) {
 
     // Create a deep copy of gridArr
     let jumbledGridArr = structuredClone(gridArr);
 
-    // Define remainingBoxes (used later to keep track of game state)
-    const remainingBoxes = new Set();
+    // Define unresolvedGridCells (used later to keep track of game state)
+    const unresolvedGridCells = new Set();
 
     // Make specified number of swaps
     let swapsMade = 0;
@@ -319,8 +319,8 @@ function jumbleGridArr(gridArr, numSwaps) {
             const tempStr = jumbledGridArr[r1][c1];
             jumbledGridArr[r1][c1] = jumbledGridArr[r2][c2];
             jumbledGridArr[r2][c2] = tempStr;
-            remainingBoxes.add(`${r1},${c1}`);
-            remainingBoxes.add(`${r2},${c2}`);
+            unresolvedGridCells.add(`${r1},${c1}`);
+            unresolvedGridCells.add(`${r2},${c2}`);
             swapsMade++;
         }
 
@@ -332,7 +332,7 @@ function jumbleGridArr(gridArr, numSwaps) {
         console.warn(`Max attempts (${maxAttempts}) reached - only ${swapsMade} of ${numSwaps} were made.`);
     }
 
-    return { gridArr: jumbledGridArr, remainingBoxes: remainingBoxes };
+    return { gridArr: jumbledGridArr, unresolvedGridCells: unresolvedGridCells };
 }
 
 /**
