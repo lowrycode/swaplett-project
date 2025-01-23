@@ -159,7 +159,7 @@ function drawGrid(gridArr, gridAnswerArr) {
 
     // Define position variables
     const xPosStart = 0, yPosStart = 0;
-    let xPos = xPosStart
+    let xPos = xPosStart;
     let yPos = yPosStart;
     let offset = 0.5;  // used for spacing between blocks
 
@@ -386,11 +386,11 @@ function jumbleGridArr(gridArr, numSwaps) {
         const c2 = Math.floor(Math.random() * jumbledGridArr[r2].length);
 
         // Check swap is valid
-        if (jumbledGridArr[r1][c1] !== null
-            && jumbledGridArr[r2][c2] !== null
-            && jumbledGridArr[r1][c1] !== jumbledGridArr[r2][c2]
-            && jumbledGridArr[r1][c1] !== gridArr[r2][c2]
-            && jumbledGridArr[r2][c2] !== gridArr[r1][c1]
+        if (jumbledGridArr[r1][c1] !== null &&
+            jumbledGridArr[r2][c2] !== null &&
+            jumbledGridArr[r1][c1] !== jumbledGridArr[r2][c2] &&
+            jumbledGridArr[r1][c1] !== gridArr[r2][c2] &&
+            jumbledGridArr[r2][c2] !== gridArr[r1][c1]
         ) {
             // Make the swap
             const tempStr = jumbledGridArr[r1][c1];
