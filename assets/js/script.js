@@ -115,6 +115,21 @@ function assignGridWords(words, gridWords, criteria, usedWords = new Set(), i = 
     return { data: gridWords, success: false };
 }
 
+/**
+ * Creates a div element representing a cell in the word grid.
+ * This function is called by the `drawGrid` function to generate individual grid cells
+ * with specific styles and attributes, which are later added to the DOM.
+ * 
+ * @param {string} char - The letter to display within the grid cell.
+ * @param {number} xPos - The x-coordinate of the grid cell, expressed as a percentage.
+ * @param {number} yPos - The y-coordinate of the grid cell, expressed as a percentage.
+ * @param {number} offset - The percentage offset applied to the coordinates to create equal spacing around grid cells.
+ * @param {number} w - The width of the grid cell, expressed as a percentage.
+ * @param {number} h - The height of the grid cell, expressed as a percentage.
+ * @param {number} r - The row index of the grid cell in the grid.
+ * @param {number} c - The column index of the grid cell in the grid.
+ * @returns {HTMLDivElement} - A div element representing a grid cell.
+ */
 function createGridCell(char, xPos, yPos, offset, w, h, r, c) {
     const gridCell = document.createElement("div");
     gridCell.innerText = char;
@@ -127,6 +142,20 @@ function createGridCell(char, xPos, yPos, offset, w, h, r, c) {
     return gridCell;
 }
 
+/**
+ * This function is called by the drawGrid function. It sets the class names for a grid cell element 
+ * based on whether the letter it contains is in the:
+ * - correct position (.green)
+ * - correct row or column (.yellow .dragabble),
+ * 
+ * @param {HTMLElement} gridCell - The grid cell element to modify.
+ * @param {string[]} row - The current row in the grid as an array of characters.
+ * @param {number} r - The row index of the grid cell.
+ * @param {number} c - The column index of the grid cell.
+ * @param {string[][]} gridArr - The current state of the grid as a 2D array of characters.
+ * @param {string[][]} gridAnswerArr - The solution grid as a 2D array of characters.
+ * @returns {HTMLElement} - The modified grid cell element with the appropriate class names.
+ */
 function setGridCellClassNames(gridCell, row, r, c, gridArr, gridAnswerArr) {
     // set class names
     if (row[c] === gridAnswerArr[r][c]) {
@@ -151,6 +180,13 @@ function setGridCellClassNames(gridCell, row, r, c, gridArr, gridAnswerArr) {
     return gridCell;
 }
 
+/**
+ * Draws the initial state of the game grid by creating and styling grid cell elements, and appending them to the game-board.
+ * 
+ * @param {string[][]} gridArr - A 2D array representing the initial state of the game grid.
+ * @param {string[][]} gridAnswerArr - A 2D array representing the solution grid, used to determine the correct placement and styling of grid cells.
+ * @returns {void} - This function does not return a value; it modifies the DOM directly.
+ */
 function drawGrid(gridArr, gridAnswerArr) {
 
     // Remove text from game-board
