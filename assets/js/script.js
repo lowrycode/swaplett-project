@@ -193,26 +193,60 @@ async function newGame() {
 
     function makeSwap(draggedElement, targetElement) {
 
-        console.log("MAKE SWAP FUNCTION CALLED");
+        // Get rows and columns
+        let r1 = parseInt(draggedElement.getAttribute("data-row"));
+        let c1 = parseInt(draggedElement.getAttribute("data-col"));
+        let r2 = parseInt(targetElement.getAttribute("data-row"));
+        let c2 = parseInt(targetElement.getAttribute("data-col"));
 
         // Update gridArr
+        updateGridArr(gridArr, r1, c1, r2, c2);
 
         // Update grid cell contents to match updated gridArr
+        updateGridCellContents(draggedElement, targetElement);
 
         // Update grid cell classes
+        setGridCellClassNames(draggedElement, r1, c1, gridArr, gridAnswerArr);
+        setGridCellClassNames(targetElement, r2, c2, gridArr, gridAnswerArr);
 
         // Process resolved cells
+        processResolvedGridCells(draggedElement, unresolvedGridCells, r1, c1);
+        processResolvedGridCells(targetElement, unresolvedGridCells, r2, c2);
 
         // Update remainingSwaps
+        remainingSwaps--;
+        console.log(remainingSwaps);
 
         // Check game state
         if (unresolvedGridCells.size === 0) {
             console.log("You Won");
+            // endGame(true);
         }
         else if (remainingSwaps === 0) {
             console.log("You Lost");
+            // endGame(false);
         }
     }
+
+    function processResolvedGridCells(cell, unresolvedGridCells, r, c) {
+        if (cell.classList.contains("green")) {
+            removeDragEvents(cell);
+            unresolvedGridCells.delete(`${r},${c}`);
+        }
+        return unresolvedGridCells;
+    }
+        
+    function removeDragEvents(cell) {
+        // Touch events
+        cell.removeEventListener('touchstart', onDragStart);
+        cell.removeEventListener('touchmove', onDragMove);
+        cell.removeEventListener('touchend', onDragEnd);
+        // Mouse events
+        cell.removeEventListener('mousedown', onDragStart);
+        cell.removeEventListener('mousemove', onDragMove);
+        cell.removeEventListener('mouseup', onDragEnd);
+    }
+    
 }
 
 // HELPER FUNCTIONS
@@ -289,8 +323,9 @@ function createGridCell(char, xPos, yPos, offset, w, h, r, c) {
  * @param {string[][]} gridAnswerArr - The solution grid as a 2D array of characters.
  * @returns {HTMLElement} - The modified grid cell element with the appropriate class names.
  */
-function setGridCellClassNames(gridCell, row, r, c, gridArr, gridAnswerArr) {
+function setGridCellClassNames(gridCell, r, c, gridArr, gridAnswerArr) {
     // set class names
+    let row = gridArr[r];
     if (row[c] === gridAnswerArr[r][c]) {
         gridCell.classList = "grid-cell green";
     } else {
@@ -347,7 +382,7 @@ function drawGrid(gridArr, gridAnswerArr) {
             const char = row[c];
             if (char !== null) {
                 let gridCell = createGridCell(char, xPos, yPos, offset, w, h, r, c);
-                setGridCellClassNames(gridCell, row, r, c, gridArr, gridAnswerArr);
+                setGridCellClassNames(gridCell, r, c, gridArr, gridAnswerArr);
                 fragment.appendChild(gridCell);
             }
             xPos += w;
@@ -579,6 +614,19 @@ function jumbleGridArr(gridArr, numSwaps) {
     }
 
     return { gridArr: jumbledGridArr, unresolvedGridCells: unresolvedGridCells };
+}
+
+function updateGridArr(gridArr, r1, c1, r2, c2) {
+    const tempVal = gridArr[r1][c1];
+    gridArr[r1][c1] = gridArr[r2][c2];
+    gridArr[r2][c2] = tempVal;
+    return gridArr;
+}
+
+function updateGridCellContents(cell1, cell2) {
+    const tempContent = cell1.innerHTML;
+    cell1.innerHTML = cell2.innerHTML;
+    cell2.innerHTML = tempContent;
 }
 
 /**
