@@ -97,6 +97,10 @@ async function newGame() {
 
 // HELPER FUNCTIONS
 
+/**
+ * Adds drag-and-drop events to all elements with the 'draggable' class at the start of the game.
+ * It includes both touch events and mouse events.
+ */
 function addDragEvents() {
     document.querySelectorAll('.draggable').forEach(div => {
         // Touch events
@@ -495,6 +499,12 @@ function matchesCriteria(lastIndex, gridWords, criteria) {
     return true;
 }
 
+/**
+ * Handles end-of-drag operations for both touch and mouse moves.
+ * It is used alongside the onDragStart and onDragMove functions.
+ * 
+ * @param {TouchEvent|MouseEvent} event - The event triggered by the touch or mouse interaction.
+ */
 function onDragEnd(event) {
 
     // Remove dragging style
@@ -516,6 +526,12 @@ function onDragEnd(event) {
     draggedElement = null; // Reset the global dragged element
 }
 
+/**
+ * Handles drag move operations for both touch and mouse moves.
+ * It is used alongside the onDragStart and onDragEnd functions.
+ * 
+ * @param {TouchEvent|MouseEvent} event - The event triggered by the touch or mouse interaction.
+ */
 function onDragMove(event) {
 
     // Check an element is being dragged
@@ -539,6 +555,14 @@ function onDragMove(event) {
     draggedElement.style.transform = `translate(${deltaX}px, ${deltaY}px)`;
 }
 
+/**
+ * Handles the start of a drag operation for both touch and mouse interactions.
+ * This function assigns a value to the global 'draggedElement' variable (if not already assigned)
+ * 
+ * It is used alongside the onDragMove and onDragEnd functions.
+ * 
+ * @param {TouchEvent|MouseEvent} event - The event triggered by the touch or mouse interaction.
+ */
 function onDragStart(event) {
 
     // Check an element is not already being dragged
@@ -575,6 +599,19 @@ function resetVisibility() {
     document.getElementById("game-board").innerHTML = "<p>Generating board ...</p>";
 }
 
+/**
+ * Determines whether a swap operation between the dragged element and the target element is valid.
+ * 
+ * @param {HTMLElement} targetElement - The target element being considered for a swap.
+ * @returns {boolean} - Returns 'true' if the target element is valid for a swap, or 'false' if not.
+ * 
+ * Criteria for a valid swap:
+ * - The target element exists (`targetElement` is not null or undefined).
+ * - The target element has the class `draggable`.
+ * - The target element's inner text is not the same as the dragged element's inner text.
+ * 
+ * Note that this function references the global 'draggedElement' variable when evaluating the criteria.
+ */
 function swapIsValid(targetElement) {
     if (targetElement && targetElement.classList.contains('draggable') &&
         targetElement.innerText !== draggedElement.innerText) {
