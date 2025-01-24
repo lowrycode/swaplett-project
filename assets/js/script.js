@@ -219,12 +219,10 @@ async function newGame() {
 
         // Check game state
         if (unresolvedGridCells.size === 0) {
-            console.log("You Won");
-            // endGame(true);
+            endGame(true);
         }
         else if (remainingSwaps === 0) {
-            console.log("You Lost");
-            // endGame(false);
+            endGame(false);
         }
     }
 
@@ -246,6 +244,21 @@ async function newGame() {
         cell.removeEventListener('mousemove', onDragMove);
         cell.removeEventListener('mouseup', onDragEnd);
     }
+
+    function endGame(success) {
+        document.getElementById("game-end-info").classList.remove("hidden");
+        if (success) {
+            document.getElementById("win").classList.remove("hidden");
+            document.getElementById("end-swaps-remaining").innerText = remainingSwaps;
+        } else {
+            document.getElementById("lose").classList.remove("hidden");
+            // Remove event listeners
+            document.querySelectorAll('.draggable').forEach(div => {
+                removeDragEvents(div);
+            });
+        }
+        document.getElementById("swaps-info").classList.add("hidden");
+    }    
     
 }
 
