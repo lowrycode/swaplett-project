@@ -191,6 +191,22 @@ async function newGame() {
 
     }
 
+    /**
+     * Handles swapping two grid cells, updating their contents, classes, and game state.
+     *
+     * @param {HTMLElement} draggedElement - The grid cell that is being dragged.
+     * @param {HTMLElement} targetElement - The grid cell that is the target of the swap.
+     *
+     * @description
+     * The function does the following:
+     * 1. Retrieves the row and column indices of both grid cells.
+     * 2. Updates "gridArr" to reflect the swap.
+     * 3. Updates the contents of the grid cells to match the values in "gridArr".
+     * 4. Updates CSS classes of the grid cells to show new colours and whether they are still draggable.
+     * 5. Processes resolved cells by removing drag-and-drop event listeners and updating unresolvedGridCells set.
+     * 6. Decrements the remaining swap count and updates the page display with the new value.
+     * 7. Checks if the game has ended (either by resolving all cells or exhausting all swaps).
+     */
     function makeSwap(draggedElement, targetElement) {
 
         // Get rows and columns
@@ -226,6 +242,18 @@ async function newGame() {
         }
     }
 
+    /**
+     * Processes a grid cell by checking if it is resolved (has a class name of "green").
+     * If resolved, it removes drag events from the cell and removes its coordinates
+     * from the unresolvedGridCells set.
+     *
+     * @param {HTMLElement} cell - The grid cell to process.
+     * @param {Set<string>} unresolvedGridCells - A set containing string representations
+     *        of unresolved grid cell coordinates in the format "row,column".
+     * @param {number} r - The row index of the current cell.
+     * @param {number} c - The column index of the current cell.
+     * @returns {Set<string>} The updated unresolvedGridCells set.
+     */
     function processResolvedGridCells(cell, unresolvedGridCells, r, c) {
         if (cell.classList.contains("green")) {
             removeDragEvents(cell);
@@ -233,7 +261,12 @@ async function newGame() {
         }
         return unresolvedGridCells;
     }
-        
+    
+    /**
+     * Removes drag-related event listeners (both touch and mouse) from a given grid cell.
+     *
+     * @param {HTMLElement} cell - The grid cell from which to remove drag event listeners.
+     */
     function removeDragEvents(cell) {
         // Touch events
         cell.removeEventListener('touchstart', onDragStart);
@@ -319,45 +352,6 @@ function createGridCell(char, xPos, yPos, offset, w, h, r, c) {
     gridCell.style.height = `${h - (2 * offset)}%`;
     gridCell.setAttribute("data-row", `${r}`);
     gridCell.setAttribute("data-col", `${c}`);
-    return gridCell;
-}
-
-/**
- * This function is called by the drawGrid function. It sets the class names for a grid cell element 
- * based on whether the letter it contains is in the:
- * - correct position (.green)
- * - correct row or column (.yellow .dragabble),
- * 
- * @param {HTMLElement} gridCell - The grid cell element to modify.
- * @param {string[]} row - The current row in the grid as an array of characters.
- * @param {number} r - The row index of the grid cell.
- * @param {number} c - The column index of the grid cell.
- * @param {string[][]} gridArr - The current state of the grid as a 2D array of characters.
- * @param {string[][]} gridAnswerArr - The solution grid as a 2D array of characters.
- * @returns {HTMLElement} - The modified grid cell element with the appropriate class names.
- */
-function setGridCellClassNames(gridCell, r, c, gridArr, gridAnswerArr) {
-    // set class names
-    let row = gridArr[r];
-    if (row[c] === gridAnswerArr[r][c]) {
-        gridCell.classList = "grid-cell green";
-    } else {
-        gridCell.classList = "grid-cell draggable";
-        // check if letter is in correct column
-        for (let rTest = 0; rTest < gridArr.length; rTest++) {
-            if (row[c] === gridAnswerArr[rTest][c]) {
-                gridCell.classList.add("yellow");
-                return gridCell;
-            }
-        }
-        // check if letter is in correct row
-        for (let cTest = 0; cTest < row.length; cTest++) {
-            if (row[c] === gridAnswerArr[r][cTest]) {
-                gridCell.classList.add("yellow");
-                return gridCell;
-            }
-        }
-    }
     return gridCell;
 }
 
@@ -629,6 +623,16 @@ function jumbleGridArr(gridArr, numSwaps) {
     return { gridArr: jumbledGridArr, unresolvedGridCells: unresolvedGridCells };
 }
 
+/**
+ * Swaps the values of two cells in a 2D grid array using row and column references.
+ *
+ * @param {Array<Array<string | null>>} gridArr - A 2D array representing the grid.
+ * @param {number} r1 - The row index of the first cell.
+ * @param {number} c1 - The column index of the first cell.
+ * @param {number} r2 - The row index of the second cell.
+ * @param {number} c2 - The column index of the second cell.
+ * @returns {Array<Array<string | null>>} The updated grid array after swapping the values.
+ */
 function updateGridArr(gridArr, r1, c1, r2, c2) {
     const tempVal = gridArr[r1][c1];
     gridArr[r1][c1] = gridArr[r2][c2];
@@ -636,6 +640,12 @@ function updateGridArr(gridArr, r1, c1, r2, c2) {
     return gridArr;
 }
 
+/**
+ * Swaps the innerHTML content of two grid cells.
+ *
+ * @param {HTMLElement} cell1 - The first grid cell to swap.
+ * @param {HTMLElement} cell2 - The second grid cell to swap.
+ */
 function updateGridCellContents(cell1, cell2) {
     const tempContent = cell1.innerHTML;
     cell1.innerHTML = cell2.innerHTML;
@@ -677,6 +687,45 @@ function resetVisibility() {
     // Show elements
     document.getElementById("swaps-info").classList.remove("hidden");
     document.getElementById("game-board").innerHTML = "<p>Generating board ...</p>";
+}
+
+/**
+ * This function is called by the drawGrid function. It sets the class names for a grid cell element 
+ * based on whether the letter it contains is in the:
+ * - correct position (.green)
+ * - correct row or column (.yellow .dragabble),
+ * 
+ * @param {HTMLElement} gridCell - The grid cell element to modify.
+ * @param {string[]} row - The current row in the grid as an array of characters.
+ * @param {number} r - The row index of the grid cell.
+ * @param {number} c - The column index of the grid cell.
+ * @param {string[][]} gridArr - The current state of the grid as a 2D array of characters.
+ * @param {string[][]} gridAnswerArr - The solution grid as a 2D array of characters.
+ * @returns {HTMLElement} - The modified grid cell element with the appropriate class names.
+ */
+function setGridCellClassNames(gridCell, r, c, gridArr, gridAnswerArr) {
+    // set class names
+    let row = gridArr[r];
+    if (row[c] === gridAnswerArr[r][c]) {
+        gridCell.classList = "grid-cell green";
+    } else {
+        gridCell.classList = "grid-cell draggable";
+        // check if letter is in correct column
+        for (let rTest = 0; rTest < gridArr.length; rTest++) {
+            if (row[c] === gridAnswerArr[rTest][c]) {
+                gridCell.classList.add("yellow");
+                return gridCell;
+            }
+        }
+        // check if letter is in correct row
+        for (let cTest = 0; cTest < row.length; cTest++) {
+            if (row[c] === gridAnswerArr[r][cTest]) {
+                gridCell.classList.add("yellow");
+                return gridCell;
+            }
+        }
+    }
+    return gridCell;
 }
 
 /**
