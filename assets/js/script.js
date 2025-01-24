@@ -1,3 +1,6 @@
+// GLOBAL VARIABLES
+let draggedElement = null; // An element being dragged
+
 // EVENT LISTENERS FOR STATIC ELEMENTS
 
 // Click button to show instructions (opens Instructions modal)
@@ -85,11 +88,27 @@ async function newGame() {
         console.error("FAILED TO DRAW GRID", error);
         return;
     }
-    
+
+    // Add event listeners to grid cells with draggable class
+    addDragEvents();
+
 
 }
 
 // HELPER FUNCTIONS
+
+function addDragEvents() {
+    document.querySelectorAll('.draggable').forEach(div => {
+        // Touch events
+        div.addEventListener('touchstart', onDragStart);
+        div.addEventListener('touchmove', onDragMove);
+        div.addEventListener('touchend', onDragEnd);
+        // Mouse events
+        div.addEventListener('mousedown', onDragStart);
+        div.addEventListener('mousemove', onDragMove);
+        div.addEventListener('mouseup', onDragEnd);
+    });
+}
 
 /**
  * Recursively assigns words to the gridWords array.
@@ -476,6 +495,70 @@ function matchesCriteria(lastIndex, gridWords, criteria) {
     return true;
 }
 
+function onDragEnd(event) {
+
+    // Remove dragging style
+    draggedElement.classList.remove('dragging');
+
+    // Reset original position
+    draggedElement.style.transform = '';
+
+    // Get the touch that was removed or mouse up event
+    const dragPoint = event.changedTouches ? event.changedTouches[0] : event;
+
+    // Find the element located where the touch was released
+    const targetElement = document.elementFromPoint(dragPoint.clientX, dragPoint.clientY);
+
+    if (swapIsValid(targetElement)) {
+        console.log(`MAKE SWAP: ${targetElement.innerText} and ${draggedElement.innerText}`);
+    }
+
+    draggedElement = null; // Reset the global dragged element
+}
+
+function onDragMove(event) {
+
+    // Check an element is being dragged
+    if (!draggedElement) return;
+
+    // Prevent scrolling during drag
+    event.preventDefault();
+
+    // Use event.touches[0] for first touch, or event for mouse click
+    const dragPoint = event.touches ? event.touches[0] : event;
+
+    // Parse initial positions from dataset (ensure they are numbers)
+    const startX = parseFloat(draggedElement.dataset.startX);
+    const startY = parseFloat(draggedElement.dataset.startY);
+
+    // Calculate offsets from the starting position
+    const deltaX = dragPoint.clientX - startX;
+    const deltaY = dragPoint.clientY - startY;
+
+    // Move the element dynamically (translate is efficient as avoids reflow / repaint)
+    draggedElement.style.transform = `translate(${deltaX}px, ${deltaY}px)`;
+}
+
+function onDragStart(event) {
+
+    // Check an element is not already being dragged
+    if (draggedElement) return;
+
+    // Get the element being touched (by assigning to the global variable)
+    draggedElement = event.target;
+
+    // Add class for visual feedback
+    draggedElement.classList.add('dragging');
+
+    // Use event.touches[0] for first touch, or event for mouse click
+    const dragPoint = event.touches ? event.touches[0] : event;
+
+    // Create data-startX and data-startY attributes for storing initial touch coordinates
+    draggedElement.dataset.startX = dragPoint.clientX;
+    draggedElement.dataset.startY = dragPoint.clientY;
+
+}
+
 /**
  * Resets the visibility of game-related elements on the page and clears dynamic 
  * content in the "definitions" and "game-board" sections
@@ -492,3 +575,10 @@ function resetVisibility() {
     document.getElementById("game-board").innerHTML = "<p>Generating board ...</p>";
 }
 
+function swapIsValid(targetElement) {
+    if (targetElement && targetElement.classList.contains('draggable') &&
+        targetElement.innerText !== draggedElement.innerText) {
+        return true;
+    }
+    return false;
+}
