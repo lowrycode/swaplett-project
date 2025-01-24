@@ -312,80 +312,11 @@ async function newGame() {
             return;
         }
 
-
-
     }
 
 }
 
 // HELPER FUNCTIONS
-
-function getAudioClipUrl(phonetics) {
-    for (let item of phonetics) {
-        if (item["audio"]) {
-            return item["audio"];
-        }
-    }
-    return "";
-}
-
-async function fetchWordInfo(word) {
-
-    const queryStr = `https://api.dictionaryapi.dev/api/v2/entries/en/${word}`;
-    try {
-        const response = await fetch(queryStr);
-
-        if (!response.ok) {
-            // Fetch request (was successful but) returned a HTTP error
-            if (response.status === 404) {
-                // Likely that word was not found in API
-                console.log(`Unable to find definition for ${word}`);
-                return { word: word, meanings: [{ partOfSpeech: "", definition: "No definition found" }] }
-            } else {
-                throw new Error(`HTTP error (status: ${response.status})`);
-            }
-        }
-
-        const data = await response.json();
-        return processWordData(word, data);
-
-    } catch (error) {
-        // Includes network errors, JSON parsing errors, and runtime errors
-        throw error;  // to be handled by the caller function
-    }
-}
-
-function processWordData(word, data) {
-    
-    // Get audioClipUrl
-    const phonetics = data[0]["phonetics"];
-    const audioClipUrl = getAudioClipUrl(phonetics);
-    
-    // Initialise wordInfo
-    let wordInfo = { word: word, audioClipUrl: audioClipUrl, meanings: [] }
-    
-    // Get meanings and append data to wordInfo
-    const meanings = data[0]["meanings"];
-    for (let meaning of meanings) {
-        const partOfSpeech = meaning["partOfSpeech"];
-        const definitions = meaning["definitions"];
-        const definition = definitions[0]["definition"];
-        wordInfo["meanings"].push({ partOfSpeech: partOfSpeech, definition: definition })
-    }
-
-    return wordInfo;
-}
-
-async function fetchDefinitionsArr(wordsArr) {
-    let definitionsArr = []
-    for (let word of wordsArr) {
-        const definitionMap = await fetchWordInfo(word);
-        definitionsArr.push(definitionMap);
-    }
-    return definitionsArr;
-}
-
-
 
 /**
  * Recursively assigns words to the gridWords array.
@@ -498,6 +429,29 @@ function displayAlert(title, msg) {
 }
 
 /**
+ * An async function which collates definitions for an array of words.
+ * The definitions are fetched from a dictionary API in the fetchWordInfo function that is called for each word.
+ *
+ * @param {Array<string>} wordsArr - An array of words to fetch definitions for.
+ *
+ * @returns {Promise<Array<Object>>} - A Promise that resolves to an array of objects.
+ * The objects contain processed information about each word:
+ * - "word": The word.
+ * - "audioClipUrl": URL of the pronunciation audio clip (if available).
+ * - "meanings": An array of objects, each representing a meaning, containing:
+ *   - "partOfSpeech": noun, verb etc.
+ *   - "definition": The definition of the word.
+ */
+async function fetchDefinitionsArr(wordsArr) {
+    let definitionsArr = []
+    for (let word of wordsArr) {
+        const definitionMap = await fetchWordInfo(word);
+        definitionsArr.push(definitionMap);
+    }
+    return definitionsArr;
+}
+
+/**
  * Fetches a list of random words of a specified length from an external API.
  * 
  * @param {number} wordLength - The length of the words to fetch.
@@ -534,6 +488,64 @@ async function fetchRandomWords(wordLength) {
         // Includes network errors, JSON parsing errors, and runtime errors
         throw error;  // to be handled by the caller function
     }
+}
+
+/**
+ * An async function which fetches information about a word from a Dictionary API.
+ *
+ * @param {string} word - The word to fetch information for.
+ *
+ * @returns {Promise<Object>} - A Promise that resolves to an object containing processed information about the word:
+ * - "word": The word.
+ * - "audioClipUrl": URL of the pronunciation audio clip (if available).
+ * - "meanings": An array of objects, each representing a meaning, containing:
+ *   - "partOfSpeech": noun, verb etc.
+ *   - "definition": The definition of the word.
+ * If the word is not found, it returns a default object with `meanings` containing the placeholder "No defintion found".
+ *
+ * @throws {Error} - Throws an error if the fetch request fails (e.g., network issues) 
+ * or the API response status is not successful (except for a 404 status).
+ *
+ */
+async function fetchWordInfo(word) {
+
+    const queryStr = `https://api.dictionaryapi.dev/api/v2/entries/en/${word}`;
+    try {
+        const response = await fetch(queryStr);
+
+        if (!response.ok) {
+            // Fetch request (was successful but) returned a HTTP error
+            if (response.status === 404) {
+                // Likely that word was not found in API
+                console.log(`Unable to find definition for ${word}`);
+                return { word: word, meanings: [{ partOfSpeech: "", definition: "No definition found" }] }
+            } else {
+                throw new Error(`HTTP error (status: ${response.status})`);
+            }
+        }
+
+        const data = await response.json();
+        return processWordData(word, data);
+
+    } catch (error) {
+        // Includes network errors, JSON parsing errors, and runtime errors
+        throw error;  // to be handled by the caller function
+    }
+}
+
+/**
+ * Extracts an audio clip URL from the data returned from an API request.
+ * 
+ * @param {Array<Object>} phonetics - An array of objects which potentially contains an "audio" property.
+ * @returns {string} - The URL of the first audio clip found, or an empty string if no audio clip is available.
+ */
+function getAudioClipUrl(phonetics) {
+    for (let item of phonetics) {
+        if (item["audio"]) {
+            return item["audio"];
+        }
+    }
+    return "";
 }
 
 /**
@@ -714,35 +726,6 @@ function jumbleGridArr(gridArr, numSwaps) {
 }
 
 /**
- * Swaps the values of two cells in a 2D grid array using row and column references.
- *
- * @param {Array<Array<string | null>>} gridArr - A 2D array representing the grid.
- * @param {number} r1 - The row index of the first cell.
- * @param {number} c1 - The column index of the first cell.
- * @param {number} r2 - The row index of the second cell.
- * @param {number} c2 - The column index of the second cell.
- * @returns {Array<Array<string | null>>} The updated grid array after swapping the values.
- */
-function updateGridArr(gridArr, r1, c1, r2, c2) {
-    const tempVal = gridArr[r1][c1];
-    gridArr[r1][c1] = gridArr[r2][c2];
-    gridArr[r2][c2] = tempVal;
-    return gridArr;
-}
-
-/**
- * Swaps the innerHTML content of two grid cells.
- *
- * @param {HTMLElement} cell1 - The first grid cell to swap.
- * @param {HTMLElement} cell2 - The second grid cell to swap.
- */
-function updateGridCellContents(cell1, cell2) {
-    const tempContent = cell1.innerHTML;
-    cell1.innerHTML = cell2.innerHTML;
-    cell2.innerHTML = tempContent;
-}
-
-/**
  * Checks if the current gridWords array (particularly the last word added) satisfies 
  * the specified grid criteria. It is called from within the assignGridWords function.
  * 
@@ -761,6 +744,41 @@ function matchesCriteria(lastIndex, gridWords, criteria) {
         }
     }
     return true;
+}
+
+/**
+ * Processes raw word data fetched from a dictionary API into a structured format. 
+ * The function is called from the fetchWordInfo function
+ *
+ * @param {string} word - The word being processed.
+ * @param {Array<Object>} data - The raw API response containing information about the word. 
+ *
+ * @returns {Object} - A structured object containing:
+ * - "word": The word.
+ * - "audioClipUrl": URL of the pronunciation audio clip (if available).
+ * - "meanings": An array of objects, each representing a meaning, containing:
+ *   - "partOfSpeech": noun, verb etc.
+ *   - "definition": The definition of the word. 
+ */
+function processWordData(word, data) {
+    
+    // Get audioClipUrl
+    const phonetics = data[0]["phonetics"];
+    const audioClipUrl = getAudioClipUrl(phonetics);
+    
+    // Initialise wordInfo
+    let wordInfo = { word: word, audioClipUrl: audioClipUrl, meanings: [] }
+    
+    // Get meanings and append data to wordInfo
+    const meanings = data[0]["meanings"];
+    for (let meaning of meanings) {
+        const partOfSpeech = meaning["partOfSpeech"];
+        const definitions = meaning["definitions"];
+        const definition = definitions[0]["definition"];
+        wordInfo["meanings"].push({ partOfSpeech: partOfSpeech, definition: definition })
+    }
+
+    return wordInfo;
 }
 
 /**
@@ -837,4 +855,33 @@ function swapIsValid(draggedElement, targetElement) {
         return true;
     }
     return false;
+}
+
+/**
+ * Swaps the values of two cells in a 2D grid array using row and column references.
+ *
+ * @param {Array<Array<string | null>>} gridArr - A 2D array representing the grid.
+ * @param {number} r1 - The row index of the first cell.
+ * @param {number} c1 - The column index of the first cell.
+ * @param {number} r2 - The row index of the second cell.
+ * @param {number} c2 - The column index of the second cell.
+ * @returns {Array<Array<string | null>>} The updated grid array after swapping the values.
+ */
+function updateGridArr(gridArr, r1, c1, r2, c2) {
+    const tempVal = gridArr[r1][c1];
+    gridArr[r1][c1] = gridArr[r2][c2];
+    gridArr[r2][c2] = tempVal;
+    return gridArr;
+}
+
+/**
+ * Swaps the innerHTML content of two grid cells.
+ *
+ * @param {HTMLElement} cell1 - The first grid cell to swap.
+ * @param {HTMLElement} cell2 - The second grid cell to swap.
+ */
+function updateGridCellContents(cell1, cell2) {
+    const tempContent = cell1.innerHTML;
+    cell1.innerHTML = cell2.innerHTML;
+    cell2.innerHTML = tempContent;
 }
