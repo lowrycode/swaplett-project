@@ -215,7 +215,7 @@ async function newGame() {
 
         // Update remainingSwaps
         remainingSwaps--;
-        console.log(remainingSwaps);
+        document.getElementById("swaps-remaining").innerText = remainingSwaps;
 
         // Check game state
         if (unresolvedGridCells.size === 0) {
