@@ -1,4 +1,3 @@
-
 /* GENERAL STYLES */
 :root {
     --body-bg: #ffffff;
@@ -27,7 +26,7 @@ body {
     box-sizing: border-box;
 }
 
-body > * {
+body>* {
     display: flex;
     justify-content: center;
 }
@@ -36,7 +35,8 @@ body * {
     box-sizing: border-box;
 }
 
-h1, h2 {
+h1,
+h2 {
     padding: 0;
     margin: 0;
     text-align: center;
@@ -57,13 +57,13 @@ h1, h2 {
 Code taken from https://gomakethings.com/revisting-aria-label-versus-a-visually-hidden-class/ */
 .visually-hidden {
     border: 0;
-	clip: rect(0 0 0 0);
-	height: 1px;
-	overflow: hidden;
-	padding: 0;
-	position: absolute;
-	white-space: nowrap;
-	width: 1px;
+    clip: rect(0 0 0 0);
+    height: 1px;
+    overflow: hidden;
+    padding: 0;
+    position: absolute;
+    white-space: nowrap;
+    width: 1px;
 }
 
 /* remove from document flow - hidden from both screen readers and visual users */
@@ -148,6 +148,7 @@ main {
     border: 1px #a0a0a0 solid;
     box-shadow: inset 2px 2px 5px rgba(255, 255, 255, 0.5),
         inset -2px -2px 5px rgba(0, 0, 0, 0.5);
+    user-select: none;
 }
 
 .grid-cell.green {
@@ -156,6 +157,11 @@ main {
 
 .grid-cell.yellow {
     background-color: yellow;
+}
+
+.dragging {
+    opacity: 0.5;
+    z-index: 100;
 }
 
 #swaps-info {
@@ -171,7 +177,7 @@ main {
     padding: 2rem 1.5rem;
 }
 
-#game-end-info > div {
+#game-end-info>div {
     display: flex;
 }
 
@@ -311,7 +317,7 @@ main {
     padding: 0.1rem 2rem;
 }
 
-.modal-container > section {
+.modal-container>section {
     margin-top: 1.5rem;
 }
 
