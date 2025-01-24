@@ -78,7 +78,14 @@ async function newGame() {
     let unresolvedGridCells = getNewGridArr.unresolvedGridCells;
 
     // Draw grid
-    drawGrid(gridArr, gridAnswerArr);
+    try {
+        drawGrid(gridArr, gridAnswerArr);
+    } catch (error) {
+        displayAlert("Error", "Unable to draw grid to the page. Try refreshing the page and starting a new game.");
+        console.error("FAILED TO DRAW GRID", error);
+        return;
+    }
+    
 
 }
 
