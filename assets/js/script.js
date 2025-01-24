@@ -1,6 +1,3 @@
-// GLOBAL VARIABLES
-let draggedElement = null; // An element being dragged
-
 // EVENT LISTENERS FOR STATIC ELEMENTS
 
 // Click button to show instructions (opens Instructions modal)
@@ -90,29 +87,135 @@ async function newGame() {
     }
 
     // Add event listeners to grid cells with draggable class
+    let draggedElement = null; // An element being dragged
     addDragEvents();
 
+    /**
+    * Adds drag-and-drop events to all elements with the 'draggable' class at the start of the game.
+    * It includes both touch events and mouse events.
+    */
+    function addDragEvents() {
+        document.querySelectorAll('.draggable').forEach(div => {
+            // Touch events
+            div.addEventListener('touchstart', onDragStart);
+            div.addEventListener('touchmove', onDragMove);
+            div.addEventListener('touchend', onDragEnd);
+            // Mouse events
+            div.addEventListener('mousedown', onDragStart);
+            div.addEventListener('mousemove', onDragMove);
+            div.addEventListener('mouseup', onDragEnd);
+        });
+    }
 
+    /**
+     * Handles end-of-drag operations for both touch and mouse moves.
+     * It is used alongside the onDragStart and onDragMove functions.
+     * 
+     * @param {TouchEvent|MouseEvent} event - The event triggered by the touch or mouse interaction.
+     */
+    function onDragEnd(event) {
+
+        // Remove dragging style
+        draggedElement.classList.remove('dragging');
+
+        // Reset original position
+        draggedElement.style.transform = '';
+
+        // Get the touch that was removed or mouse up event
+        const dragPoint = event.changedTouches ? event.changedTouches[0] : event;
+
+        // Find the element located where the touch was released
+        const targetElement = document.elementFromPoint(dragPoint.clientX, dragPoint.clientY);
+
+        if (swapIsValid(draggedElement, targetElement)) {
+            makeSwap(draggedElement, targetElement);
+        }
+
+        draggedElement = null; // Reset the global dragged element
+    }
+
+    /**
+     * Handles drag move operations for both touch and mouse moves.
+     * It is used alongside the onDragStart and onDragEnd functions.
+     * 
+     * @param {TouchEvent|MouseEvent} event - The event triggered by the touch or mouse interaction.
+     */
+    function onDragMove(event) {
+
+        // Check an element is being dragged
+        if (!draggedElement) return;
+
+        // Prevent scrolling during drag
+        event.preventDefault();
+
+        // Use event.touches[0] for first touch, or event for mouse click
+        const dragPoint = event.touches ? event.touches[0] : event;
+
+        // Parse initial positions from dataset (ensure they are numbers)
+        const startX = parseFloat(draggedElement.dataset.startX);
+        const startY = parseFloat(draggedElement.dataset.startY);
+
+        // Calculate offsets from the starting position
+        const deltaX = dragPoint.clientX - startX;
+        const deltaY = dragPoint.clientY - startY;
+
+        // Move the element dynamically (translate is efficient as avoids reflow / repaint)
+        draggedElement.style.transform = `translate(${deltaX}px, ${deltaY}px)`;
+    }
+
+    /**
+     * Handles the start of a drag operation for both touch and mouse interactions.
+     * This function assigns a value to the global 'draggedElement' variable (if not already assigned)
+     * 
+     * It is used alongside the onDragMove and onDragEnd functions.
+     * 
+     * @param {TouchEvent|MouseEvent} event - The event triggered by the touch or mouse interaction.
+     */
+    function onDragStart(event) {
+
+        // Check an element is not already being dragged
+        if (draggedElement) return;
+
+        // Get the element being touched (by assigning to the global variable)
+        draggedElement = event.target;
+
+        // Add class for visual feedback
+        draggedElement.classList.add('dragging');
+
+        // Use event.touches[0] for first touch, or event for mouse click
+        const dragPoint = event.touches ? event.touches[0] : event;
+
+        // Create data-startX and data-startY attributes for storing initial touch coordinates
+        draggedElement.dataset.startX = dragPoint.clientX;
+        draggedElement.dataset.startY = dragPoint.clientY;
+
+    }
+
+    function makeSwap(draggedElement, targetElement) {
+
+        console.log("MAKE SWAP FUNCTION CALLED");
+
+        // Update gridArr
+
+        // Update grid cell contents to match updated gridArr
+
+        // Update grid cell classes
+
+        // Process resolved cells
+
+        // Update remainingSwaps
+
+        // Check game state
+        if (unresolvedGridCells.size === 0) {
+            console.log("You Won");
+        }
+        else if (remainingSwaps === 0) {
+            console.log("You Lost");
+        }
+    }
 }
 
 // HELPER FUNCTIONS
-
-/**
- * Adds drag-and-drop events to all elements with the 'draggable' class at the start of the game.
- * It includes both touch events and mouse events.
- */
-function addDragEvents() {
-    document.querySelectorAll('.draggable').forEach(div => {
-        // Touch events
-        div.addEventListener('touchstart', onDragStart);
-        div.addEventListener('touchmove', onDragMove);
-        div.addEventListener('touchend', onDragEnd);
-        // Mouse events
-        div.addEventListener('mousedown', onDragStart);
-        div.addEventListener('mousemove', onDragMove);
-        div.addEventListener('mouseup', onDragEnd);
-    });
-}
 
 /**
  * Recursively assigns words to the gridWords array.
@@ -500,90 +603,6 @@ function matchesCriteria(lastIndex, gridWords, criteria) {
 }
 
 /**
- * Handles end-of-drag operations for both touch and mouse moves.
- * It is used alongside the onDragStart and onDragMove functions.
- * 
- * @param {TouchEvent|MouseEvent} event - The event triggered by the touch or mouse interaction.
- */
-function onDragEnd(event) {
-
-    // Remove dragging style
-    draggedElement.classList.remove('dragging');
-
-    // Reset original position
-    draggedElement.style.transform = '';
-
-    // Get the touch that was removed or mouse up event
-    const dragPoint = event.changedTouches ? event.changedTouches[0] : event;
-
-    // Find the element located where the touch was released
-    const targetElement = document.elementFromPoint(dragPoint.clientX, dragPoint.clientY);
-
-    if (swapIsValid(targetElement)) {
-        console.log(`MAKE SWAP: ${targetElement.innerText} and ${draggedElement.innerText}`);
-    }
-
-    draggedElement = null; // Reset the global dragged element
-}
-
-/**
- * Handles drag move operations for both touch and mouse moves.
- * It is used alongside the onDragStart and onDragEnd functions.
- * 
- * @param {TouchEvent|MouseEvent} event - The event triggered by the touch or mouse interaction.
- */
-function onDragMove(event) {
-
-    // Check an element is being dragged
-    if (!draggedElement) return;
-
-    // Prevent scrolling during drag
-    event.preventDefault();
-
-    // Use event.touches[0] for first touch, or event for mouse click
-    const dragPoint = event.touches ? event.touches[0] : event;
-
-    // Parse initial positions from dataset (ensure they are numbers)
-    const startX = parseFloat(draggedElement.dataset.startX);
-    const startY = parseFloat(draggedElement.dataset.startY);
-
-    // Calculate offsets from the starting position
-    const deltaX = dragPoint.clientX - startX;
-    const deltaY = dragPoint.clientY - startY;
-
-    // Move the element dynamically (translate is efficient as avoids reflow / repaint)
-    draggedElement.style.transform = `translate(${deltaX}px, ${deltaY}px)`;
-}
-
-/**
- * Handles the start of a drag operation for both touch and mouse interactions.
- * This function assigns a value to the global 'draggedElement' variable (if not already assigned)
- * 
- * It is used alongside the onDragMove and onDragEnd functions.
- * 
- * @param {TouchEvent|MouseEvent} event - The event triggered by the touch or mouse interaction.
- */
-function onDragStart(event) {
-
-    // Check an element is not already being dragged
-    if (draggedElement) return;
-
-    // Get the element being touched (by assigning to the global variable)
-    draggedElement = event.target;
-
-    // Add class for visual feedback
-    draggedElement.classList.add('dragging');
-
-    // Use event.touches[0] for first touch, or event for mouse click
-    const dragPoint = event.touches ? event.touches[0] : event;
-
-    // Create data-startX and data-startY attributes for storing initial touch coordinates
-    draggedElement.dataset.startX = dragPoint.clientX;
-    draggedElement.dataset.startY = dragPoint.clientY;
-
-}
-
-/**
  * Resets the visibility of game-related elements on the page and clears dynamic 
  * content in the "definitions" and "game-board" sections
  */
@@ -612,7 +631,7 @@ function resetVisibility() {
  * 
  * Note that this function references the global 'draggedElement' variable when evaluating the criteria.
  */
-function swapIsValid(targetElement) {
+function swapIsValid(draggedElement, targetElement) {
     if (targetElement && targetElement.classList.contains('draggable') &&
         targetElement.innerText !== draggedElement.innerText) {
         return true;
