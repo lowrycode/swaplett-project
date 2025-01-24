@@ -261,7 +261,7 @@ async function newGame() {
         }
         return unresolvedGridCells;
     }
-    
+
     /**
      * Removes drag-related event listeners (both touch and mouse) from a given grid cell.
      *
@@ -278,8 +278,12 @@ async function newGame() {
         cell.removeEventListener('mouseup', onDragEnd);
     }
 
-    function endGame(success) {
-        document.getElementById("game-end-info").classList.remove("hidden");
+    async function endGame(success) {
+
+        // Hide swaps-info
+        document.getElementById("swaps-info").classList.add("hidden");
+
+        // Show win/lose message and remove remaining drag-and-drop event listeners
         if (success) {
             document.getElementById("win").classList.remove("hidden");
             document.getElementById("end-swaps-remaining").innerText = remainingSwaps;
@@ -290,12 +294,98 @@ async function newGame() {
                 removeDragEvents(div);
             });
         }
-        document.getElementById("swaps-info").classList.add("hidden");
-    }    
-    
+        document.getElementById("game-end-info").classList.remove("hidden");
+
+        // Show definitions placeholder
+        const definitionsElement = document.getElementById("definitions");
+        const definitionsPlaceholder = "<h2>Definitions</h2><hr><p>Fetching definitions...</p>";
+        definitionsElement.innerHTML = definitionsPlaceholder;
+        definitionsElement.classList.remove("hidden");
+
+        //  Fetch definitions
+        try {
+            let definitionsArr = await fetchDefinitionsArr(gridWords);
+            console.log(definitionsArr);
+        } catch (error) {
+            displayAlert("Error", "Unable to fetch definitions. Please check your internet connection.");
+            console.error("FAILED TO FETCH DEFINITIONS ARRAY", error);
+            return;
+        }
+
+
+
+    }
+
 }
 
 // HELPER FUNCTIONS
+
+function getAudioClipUrl(phonetics) {
+    for (let item of phonetics) {
+        if (item["audio"]) {
+            return item["audio"];
+        }
+    }
+    return "";
+}
+
+async function fetchWordInfo(word) {
+
+    const queryStr = `https://api.dictionaryapi.dev/api/v2/entries/en/${word}`;
+    try {
+        const response = await fetch(queryStr);
+
+        if (!response.ok) {
+            // Fetch request (was successful but) returned a HTTP error
+            if (response.status === 404) {
+                // Likely that word was not found in API
+                console.log(`Unable to find definition for ${word}`);
+                return { word: word, meanings: [{ partOfSpeech: "", definition: "No definition found" }] }
+            } else {
+                throw new Error(`HTTP error (status: ${response.status})`);
+            }
+        }
+
+        const data = await response.json();
+        return processWordData(word, data);
+
+    } catch (error) {
+        // Includes network errors, JSON parsing errors, and runtime errors
+        throw error;  // to be handled by the caller function
+    }
+}
+
+function processWordData(word, data) {
+    
+    // Get audioClipUrl
+    const phonetics = data[0]["phonetics"];
+    const audioClipUrl = getAudioClipUrl(phonetics);
+    
+    // Initialise wordInfo
+    let wordInfo = { word: word, audioClipUrl: audioClipUrl, meanings: [] }
+    
+    // Get meanings and append data to wordInfo
+    const meanings = data[0]["meanings"];
+    for (let meaning of meanings) {
+        const partOfSpeech = meaning["partOfSpeech"];
+        const definitions = meaning["definitions"];
+        const definition = definitions[0]["definition"];
+        wordInfo["meanings"].push({ partOfSpeech: partOfSpeech, definition: definition })
+    }
+
+    return wordInfo;
+}
+
+async function fetchDefinitionsArr(wordsArr) {
+    let definitionsArr = []
+    for (let word of wordsArr) {
+        const definitionMap = await fetchWordInfo(word);
+        definitionsArr.push(definitionMap);
+    }
+    return definitionsArr;
+}
+
+
 
 /**
  * Recursively assigns words to the gridWords array.
