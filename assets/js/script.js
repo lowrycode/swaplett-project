@@ -286,7 +286,7 @@ async function newGame() {
         // Show win/lose message and remove remaining drag-and-drop event listeners
         if (success) {
             document.getElementById("win").classList.remove("hidden");
-            document.getElementById("end-swaps-remaining").innerText = remainingSwaps;
+            document.getElementById("end-swaps-remaining").innerText = remainingSwaps === 1 ? "1 swap" : `${remainingSwaps} swaps`;
         } else {
             document.getElementById("lose").classList.remove("hidden");
             // Remove event listeners
