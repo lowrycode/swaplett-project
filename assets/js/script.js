@@ -305,7 +305,7 @@ async function newGame() {
         //  Fetch definitions
         try {
             let definitionsArr = await fetchDefinitionsArr(gridWords);
-            console.log(definitionsArr);
+            writeDefinitions(definitionsArr);
         } catch (error) {
             displayAlert("Error", "Unable to fetch definitions. Please check your internet connection.");
             console.error("FAILED TO FETCH DEFINITIONS ARRAY", error);
@@ -746,6 +746,10 @@ function matchesCriteria(lastIndex, gridWords, criteria) {
     return true;
 }
 
+function playAudio(audioId) {
+    document.getElementById(audioId).play();
+}
+
 /**
  * Processes raw word data fetched from a dictionary API into a structured format. 
  * The function is called from the fetchWordInfo function
@@ -884,4 +888,52 @@ function updateGridCellContents(cell1, cell2) {
     const tempContent = cell1.innerHTML;
     cell1.innerHTML = cell2.innerHTML;
     cell2.innerHTML = tempContent;
+}
+
+function writeDefinitions(definitionsArr) {
+    let html = "<h2>Definitions</h2>";
+    let htmlDefinitionAudio = "";
+    html += "<dl>";
+    let iAudio = 0;
+
+    for (let wordMap of definitionsArr) {
+        html += '<div class="definition-entry">';
+
+        // Write word heading (optionally with audio button)
+        if (wordMap.audioClipUrl) {
+            iAudio++;
+            html += `<dt class="definition-word">${wordMap.word}
+                        <button class="btn-audio" type="button" onclick="playAudio('audio${iAudio}')" aria-label="Play audio clip" title="Play audio clip">
+                        <i class="fa-solid fa-circle-play" aria-hidden="true"></i></button>
+                    </dt>`;
+            htmlDefinitionAudio += `<audio id="audio${iAudio}" aria-hidden="true">
+                                        <source src="${wordMap.audioClipUrl}" type="audio/mpeg">
+                                    </audio>`;
+        } else {
+            html += `<dt class="definition-word">${wordMap.word}</dt>`;
+        }
+
+        // Write word definition(s)
+        html += "<dd>";
+        for (let meaning of wordMap.meanings) {
+            html += "<p>";
+            if (meaning.partOfSpeech) {
+                html += `<span class="partOfSpeech">${meaning.partOfSpeech}:</span> `;
+            }
+            html += `<span class="definition-meaning">${meaning.definition}</span>`;
+            html += "</p>";
+        }
+        html += "</dd>";
+        html += "</div>";
+    }
+
+    html += "</dl>";
+
+    // Append audio HTML (if exists)
+    if (htmlDefinitionAudio) {
+        html += `<div id="definition-audio">${htmlDefinitionAudio}</div>`;
+    }
+
+    // Write to DOM
+    document.getElementById("definitions").innerHTML = html;
 }
