@@ -448,6 +448,8 @@ function displayAlert(title, msg) {
  * An async function which collates definitions for an array of words.
  * The definitions are fetched from a dictionary API in the fetchWordInfo function that is called for each word.
  *
+ * The function processes API requests in parallel using Promise.all (to improve efficiency).
+ * 
  * @param {Array<string>} wordsArr - An array of words to fetch definitions for.
  *
  * @returns {Promise<Array<Object>>} - A Promise that resolves to an array of objects.
@@ -457,14 +459,11 @@ function displayAlert(title, msg) {
  * - "meanings": An array of objects, each representing a meaning, containing:
  *   - "partOfSpeech": noun, verb etc.
  *   - "definition": The definition of the word.
+ * 
+ @throws {Error} If any of the promises fail to resolve, the error is passed to the caller function to handle.
  */
 async function fetchDefinitionsArr(wordsArr) {
-    let definitionsArr = []
-    for (let word of wordsArr) {
-        const definitionMap = await fetchWordInfo(word);
-        definitionsArr.push(definitionMap);
-    }
-    return definitionsArr;
+    return Promise.all(wordsArr.map(fetchWordInfo));
 }
 
 /**
@@ -533,7 +532,7 @@ async function fetchWordInfo(word) {
             // Fetch request (was successful but) returned a HTTP error
             if (response.status === 404) {
                 // Likely that word was not found in API
-                console.warn(`Unable to find definition for ${word}`);
+                console.warn(`Unable to find entry for ${word} in dictionary API`);
                 return { word: word, meanings: [{ partOfSpeech: "", definition: "No definition found" }] }
             } else {
                 throw new Error(`HTTP error (status: ${response.status})`);
