@@ -87,7 +87,7 @@ async function newGame() {
     }
 
     // Add event listeners to grid cells with draggable class
-    let draggedElement = null; // An element being dragged
+    let draggedElement = null; // References the element being dragged
     addDragEvents();
 
     /**
@@ -105,6 +105,112 @@ async function newGame() {
             div.addEventListener('mousemove', onDragMove);
             div.addEventListener('mouseup', onDragEnd);
         });
+    }
+
+    /**
+     * An async function which handles the end-of-game logic.
+     *
+     * @param {boolean} success - States whether the user won or lost the game ("true" for win, "false" for loss).
+     * 
+     * @returns {Promise<void>} Resolves when all end-of-game tasks are completed.
+     * 
+     * @throws {Error} If fetching word definitions fails (due to network issues or other errors).
+     * 
+     * @description
+     * This function does the following tasks:
+     * - Hides the "swaps-info" element.
+     * - Displays the relevant win/lose message (based on the "success" parameter).
+     * - Updates the remaining swaps information (for a win).
+     * - Removes drag-and-drop event listeners from draggable elements (for a loss).
+     * - Shows a placeholder message while fetching word definitions.
+     * - Fetches definitions for all words in the grid and displays them.
+     * - Displays an error alert if fetching definitions fails.
+     */
+    async function endGame(success) {
+
+        // Hide swaps-info
+        document.getElementById("swaps-info").classList.add("hidden");
+
+        // Show win/lose message and remove remaining drag-and-drop event listeners
+        if (success) {
+            document.getElementById("win").classList.remove("hidden");
+            document.getElementById("end-swaps-remaining").innerText = remainingSwaps === 1 ? "1 swap" : `${remainingSwaps} swaps`;
+        } else {
+            document.getElementById("lose").classList.remove("hidden");
+            // Remove event listeners
+            document.querySelectorAll('.draggable').forEach(div => {
+                removeDragEvents(div);
+            });
+        }
+        document.getElementById("game-end-info").classList.remove("hidden");
+
+        // Show definitions placeholder
+        const definitionsElement = document.getElementById("definitions");
+        const definitionsPlaceholder = "<h2>Definitions</h2><hr><p>Fetching definitions...</p>";
+        definitionsElement.innerHTML = definitionsPlaceholder;
+        definitionsElement.classList.remove("hidden");
+
+        //  Fetch definitions
+        try {
+            let definitionsArr = await fetchDefinitionsArr(gridWords);
+            writeDefinitions(definitionsArr);
+        } catch (error) {
+            displayAlert("Error", "Unable to fetch definitions. Please check your internet connection.");
+            console.error("FAILED TO FETCH DEFINITIONS ARRAY", error);
+            return;
+        }
+
+    }
+
+    /**
+     * Handles swapping two grid cells, updating their contents, classes, and game state.
+     *
+     * @param {HTMLElement} draggedElement - The grid cell that is being dragged.
+     * @param {HTMLElement} targetElement - The grid cell that is the target of the swap.
+     *
+     * @description
+     * The function does the following:
+     * 1. Retrieves the row and column indices of both grid cells.
+     * 2. Updates "gridArr" to reflect the swap.
+     * 3. Updates the contents of the grid cells to match the values in "gridArr".
+     * 4. Updates CSS classes of the grid cells to show new colours and whether they are still draggable.
+     * 5. Processes resolved cells by removing drag-and-drop event listeners and updating unresolvedGridCells set.
+     * 6. Decrements the remaining swap count and updates the page display with the new value.
+     * 7. Checks if the game has ended (either by resolving all cells or exhausting all swaps).
+     */
+    function makeSwap(draggedElement, targetElement) {
+
+        // Get rows and columns
+        let r1 = parseInt(draggedElement.getAttribute("data-row"));
+        let c1 = parseInt(draggedElement.getAttribute("data-col"));
+        let r2 = parseInt(targetElement.getAttribute("data-row"));
+        let c2 = parseInt(targetElement.getAttribute("data-col"));
+
+        // Update gridArr
+        updateGridArr(gridArr, r1, c1, r2, c2);
+
+        // Update grid cell contents to match updated gridArr
+        updateGridCellContents(draggedElement, targetElement);
+
+        // Update grid cell classes
+        setGridCellClassNames(draggedElement, r1, c1, gridArr, gridAnswerArr);
+        setGridCellClassNames(targetElement, r2, c2, gridArr, gridAnswerArr);
+
+        // Process resolved cells
+        processResolvedGridCells(draggedElement, unresolvedGridCells, r1, c1);
+        processResolvedGridCells(targetElement, unresolvedGridCells, r2, c2);
+
+        // Update remainingSwaps
+        remainingSwaps--;
+        document.getElementById("swaps-remaining").innerText = remainingSwaps;
+
+        // Check game state
+        if (unresolvedGridCells.size === 0) {
+            endGame(true);
+        }
+        else if (remainingSwaps === 0) {
+            endGame(false);
+        }
     }
 
     /**
@@ -192,57 +298,6 @@ async function newGame() {
     }
 
     /**
-     * Handles swapping two grid cells, updating their contents, classes, and game state.
-     *
-     * @param {HTMLElement} draggedElement - The grid cell that is being dragged.
-     * @param {HTMLElement} targetElement - The grid cell that is the target of the swap.
-     *
-     * @description
-     * The function does the following:
-     * 1. Retrieves the row and column indices of both grid cells.
-     * 2. Updates "gridArr" to reflect the swap.
-     * 3. Updates the contents of the grid cells to match the values in "gridArr".
-     * 4. Updates CSS classes of the grid cells to show new colours and whether they are still draggable.
-     * 5. Processes resolved cells by removing drag-and-drop event listeners and updating unresolvedGridCells set.
-     * 6. Decrements the remaining swap count and updates the page display with the new value.
-     * 7. Checks if the game has ended (either by resolving all cells or exhausting all swaps).
-     */
-    function makeSwap(draggedElement, targetElement) {
-
-        // Get rows and columns
-        let r1 = parseInt(draggedElement.getAttribute("data-row"));
-        let c1 = parseInt(draggedElement.getAttribute("data-col"));
-        let r2 = parseInt(targetElement.getAttribute("data-row"));
-        let c2 = parseInt(targetElement.getAttribute("data-col"));
-
-        // Update gridArr
-        updateGridArr(gridArr, r1, c1, r2, c2);
-
-        // Update grid cell contents to match updated gridArr
-        updateGridCellContents(draggedElement, targetElement);
-
-        // Update grid cell classes
-        setGridCellClassNames(draggedElement, r1, c1, gridArr, gridAnswerArr);
-        setGridCellClassNames(targetElement, r2, c2, gridArr, gridAnswerArr);
-
-        // Process resolved cells
-        processResolvedGridCells(draggedElement, unresolvedGridCells, r1, c1);
-        processResolvedGridCells(targetElement, unresolvedGridCells, r2, c2);
-
-        // Update remainingSwaps
-        remainingSwaps--;
-        document.getElementById("swaps-remaining").innerText = remainingSwaps;
-
-        // Check game state
-        if (unresolvedGridCells.size === 0) {
-            endGame(true);
-        }
-        else if (remainingSwaps === 0) {
-            endGame(false);
-        }
-    }
-
-    /**
      * Processes a grid cell by checking if it is resolved (has a class name of "green").
      * If resolved, it removes drag events from the cell and removes its coordinates
      * from the unresolvedGridCells set.
@@ -277,43 +332,6 @@ async function newGame() {
         cell.removeEventListener('mousemove', onDragMove);
         cell.removeEventListener('mouseup', onDragEnd);
     }
-
-    async function endGame(success) {
-
-        // Hide swaps-info
-        document.getElementById("swaps-info").classList.add("hidden");
-
-        // Show win/lose message and remove remaining drag-and-drop event listeners
-        if (success) {
-            document.getElementById("win").classList.remove("hidden");
-            document.getElementById("end-swaps-remaining").innerText = remainingSwaps === 1 ? "1 swap" : `${remainingSwaps} swaps`;
-        } else {
-            document.getElementById("lose").classList.remove("hidden");
-            // Remove event listeners
-            document.querySelectorAll('.draggable').forEach(div => {
-                removeDragEvents(div);
-            });
-        }
-        document.getElementById("game-end-info").classList.remove("hidden");
-
-        // Show definitions placeholder
-        const definitionsElement = document.getElementById("definitions");
-        const definitionsPlaceholder = "<h2>Definitions</h2><hr><p>Fetching definitions...</p>";
-        definitionsElement.innerHTML = definitionsPlaceholder;
-        definitionsElement.classList.remove("hidden");
-
-        //  Fetch definitions
-        try {
-            let definitionsArr = await fetchDefinitionsArr(gridWords);
-            writeDefinitions(definitionsArr);
-        } catch (error) {
-            displayAlert("Error", "Unable to fetch definitions. Please check your internet connection.");
-            console.error("FAILED TO FETCH DEFINITIONS ARRAY", error);
-            return;
-        }
-
-    }
-
 }
 
 // HELPER FUNCTIONS
@@ -337,14 +355,12 @@ function assignGridWords(words, gridWords, criteria, usedWords = new Set(), i = 
         usedWords.add(word);
         if (matchesCriteria(i, gridWords, criteria)) {
             // Recursive call
-            // console.log(word, "passed tests - call again", gridWords);
             const response = assignGridWords(words, gridWords, criteria, usedWords, i + 1);
             if (response.success) return response;
         }
         // Backtrack
         gridWords[i] = null;
         usedWords.delete(word);
-        // console.log(word, "failed tests - try next word", gridWords);
     }
     return { data: gridWords, success: false };
 }
@@ -517,7 +533,7 @@ async function fetchWordInfo(word) {
             // Fetch request (was successful but) returned a HTTP error
             if (response.status === 404) {
                 // Likely that word was not found in API
-                console.log(`Unable to find definition for ${word}`);
+                console.warn(`Unable to find definition for ${word}`);
                 return { word: word, meanings: [{ partOfSpeech: "", definition: "No definition found" }] }
             } else {
                 throw new Error(`HTTP error (status: ${response.status})`);
@@ -746,6 +762,12 @@ function matchesCriteria(lastIndex, gridWords, criteria) {
     return true;
 }
 
+/**
+ * Plays the audio associated with the given audio element ID.
+ *
+ * @param {string} audioId - The ID of the <audio> element to play.
+ * @returns {void} This function does not return a value.
+ */
 function playAudio(audioId) {
     document.getElementById(audioId).play();
 }
@@ -765,14 +787,14 @@ function playAudio(audioId) {
  *   - "definition": The definition of the word. 
  */
 function processWordData(word, data) {
-    
+
     // Get audioClipUrl
     const phonetics = data[0]["phonetics"];
     const audioClipUrl = getAudioClipUrl(phonetics);
-    
+
     // Initialise wordInfo
     let wordInfo = { word: word, audioClipUrl: audioClipUrl, meanings: [] }
-    
+
     // Get meanings and append data to wordInfo
     const meanings = data[0]["meanings"];
     for (let meaning of meanings) {
@@ -890,6 +912,19 @@ function updateGridCellContents(cell1, cell2) {
     cell2.innerHTML = tempContent;
 }
 
+/**
+ * Writes definitions and audio clips to the DOM.
+ *
+ * @param {Array<Object>} definitionsArr - An array of objects containing word definitions and audio information.
+ * Each object should have the following properties:
+ * - "word": The word.
+ * - "audioClipUrl": URL of the pronunciation audio clip (if available).
+ * - "meanings": An array of objects, each representing a meaning, containing:
+ *   - "partOfSpeech": noun, verb etc.
+ *   - "definition": The definition of the word. 
+ *
+ * @returns {void} Updates the inner HTML of the element with an id of "definitions".
+ */
 function writeDefinitions(definitionsArr) {
     let html = "<h2>Definitions</h2>";
     let htmlDefinitionAudio = "";
