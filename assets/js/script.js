@@ -1,5 +1,15 @@
 // EVENT LISTENERS FOR STATIC ELEMENTS
 
+// Checkbox to toggle dark mode
+const darkModeCheckbox = document.getElementById("dark-mode-checkbox");
+darkModeCheckbox.addEventListener("change", function () {
+    if (darkModeCheckbox.checked) {
+        document.body.classList.add("dark-mode");
+    } else {
+        document.body.classList.remove("dark-mode");
+    }
+});
+
 // Click button to show instructions (opens Instructions modal)
 document.getElementById("btn-show-instructions").addEventListener("click", () => {
     document.getElementById("modal-instructions").classList.remove("hidden");
