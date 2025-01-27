@@ -1,13 +1,24 @@
+@import url('https://fonts.googleapis.com/css2?family=Nunito:ital,wght@0,200..1000;1,200..1000&display=swap');
+
 /* GENERAL STYLES */
 :root {
-    --body-bg: #ffffff;
-    --body-text: #0f0f0f;
-    --header-bg: #f5ecdc;
-    --header-text: #0f0f0f;
+    --select-bg: #e5e3de;
+    --select-text: #2d2d2d;
+    --body-bg: #eeeeee;
+    --body-text: #2d2d2d;
+    /* --header-bg: #e6e6e6; */
+    --header-bg: #eeeeee;
+    --header-text: #2d2d2d;
     --footer-bg: #1f1f1f;
     --footer-text: #ffffff;
     --game-board-text: #a0a0a0;
-    --highlight: #0000a0;
+    --grid-cell-grey: #c8c8c8;
+    --grid-cell-green: #7adb65;
+    --grid-cell-yellow: #eeda43;
+    --grid-text: #3f3f3f;
+    --win-green: green;
+    --lose-red: #a02020;
+    --highlight: #1e5487;
     --modal-overlay: rgba(0, 0, 0, 0.5);
     --modal-header-bg: #d0d0d0;
     --modal-body-bg: #ffffff;
@@ -16,14 +27,23 @@
 }
 
 .dark-mode {
-    --body-bg: #0f0f0f;
-    --body-text: #0f0f0f;
-    --header-bg: #f5ecdc;
+    --select-bg: #3f3f3f;
+    --select-text: #dbdbdb;
+    --body-bg: #151515;
+    --body-text: #dbdbdb;
+    /* --header-bg: #1f1f1f; */
+    --header-bg: #151515;
     --header-text: #0f0f0f;
-    --footer-bg: #1f1f1f;
+    --footer-bg: #3f3f3f;
     --footer-text: #ffffff;
     --game-board-text: #a0a0a0;
-    --highlight: #0000a0;
+    --grid-cell-grey: #3a3a3c;
+    --grid-cell-green: #528d4d;
+    --grid-cell-yellow: #b59e3a;
+    --grid-text: #d5d5d5;
+    --win-green: rgb(3, 188, 3);
+    --lose-red: #c12525;
+    --highlight: #6aa9e5;
     --modal-overlay: rgba(0, 0, 0, 0.5);
     --modal-header-bg: #d0d0d0;
     --modal-body-bg: #ffffff;
@@ -40,6 +60,9 @@ body {
     background-color: var(--body-bg);
     color: var(--body-text);
     box-sizing: border-box;
+    /* FONTS */
+    font-family: "Nunito", serif;
+    font-weight: 600;
 }
 
 body>* {
@@ -56,11 +79,12 @@ h2 {
     padding: 0;
     margin: 0;
     text-align: center;
+    font-weight: 900;
 }
 
 .container {
     width: 100%;
-    border: 1px solid black;
+    /* border: 1px solid black; */
 }
 
 .container.center {
@@ -98,12 +122,22 @@ header {
     padding: 0.5rem 1rem;
 }
 
+#game-logo {
+    display: flex;
+    align-items: center;
+}
+
+#game-logo img {
+    width: 150px;
+}
+
 #btn-show-instructions {
     padding: 0;
     margin: 0;
     background-color: transparent;
     border: none;
-    font-size: 1.5rem;
+    font-size: 1.9rem;
+    color: var(--highlight)
 }
 
 /* Toggle switch for dark mode (adapted from https://www.w3schools.com/HOWTO/howto_css_switch.asp */
@@ -133,7 +167,7 @@ header {
     left: 0;
     right: 0;
     bottom: 0;
-    background-color: #ccc;
+    background-color: var(--highlight);
     -webkit-transition: .4s;
     transition: .4s;
     border-radius: 34px;
@@ -153,11 +187,11 @@ header {
 }
 
 input:checked+.slider {
-    background-color: #2196F3;
+    background-color: var(--grid-cell-green);
 }
 
 input:focus+.slider {
-    box-shadow: 0 0 1px #2196F3;
+    box-shadow: 0 0 1px var(--grid-cell-green);
 }
 
 input:checked+.slider:before {
@@ -185,13 +219,19 @@ main {
     gap: 1rem;
 }
 
-#game-settings select,
-#game-settings button {
+#game-settings select {
     padding: 0.2rem 0.8rem;
     width: 120px;
+    background-color: var(--select-bg);
+    color: var(--select-text);
 }
 
 #game-settings button {
+    padding: 0.2rem 0.8rem;
+    width: 120px;
+    background-color: var(--highlight);
+    /* background-color: var(--select-bg); */
+    color: var(--select-bg);
     font-size: 1.1rem;
 }
 
@@ -205,7 +245,7 @@ main {
     /* max-width ensures the number of remaining swaps is visible underneath */
     max-width: 55vh;
     aspect-ratio: 1 / 1;
-    background-color: rgb(231, 216, 198);
+    /* background-color: rgb(231, 216, 198); */
     font-size: 1.5rem;
     color: var(--game-board-text);
     text-align: center;
@@ -216,23 +256,25 @@ main {
     padding: 5px;
     touch-action: none;
     font-size: 2rem;
+    font-weight: 900;
     display: flex;
     align-items: center;
     justify-content: center;
-    color: #1f1f1f;
-    background-color: lightgrey;
-    border: 1px #a0a0a0 solid;
+    color: var(--grid-text);
+    background-color: var(--grid-cell-grey);
+    /* border: 1px #a0a0a0 solid; */
     box-shadow: inset 2px 2px 5px rgba(255, 255, 255, 0.5),
         inset -2px -2px 5px rgba(0, 0, 0, 0.5);
     user-select: none;
+    text-transform: uppercase;
 }
 
 .grid-cell.green {
-    background-color: green;
+    background-color: var(--grid-cell-green);
 }
 
 .grid-cell.yellow {
-    background-color: yellow;
+    background-color: var(--grid-cell-yellow)
 }
 
 .dragging {
@@ -265,6 +307,14 @@ main {
     font-size: 3rem;
 }
 
+#game-end-info > #win i {
+    color: var(--win-green);
+}
+
+#game-end-info > #lose i {
+    color: var(--lose-red);
+}
+
 #game-end-info p {
     padding: 0 1rem;
     margin: 0;
@@ -272,10 +322,12 @@ main {
 
 .game-end-title {
     font-size: 2rem;
+    font-weight: 800;
 }
 
 .game-end-details {
     font-size: 1rem;
+    color: var(--highlight);
 }
 
 #definitions {
@@ -313,10 +365,11 @@ main {
     margin: 0;
     border: none;
     font-size: 1.1rem;
+    color: var(--highlight);
 }
 
 .btn-audio:hover {
-    color: var(--highlight);
+    color: var(--link-text);
 }
 
 /* MODAL */
