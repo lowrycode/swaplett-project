@@ -239,6 +239,7 @@ main {
 #game-settings select {
     padding: 0.2rem 0.8rem;
     width: 120px;
+    border-radius: 0;
     background-color: var(--select-bg);
     color: var(--select-text);
 }
