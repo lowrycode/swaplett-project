@@ -10,7 +10,11 @@
     <meta name="keywords"
         content="word puzzle game, swap letters puzzle, word game, brain teaser, letter swap game, word grid game, vocabulary game, challenging puzzle, addictive word game, strategy game">
 
-    <!-- Put favicon here -->
+    <!-- favicon - generated from custom image using https://favicon.io/ -->
+    <link rel="apple-touch-icon" sizes="180x180" href="assets/images/favicon/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="assets/images/favicon/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="assets/images/favicon/favicon-16x16.png">
+    <link rel="manifest" href="assets/images/favicon/site.webmanifest">
 
     <!-- font awesome kit -->
     <script src="https://kit.fontawesome.com/fb3aff35ac.js" crossorigin="anonymous"></script>
@@ -30,7 +34,7 @@
                 </label>
             </div>
             <div id="game-logo">
-                 <img src="assets/images/logo.png" alt="Swaplett logo">
+                <img src="assets/images/logo.png" alt="Swaplett logo">
                 <h1 class="visually-hidden">Swaplett</h1>
             </div>
             <button id="btn-show-instructions"><i class="fa-solid fa-circle-question"></i></button>
@@ -59,7 +63,7 @@
             </div>
             <div id="game-board">
                 <p>Choose your settings then click the NEW GAME button above</p>
-                
+
                 <!-- REMOVE THIS AFTER STYLING HAS BEEN FINALISED -->
                 <!-- <div data-row="0" data-col="0" class="grid-cell draggable yellow"
                     style="left: 0%; top: 0%; width: 33%; height: 33%;">u</div>
@@ -88,7 +92,8 @@
                     </div>
                     <div>
                         <p class="game-end-title">Nice job!</p>
-                        <p class="game-end-details">Finished with <span id="end-swaps-remaining">3 swaps</span> remaining</p>
+                        <p class="game-end-details">Finished with <span id="end-swaps-remaining">3 swaps</span>
+                            remaining</p>
                     </div>
                 </div>
                 <div id="lose" class="hidden">
@@ -102,7 +107,7 @@
             </div>
             <div id="definitions" class="hidden">
                 <!-- This content is generated dynamically -->
-                 
+
                 <!-- REMOVE THIS AFTER STYLING HAS BEEN FINALISED -->
                 <!-- <h2>Definitions</h2>
                 <dl>
@@ -155,11 +160,14 @@
                                 </p>
                                 <p>Words are either horizontal or vertical within the grid.</p>
                                 <div id="grid-example">
-                                    <img id="grid-example-img" src="assets/images/grid-example.png" alt="Grid section showing the different colours in dark-mode">
+                                    <img id="grid-example-img" src="assets/images/grid-example.png"
+                                        alt="Grid section showing the different colours in dark-mode">
                                     <ul>
-                                        <li><span class="green">GREEN -</span> the letter is in the correct position and will no longer
+                                        <li><span class="green">GREEN -</span> the letter is in the correct position and
+                                            will no longer
                                             be movable</li>
-                                        <li><span class="yellow">YELLOW -</span> the letter is found somewhere else in the same row or
+                                        <li><span class="yellow">YELLOW -</span> the letter is found somewhere else in
+                                            the same row or
                                             column</li>
                                     </ul>
                                 </div>
