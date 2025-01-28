@@ -147,9 +147,10 @@ async function newGame() {
             document.getElementById("end-swaps-remaining").innerText = remainingSwaps === 1 ? "1 swap" : `${remainingSwaps} swaps`;
         } else {
             document.getElementById("lose").classList.remove("hidden");
-            // Remove event listeners
+            // Remove event listeners and mouse pointer on hover
             document.querySelectorAll('.draggable').forEach(div => {
                 removeDragEvents(div);
+                div.classList.remove("draggable");  // this removes mouse pointer on hover
             });
         }
         document.getElementById("game-end-info").classList.remove("hidden");
