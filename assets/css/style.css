@@ -391,12 +391,12 @@ main {
 
 .definition-word {
     font-size: 1.2rem;
-    font-weight: bold;
+    font-weight: 900;
 }
 
 .partOfSpeech {
     font-style: italic;
-    font-weight: bold;
+    font-weight: 400;
     margin-right: 0.2rem;
 }
 
