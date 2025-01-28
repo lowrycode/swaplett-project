@@ -30,14 +30,16 @@ document.getElementById("btn-new-game").addEventListener("click", newGame);
 // MAIN FUNCTION
 async function newGame() {
 
-    // Reset styles (hidden class to hide/display elements)
-    resetVisibility();
-
     // Game settings
     const wordLength = parseInt(document.getElementById("grid-select").value);
     const difficulty = document.getElementById("difficulty").value;
     let remainingSwaps = 15;
     let jumbleSwaps = getJumbleSwapNum(difficulty);
+
+    // Reset styles (hidden class to hide/display elements) and display remainingSwaps
+    document.getElementById("swaps-remaining").innerText = remainingSwaps;
+    resetVisibility();
+
 
     // Get random words
     let words = [];
