@@ -3,6 +3,7 @@
 /* GENERAL STYLES */
 :root {
     --select-bg: #f6f6f6;
+    --select-bg-hover: #ebebeb;
     --select-text: #2d2d2d;
     --body-bg: #eeeeee;
     --body-text: #2d2d2d;
@@ -18,16 +19,20 @@
     --grid-text: #3f3f3f;
     --win-green: green;
     --lose-red: #a02020;
-    --highlight: #1e5487;
+    --highlight-primary: #1e5487;
+    --highlight-secondary: #2c77bd;
     --modal-overlay: rgba(0, 0, 0, 0.5);
     --modal-header-bg: #1e5487;
     --modal-body-bg: #f6f6f6;
+    --modal-body-headings: #1e5487;
     --modal-footer-bg: #1f1f1f;
     --link-text: #6aa9e5;
+    --link-text-hover: #8bc4fa;
 }
 
 .dark-mode {
     --select-bg: #3f3f3f;
+    --select-bg-hover: #515151;
     --select-text: #dbdbdb;
     --body-bg: #151515;
     --body-text: #dbdbdb;
@@ -43,10 +48,11 @@
     --grid-text: #d5d5d5;
     --win-green: rgb(3, 188, 3);
     --lose-red: #c12525;
-    --highlight: #6aa9e5;
+    --highlight-primary: #6aa9e5;
     --modal-overlay: rgba(0, 0, 0, 0.5);
     /* --modal-header-bg: #1e5487; */
-    --modal-body-bg: #2b2b2b;
+    --modal-body-bg: #272727;
+    --modal-body-headings: #b0c4de;
     --modal-footer-bg: #3f3f3f;
     --link-text: #6aa9e5;
 }
@@ -137,7 +143,14 @@ header {
     background-color: transparent;
     border: none;
     font-size: 1.9rem;
-    color: var(--highlight)
+    color: var(--highlight-primary);
+    -webkit-transition: .2s;
+    transition: .2s;
+}
+
+#btn-show-instructions:hover {
+    color: var(--highlight-secondary);
+    cursor: pointer;
 }
 
 /* Toggle switch for dark mode (adapted from https://www.w3schools.com/HOWTO/howto_css_switch.asp */
@@ -167,10 +180,14 @@ header {
     left: 0;
     right: 0;
     bottom: 0;
-    background-color: var(--highlight);
+    background-color: var(--highlight-primary);
     -webkit-transition: .4s;
     transition: .4s;
     border-radius: 34px;
+}
+
+.slider:hover {
+    background-color: var(--highlight-secondary);
 }
 
 .slider:before {
@@ -226,13 +243,27 @@ main {
     color: var(--select-text);
 }
 
+#game-settings select:hover {
+    background-color: var(--select-bg-hover);
+    cursor: pointer;
+}
+
 #game-settings button {
     padding: 0.2rem 0.8rem;
     width: 120px;
-    background-color: var(--highlight);
+    background-color: var(--highlight-primary);
     /* background-color: var(--select-bg); */
     color: var(--select-bg);
     font-size: 1.1rem;
+    font-weight: 500;
+    border: none;
+    -webkit-transition: .2s;
+    transition: .2s;
+}
+
+#game-settings button:hover {
+    background-color: var(--highlight-secondary);
+    cursor: pointer;
 }
 
 #game-board {
@@ -249,6 +280,10 @@ main {
     font-size: 1.5rem;
     color: var(--game-board-text);
     text-align: center;
+}
+
+#game-board p {
+    user-select: none;
 }
 
 .grid-cell {
@@ -269,6 +304,10 @@ main {
     text-transform: uppercase;
 }
 
+.grid-cell.draggable {
+    cursor: pointer;
+}
+
 .grid-cell.green {
     background-color: var(--grid-cell-green);
 }
@@ -285,6 +324,7 @@ main {
 #swaps-info {
     padding: 1.5rem 0;
     font-size: 1.3rem;
+    user-select: none;
 }
 
 #swaps-remaining {
@@ -293,6 +333,7 @@ main {
 
 #game-end-info {
     padding: 2rem 1.5rem;
+    user-select: none;
 }
 
 #game-end-info>div {
@@ -327,7 +368,7 @@ main {
 
 .game-end-details {
     font-size: 1rem;
-    color: var(--highlight);
+    color: var(--highlight-primary);
 }
 
 #definitions {
@@ -365,11 +406,13 @@ main {
     margin: 0;
     border: none;
     font-size: 1.1rem;
-    color: var(--highlight);
+    color: var(--highlight-primary);
+    -webkit-transition: .2s;
+    transition: .2s;
 }
 
 .btn-audio:hover {
-    color: var(--link-text);
+    color: var(--highlight-secondary);
 }
 
 /* MODAL */
@@ -434,6 +477,8 @@ main {
     margin: 0;
     background-color: transparent;
     border: none;
+    -webkit-transition: .2s;
+    transition: .2s;
 }
 
 .btn-close-modal:hover {
@@ -449,7 +494,9 @@ main {
 
 .modal-body h2,
 .modal-body h3 {
-    color: var(--highlight);
+    color: var(--highlight-primary);
+    font-weight: 700;
+    color: var(--modal-body-headings)
 }
 
 .modal-body .green {
@@ -495,6 +542,12 @@ main {
     margin-top: 1.5rem;
     text-decoration: none;
     font-weight: bold;
+    -webkit-transition: .2s;
+    transition: .2s;
+}
+
+.modal-footer a:hover {
+    color: var(--link-text-hover);
 }
 
 /* Footer */
@@ -502,10 +555,21 @@ footer {
     background-color: var(--footer-bg);
     color: var(--footer-text);
     text-align: center;
+    -webkit-transition: .2s;
+    transition: .2s;
+}
+
+footer p {
+    user-select: none;
 }
 
 footer a {
     color: var(--link-text);
+    margin-left: 0.2rem;
+}
+
+footer a:hover {
+    color: var(--link-text-hover);
 }
 
 /* MEDIA QUERIES */
