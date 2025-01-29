@@ -52,3 +52,39 @@ The following features are included to assist screen readers:
 - **Aria-checked** attribute is used on toggle switch to indicate whether dark-mode is activated
 - **Aria-hidden** for elements that are only used for aesthetics (e.g. icons) or for hidden functionality (e.g. audio elements)
 
+# Features
+
+## Header
+
+### Toggle Switch For Dark Mode
+
+Users can toggle between light mode and dark mode using the toggle switch in the top left corner. Light-mode is selected by default.
+
+![Comparing light mode and dark mode colour themes](readme-images/light-vs-dark-mode.jpg)
+
+Hovering over the toggle switch causes the background colour to change slightly and a tooltip to appear. An aria-label and aria-checked attribute is used to assist screen readers.
+
+When the switch is in focus, an outline is shown around the switch. This supports users who cycle to this element using the tab key.
+
+Pressing the switch causes a smooth transition to the other colour theme. The colour of the switch changes to reflect the new theme and the position of the slider moves to the right (for dark mode) or left (for light mode). 
+
+**NOTE:** An event listener is attached to this element in script.js. When dark mode is activated, the script adds the .dark-mode class to the document body element. This approach maintains separation of concerns by keeping styles in the CSS file (instead of modifying them directly with JavaScript inline styles). The aria-label is also updated to enhance accessibility for screen readers.
+
+### Swaplett Game Logo
+
+The logo in the centre of the header is for improving the aesthetics of the page and is not interactive.
+
+A png file format was chosen to allow for a transparent background.
+
+### Icon To Open Instructions Modal
+
+Clicking on the "btn-show-instructions" button in the top right of the screen reveals a modal with written instructions about how to play the game. The modal can be closed again by pressing the "X" button in the top right corner of the modal.
+
+![Instructions modal for both light mode and dark mode](readme-images/instructions-modal.jpg)
+
+Hovering over both the "btn-show-instructions" and "X" buttons causes the background colour to change slightly and a tooltip to appear. An aria-label is used to assist screen readers.
+
+When the buttons are in focus, an outline is shown around them to support users who cycle to this element using the tab key.
+
+**NOTE:** The instructions modal is assigned a class called .hidden which removes it from the DOM and hides it from screen readers until the user chooses to open it. An event listener is attached to both the "btn-show-instructions" button and the "X" buttons in script.js to add / remove the .hidden class from this modal.
+
