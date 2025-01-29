@@ -1,17 +1,15 @@
 @import url('https://fonts.googleapis.com/css2?family=Nunito:ital,wght@0,200..1000;1,200..1000&display=swap');
 
-/* GENERAL STYLES */
+/* COLOUR THEMES */
+/* Light mode */
 :root {
     --select-bg: #f6f6f6;
     --select-bg-hover: #ebebeb;
     --select-text: #2d2d2d;
     --body-bg: #eeeeee;
     --body-text: #2d2d2d;
-    /* --header-bg: #e6e6e6; */
-    --header-bg: #eeeeee;
-    /* --header-text: #2d2d2d; */
     --footer-bg: #1f1f1f;
-    --footer-text: #ffffff;
+    --footer-text: #f6f6f6;
     --game-board-text: #a0a0a0;
     --grid-cell-grey: #c8c8c8;
     --grid-cell-green: #7adb65;
@@ -30,15 +28,13 @@
     --link-text-hover: #8bc4fa;
 }
 
+/* Dark mode */
 .dark-mode {
     --select-bg: #3f3f3f;
     --select-bg-hover: #515151;
     --select-text: #dbdbdb;
     --body-bg: #151515;
     --body-text: #dbdbdb;
-    /* --header-bg: #1f1f1f; */
-    --header-bg: #151515;
-    /* --header-text: #dbdbdb; */
     --footer-bg: #3f3f3f;
     --footer-text: #ffffff;
     --game-board-text: #a0a0a0;
@@ -49,14 +45,12 @@
     --win-green: rgb(3, 188, 3);
     --lose-red: #c12525;
     --highlight-primary: #6aa9e5;
-    --modal-overlay: rgba(0, 0, 0, 0.5);
-    /* --modal-header-bg: #1e5487; */
     --modal-body-bg: #272727;
     --modal-body-headings: #97b3d8;
     --modal-footer-bg: #3f3f3f;
-    --link-text: #6aa9e5;
 }
 
+/* GENERAL DOCUMENT STYLES */
 body {
     margin: 0;
     padding: 0;
@@ -67,7 +61,7 @@ body {
     color: var(--body-text);
     box-sizing: border-box;
     /* FONTS */
-    font-family: "Nunito", serif;
+    font-family: "Nunito", sans-serif;
     font-weight: 600;
 }
 
@@ -88,9 +82,9 @@ h2 {
     font-weight: 900;
 }
 
+/* GENERAL CLASSES */
 .container {
     width: 100%;
-    /* border: 1px solid black; */
 }
 
 .container.center {
@@ -117,11 +111,19 @@ Code taken from https://gomakethings.com/revisting-aria-label-versus-a-visually-
     display: none;
 }
 
-/* Header */
-header {
-    background-color: var(--header-bg);
+.text-outline {
+    text-shadow:
+        1px 1px 0 black,
+        /* Bottom-right shadow */
+        -1px 1px 0 black,
+        /* Bottom-left shadow */
+        1px -1px 0 black,
+        /* Top-right shadow */
+        -1px -1px 0 black;
+        /* Top-left shadow */
 }
 
+/* HEADER */
 #top {
     display: flex;
     justify-content: space-between;
@@ -154,7 +156,6 @@ header {
 }
 
 /* Toggle switch for dark mode (adapted from https://www.w3schools.com/HOWTO/howto_css_switch.asp */
-
 #dark-mode {
     display: flex;
     align-items: center;
@@ -217,7 +218,7 @@ input:checked+.slider:before {
     transform: translateX(16px);
 }
 
-/* Main */
+/* MAIN */
 main {
     display: flex;
     flex-direction: column;
@@ -227,6 +228,7 @@ main {
     height: 100%;
 }
 
+/* Game settings */
 #game-settings {
     padding: 2rem 1rem;
     display: flex;
@@ -238,10 +240,11 @@ main {
 
 #game-settings select {
     padding: 0.2rem 0.8rem;
-    width: 120px;
+    width: 130px;
     border-radius: 0;
     background-color: var(--select-bg);
     color: var(--select-text);
+    border: 1px solid var(--highlight-primary);
 }
 
 #game-settings select:hover {
@@ -251,12 +254,11 @@ main {
 
 #game-settings button {
     padding: 0.2rem 0.8rem;
-    width: 120px;
+    width: 130px;
     background-color: var(--highlight-primary);
-    /* background-color: var(--select-bg); */
-    color: var(--select-bg);
+    color: var(--body-bg);
     font-size: 1.1rem;
-    font-weight: 500;
+    font-weight: 600;
     border: none;
     -webkit-transition: .2s;
     transition: .2s;
@@ -267,6 +269,7 @@ main {
     cursor: pointer;
 }
 
+/* Game board */
 #game-board {
     position: relative;
     display: flex;
@@ -277,7 +280,6 @@ main {
     /* max-width ensures the number of remaining swaps is visible underneath */
     max-width: 55vh;
     aspect-ratio: 1 / 1;
-    /* background-color: rgb(231, 216, 198); */
     font-size: 1.5rem;
     color: var(--game-board-text);
     text-align: center;
@@ -298,7 +300,6 @@ main {
     justify-content: center;
     color: var(--grid-text);
     background-color: var(--grid-cell-grey);
-    /* border: 1px #a0a0a0 solid; */
     box-shadow: inset 2px 2px 5px rgba(255, 255, 255, 0.5),
         inset -2px -2px 5px rgba(0, 0, 0, 0.5);
     user-select: none;
@@ -322,6 +323,7 @@ main {
     z-index: 100;
 }
 
+/* Remaining swaps */
 #swaps-info {
     padding: 1.5rem 0;
     font-size: 1.3rem;
@@ -332,6 +334,7 @@ main {
     font-weight: bold;
 }
 
+/* Game end */
 #game-end-info {
     padding: 2rem 1.5rem;
     user-select: none;
@@ -349,11 +352,11 @@ main {
     font-size: 3rem;
 }
 
-#game-end-info > #win i {
+#game-end-info>#win i {
     color: var(--win-green);
 }
 
-#game-end-info > #lose i {
+#game-end-info>#lose i {
     color: var(--lose-red);
 }
 
@@ -372,6 +375,7 @@ main {
     color: var(--highlight-primary);
 }
 
+/* Definitions */
 #definitions {
     padding: 2rem 1rem;
     min-width: 60%;
@@ -416,7 +420,7 @@ main {
     color: var(--highlight-secondary);
 }
 
-/* MODAL */
+/* MODALS */
 
 .modal-overlay {
     position: fixed;
@@ -470,7 +474,6 @@ main {
 
 .btn-close-modal {
     font-size: 2rem;
-    /* color: var(--body-text); */
     color: #afafaf;
     position: absolute;
     right: 0.8rem;
@@ -503,21 +506,11 @@ main {
 .modal-body .green {
     color: var(--grid-cell-green);
     font-weight: 900;
-    text-shadow: 
-    1px 1px 0 black, /* Bottom-right shadow */
-    -1px 1px 0 black, /* Bottom-left shadow */
-    1px -1px 0 black, /* Top-right shadow */
-    -1px -1px 0 black; /* Top-left shadow */
 }
 
 .modal-body .yellow {
     color: var(--grid-cell-yellow);
     font-weight: 900;
-    text-shadow: 
-    1px 1px 0 black, /* Bottom-right shadow */
-    -1px 1px 0 black, /* Bottom-left shadow */
-    1px -1px 0 black, /* Top-right shadow */
-    -1px -1px 0 black; /* Top-left shadow */
 }
 
 .modal-body .difficulty-level {
@@ -531,8 +524,6 @@ main {
 .modal-container>section {
     margin-top: 1.5rem;
 }
-
-
 
 .modal-footer {
     background-color: var(--modal-footer-bg);
@@ -553,6 +544,7 @@ main {
     color: var(--link-text-hover);
 }
 
+/* Instructions modal */
 #grid-example {
     display: flex;
     flex-wrap: wrap;
@@ -601,14 +593,14 @@ footer a:hover {
 
 /* MEDIA QUERIES */
 
-/* limit container size */
+/* Limit container size */
 @media screen and (min-width: 800px) {
     .container {
         width: 800px;
     }
 }
 
-/* fallback dimensions for game board */
+/* Fallback dimensions for game board */
 @supports not (aspect-ratio: 1 / 1) {
     @media screen and (min-width: 300px) {
         #game-board {
