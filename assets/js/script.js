@@ -546,7 +546,7 @@ async function fetchWordInfo(word) {
             if (response.status === 404) {
                 // Likely that word was not found in API
                 console.warn(`Unable to find entry for ${word} in dictionary API`);
-                return { word: word, meanings: [{ partOfSpeech: "", definition: "No definition found" }] }
+                return { word: word, meanings: [{ partOfSpeech: "", definition: "No definition found" }] };
             } else {
                 throw new Error(`HTTP error (status: ${response.status})`);
             }
@@ -805,7 +805,7 @@ function processWordData(word, data) {
     const audioClipUrl = getAudioClipUrl(phonetics);
 
     // Initialise wordInfo
-    let wordInfo = { word: word, audioClipUrl: audioClipUrl, meanings: [] }
+    let wordInfo = { word: word, audioClipUrl: audioClipUrl, meanings: [] };
 
     // Get meanings and append data to wordInfo
     const meanings = data[0]["meanings"];
@@ -813,7 +813,7 @@ function processWordData(word, data) {
         const partOfSpeech = meaning["partOfSpeech"];
         const definitions = meaning["definitions"];
         const definition = definitions[0]["definition"];
-        wordInfo["meanings"].push({ partOfSpeech: partOfSpeech, definition: definition })
+        wordInfo["meanings"].push({ partOfSpeech: partOfSpeech, definition: definition });
     }
 
     return wordInfo;
