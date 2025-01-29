@@ -121,7 +121,7 @@ Code taken from https://gomakethings.com/revisting-aria-label-versus-a-visually-
         1px -1px 0 black,
         /* Top-right shadow */
         -1px -1px 0 black;
-        /* Top-left shadow */
+    /* Top-left shadow */
 }
 
 /* HEADER */
@@ -211,6 +211,10 @@ input:checked+.slider {
 
 input:checked+.slider:hover {
     background-color: var(--win-green);
+}
+
+input:focus+.slider {
+    outline: 2px solid var(--body-text);
 }
 
 input:checked+.slider:before {
