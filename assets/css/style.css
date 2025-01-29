@@ -209,8 +209,8 @@ input:checked+.slider {
     background-color: var(--grid-cell-green);
 }
 
-input:focus+.slider {
-    box-shadow: 0 0 1px var(--grid-cell-green);
+input:checked+.slider:hover {
+    background-color: var(--win-green);
 }
 
 input:checked+.slider:before {
