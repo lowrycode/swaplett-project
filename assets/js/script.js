@@ -8,6 +8,7 @@ darkModeCheckbox.addEventListener("change", function () {
     } else {
         document.body.classList.remove("dark-mode");
     }
+    darkModeCheckbox.setAttribute('aria-checked', darkModeCheckbox.checked);
 });
 
 // Click button to show instructions (opens Instructions modal)
