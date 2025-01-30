@@ -235,6 +235,9 @@ async function newGame() {
      */
     function onDragEnd(event) {
 
+        // Escape when no element is being dragged
+        if (!draggedElement) return;
+
         // Remove dragging style
         draggedElement.classList.remove('dragging');
 
