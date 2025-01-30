@@ -254,7 +254,7 @@ async function newGame() {
             makeSwap(draggedElement, targetElement);
         }
 
-        draggedElement = null; // Reset the global dragged element
+        draggedElement = null; // Reset the dragged element
     }
 
     /**
@@ -288,7 +288,7 @@ async function newGame() {
 
     /**
      * Handles the start of a drag operation for both touch and mouse interactions.
-     * This function assigns a value to the global 'draggedElement' variable (if not already assigned)
+     * This function assigns a value to the 'draggedElement' variable (if not already assigned)
      * 
      * It is used alongside the onDragMove and onDragEnd functions.
      * 
@@ -299,7 +299,7 @@ async function newGame() {
         // Check an element is not already being dragged
         if (draggedElement) return;
 
-        // Get the element being touched (by assigning to the global variable)
+        // Get the element being touched
         draggedElement = event.target;
 
         // Add class for visual feedback
