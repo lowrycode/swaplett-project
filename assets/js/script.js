@@ -845,7 +845,6 @@ function resetVisibility() {
  * - correct row or column (.yellow .dragabble),
  * 
  * @param {HTMLElement} gridCell - The grid cell element to modify.
- * @param {string[]} row - The current row in the grid as an array of characters.
  * @param {number} r - The row index of the grid cell.
  * @param {number} c - The column index of the grid cell.
  * @param {string[][]} gridArr - The current state of the grid as a 2D array of characters.
@@ -880,6 +879,7 @@ function setGridCellClassNames(gridCell, r, c, gridArr, gridAnswerArr) {
 /**
  * Determines whether a swap operation between the dragged element and the target element is valid.
  * 
+ * @param {HTMLElement} draggedElement - The element being dragged.
  * @param {HTMLElement} targetElement - The target element being considered for a swap.
  * @returns {boolean} - Returns 'true' if the target element is valid for a swap, or 'false' if not.
  * 
@@ -887,8 +887,6 @@ function setGridCellClassNames(gridCell, r, c, gridArr, gridAnswerArr) {
  * - The target element exists (`targetElement` is not null or undefined).
  * - The target element has the class `draggable`.
  * - The target element's inner text is not the same as the dragged element's inner text.
- * 
- * Note that this function references the global 'draggedElement' variable when evaluating the criteria.
  */
 function swapIsValid(draggedElement, targetElement) {
     if (targetElement && targetElement.classList.contains('draggable') &&
@@ -918,8 +916,10 @@ function updateGridArr(gridArr, r1, c1, r2, c2) {
 /**
  * Swaps the innerHTML content of two grid cells.
  *
- * @param {HTMLElement} cell1 - The first grid cell to swap.
- * @param {HTMLElement} cell2 - The second grid cell to swap.
+ * @param {HTMLElement} cell1 - HTMLElement representing the first grid cell to swap.
+ * @param {HTMLElement} cell2 - HTMLElement representing the second grid cell to swap.
+ * 
+ * @returns {void} It simply updates the inner HTML of the two HTMLElements
  */
 function updateGridCellContents(cell1, cell2) {
     const tempContent = cell1.innerHTML;
