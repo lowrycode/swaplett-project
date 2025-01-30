@@ -86,7 +86,7 @@ Hovering over both the "btn-show-instructions" and "X" buttons causes the backgr
 
 When the buttons are in focus, an outline is shown around them to support users who cycle to this element using the tab key.
 
-**NOTE:** The instructions modal is assigned a class called .hidden which removes it from the DOM and hides it from screen readers until the user chooses to open it. An event listener is attached to both the "btn-show-instructions" button and the "X" buttons in script.js to add / remove the .hidden class from this modal.
+***NOTE:*** *The instructions modal is initially assigned a class called .hidden which removes it from the DOM and hides it from screen readers until the user chooses to open it. An event listener is attached to both the "btn-show-instructions" button and the "X" buttons in script.js to add / remove the .hidden class from this modal.*
 
 ## Game Settings Section
 
@@ -172,6 +172,9 @@ This section shows the count of how many swaps are remaining. Every game allows 
 
 This section is only visible during game play - it is hidden on initial page load and at the end of each game.
 
+***NOTE:*** *This section is initially assigned a class called .hidden which removes it from the DOM and hides it from screen readers until the game starts. When the game starts, the .hidden class is removed.*
+
+
 ## Game End Section
 
 This section shows the relevant win or lose message at the end of the game.
@@ -179,6 +182,8 @@ This section shows the relevant win or lose message at the end of the game.
 **[IMAGE GOES HERE]**
 
 This section is only visible at the end of the game - it is hidden on initial page load and during game play.
+
+***NOTE:*** *This section is initially assigned a class called .hidden (along with the child sections for win and lose messages) which removes them from the DOM and hides them from screen readers until the game ends. When the game ends, the .hidden class is removed from this section and the relevant child section (win or lose section) causing the message to be shown. The .hidden class is reassigned when a new game begins.*
 
 ## Definitions Section
 
@@ -191,3 +196,6 @@ Since these definitions are fetched from a separate API, sometimes these definit
 Sometimes links to audio clips (of word pronounciations) are included - if so, a circle-play button appears next to the word which includes hover effects (to show that it is clickable). The audio clip will play when the user clicks the button.
 
 This section is only visible at the end of the game - it is hidden on initial page load and during game play.
+
+***NOTE:*** *This section is initially assigned a class called .hidden which removes it from the DOM and hides it from screen readers until the game ends. When the game ends, the .hidden class is removed from this section causing the definitions to be shown. The .hidden class is reassigned when a new game begins to hide it again.*
+
