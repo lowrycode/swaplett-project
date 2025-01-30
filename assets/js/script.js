@@ -48,8 +48,6 @@ async function newGame() {
         words = await fetchRandomWords(wordLength);
     } catch (error) {
         displayAlert("Error", "Could not fetch words. Please check your internet connection.");
-        console.error("FAILED TO FETCH RANDOM WORDS", error);
-        // NOTE could use fallback words here e.g. return fallbackWords.filter(word => word.length === wordLength);
         return;
     }
 
