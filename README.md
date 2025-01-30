@@ -54,7 +54,7 @@ The following features are included to assist screen readers:
 
 # Features
 
-## Header
+## Header Section
 
 ### Toggle Switch For Dark Mode
 
@@ -88,9 +88,11 @@ When the buttons are in focus, an outline is shown around them to support users 
 
 **NOTE:** The instructions modal is assigned a class called .hidden which removes it from the DOM and hides it from screen readers until the user chooses to open it. An event listener is attached to both the "btn-show-instructions" button and the "X" buttons in script.js to add / remove the .hidden class from this modal.
 
-## Game Settings
+## Game Settings Section
 
 The Game Settings section appears directly underneath the header and remains visible throughout the game. It includes two select inputs and a button. All three elements have identical dimensions (width and height) and are dynamically positioned using flexbox.
+
+**[IMAGE GOES HERE]**
 
 The two select boxes have identical styles and behaviours (e.g. hover effects) and have associated labels (included for semantic reasons as they benefit screen readers) although these are not visible on the screen.
 
@@ -130,3 +132,62 @@ Clicking this button starts a new game by:
 NOTE: if the random words cannot be fetched from the API (e.g. no internet connection or the API is down), an alert message is displayed to the user.
 
 ![Alert modal displayed on failure to fetch random words](readme-images/error-fetching-random-words-alert.jpg)
+
+## Game Board Section and Game Functionality
+
+On initial page load, the game board section displays the message: *"Choose your settings, then click the NEW GAME button above"*. When the New Game button is clicked, this text briefly changes to *"Generating board..."* while the grid is being created. Once the grid is ready (usually almost instantly, but sometimes within a couple of seconds) it replaces the message.
+
+**[IMAGE GOES HERE]**
+
+The grid cells contain the letters from the words in the grid and have one of 3 background colours:
+- **GREEN** -  this indicates that the letter is in the correct position. The grid cell will not be draggable and lacks any hover effects (indicating that users cannot interact with this grid cell). 
+- **YELLOW** -  this indicates that the letter is found elsewhere in the same row and / or column. The grid cell is draggable and hover effects are used to indicate this (the mouse cursor shows a pointer).
+- **GREY** -  this indicates that the letter is not found in the same row or column. The grid cell is draggable and hover effects are used to indicate this (the mouse cursor shows a pointer).
+
+***NOTE:*** *the hover effects are managed by the .draggable class which is applied to all draggable grid cells and removed when a grid cell stops being draggable.*
+
+When a user drags a draggable grid cell (by holding down a finger or mouse click whilst moving), the grid cell becomes semi-transparent and hovers over other elements. When it is dropped onto another grid cell, if both grid cells are draggable and do not contain the same letter, the following things will happen:
+- letters will swap positions (both visually on the screen and by updating gridArr)
+- the count of remaining swaps will decrement by 1
+- the new positions of the letters are evaluated and background colours are updated if required
+- if a letter is now in the correct position, the .draggable class is removed from that grid cell (to remove hover effects) and event listeners are also removed (to remove drag-and-drop behaviour)
+- the state of the game is evaluated (to see if the game has ended)
+
+If the game has ended (due to all grid cells being green or no more swaps remaining), the following actions occur:
+- the count of remaining swaps is hidden
+- the relevant win / lose message is displayed
+- all drag-and-drop event listeners are removed from any remaining draggable elements (this only applies when the user loses the game)
+- an API request fetches the definitions of the words (or an alert box is shown if the request fails)
+- the definitions are displayed on the screen
+
+***NOTE:*** *if the word is not found in the dictionary API, a 404 error is returned. The script handles this error by printing "No definition found".*
+
+## Remaining Swaps Section
+
+This section shows the count of how many swaps are remaining. Every game allows the user a maximum of 15 swaps to complete the grid. The count is updated (decreased by 1) after every swap.
+
+**[IMAGE GOES HERE]**
+
+***NOTE:*** *if a swap is not valid (e.g. when a user attempts to swap two grid cells which contain the same letter), the count of remaining swaps is not decremented for that attempt.*
+
+This section is only visible during game play - it is hidden on initial page load and at the end of each game.
+
+## Game End Section
+
+This section shows the relevant win or lose message at the end of the game.
+
+**[IMAGE GOES HERE]**
+
+This section is only visible at the end of the game - it is hidden on initial page load and during game play.
+
+## Definitions Section
+
+This section shows the definitions of any words that were used in the grid. The HTML for this section is generated dynamically.
+
+**[IMAGE GOES HERE]**
+
+Since these definitions are fetched from a separate API, sometimes these definitions cannot be found - if so, a "Definition not found" message will be used in place of the definition.
+
+Sometimes links to audio clips (of word pronounciations) are included - if so, a circle-play button appears next to the word which includes hover effects (to show that it is clickable). The audio clip will play when the user clicks the button.
+
+This section is only visible at the end of the game - it is hidden on initial page load and during game play.
