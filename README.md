@@ -199,3 +199,36 @@ This section is only visible at the end of the game - it is hidden on initial pa
 
 ***NOTE:*** *This section is initially assigned a class called .hidden which removes it from the DOM and hides it from screen readers until the game ends. When the game ends, the .hidden class is removed from this section causing the definitions to be shown. The .hidden class is reassigned when a new game begins to hide it again.*
 
+## Instructions Modal
+
+As discussed [previously](#icon-to-open-instructions-modal), the instructions modal can be opened by clicking on the "btn-show-instructions" button (the circle-question-mark icon) in the top right corner of the page.
+
+The modal consists of:
+- a dark semi-transparent overlay (to darken the main page content)
+- the main dialogue box (which sits above the overlay)
+
+On smaller screens, the dialogue box takes nearly the full width of the screen but on larger screens it is centred with a maximum width of 700px.
+
+### Modal Header
+
+The header of the dialogue box includes the modal title ("Instructions") and the "X" close button with appropriate hover effects (colour change and tool tip). It remains fixed at the top of the modal.
+
+### Modal Body
+
+This includes the instructions for the game and is split into sections which are separated by horizontal lines. A vertical scroll bar allows users to navigate easily through the content.
+
+### Modal Footer
+
+The modal "footer" section is not a footer in the true sense but rather the last section within the modal body - it is included within the flow of the scrollable body section.
+
+It shows some additional information about the project including:
+- a hyperlink to the game that inspired it
+- a hyperlink to the Code Institute website (since this project was developed as part of the Level 5 Diploma course)
+
+All hyperlinks on the webpage are styled consistently using the same colour and hover effects.
+
+## Alert Modal
+
+This modal is designed for showing significant notifications to the user and is dynamic by nature (allowing the title and message to be set at runtime). It is currently used for showing when an error occurs (e.g. when an API request fails).
+
+The styling is very similar to the instructions modal but these modals have a smaller maximum width of 480px.
