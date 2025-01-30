@@ -68,7 +68,7 @@ When the switch is in focus, an outline is shown around the switch. This support
 
 Pressing the switch causes a smooth transition to the other colour theme. The colour of the switch changes to reflect the new theme and the position of the slider moves to the right (for dark mode) or left (for light mode). 
 
-**NOTE:** An event listener is attached to this element in script.js. When dark mode is activated, the script adds the .dark-mode class to the document body element. This approach maintains separation of concerns by keeping styles in the CSS file (instead of modifying them directly with JavaScript inline styles). The aria-label is also updated to enhance accessibility for screen readers.
+***NOTE:*** *An event listener is attached to this element in script.js. When dark mode is activated, the script adds the .dark-mode class to the document body element. This approach maintains separation of concerns by keeping styles in the CSS file (instead of modifying them directly with JavaScript inline styles). The aria-label is also updated to enhance accessibility for screen readers.*
 
 ### Swaplett Game Logo
 
@@ -106,12 +106,12 @@ This is used to select the grid size and therefore the length of the words. It i
 
 This is used to select the difficulty level of the game and relates to the number of swaps that are required to complete the grid. Players must always complete the grid within 15 swaps to win the game.
 
-**NOTE:** When the grid of words is initially generated, the completed grid is generated first and then it is jumbled up by making a specified number of random swaps to the position of letters. The difficulty level specifies the number of swaps that are made:
-- EASY - 6 swaps
-- MEDIUM - 8 swaps
-- DIFFICULT - 10 swaps
+***NOTE:*** *When the grid of words is initially generated, the completed grid is generated first and then it is jumbled up by making a specified number of random swaps to the position of letters. The difficulty level specifies the number of swaps that are made:*
+*- EASY - 6 swaps*
+*- MEDIUM - 8 swaps*
+*- DIFFICULT - 10 swaps*
 
-It is possible that a swap may be undone by a subsequent swap and therefore in reality it is possible to complete the grid in fewer swaps than the numbers specified above.
+*It is possible that a swap may be undone by a subsequent swap and therefore in reality it is possible to complete the grid in fewer swaps than the numbers specified above.*
 
 ### New Game Button
 
@@ -129,7 +129,7 @@ Clicking this button starts a new game by:
 3. **Adding event handlers to the grid cells**
     - these relate to the drag-and-drop functionality
 
-NOTE: if the random words cannot be fetched from the API (e.g. no internet connection or the API is down), an alert message is displayed to the user.
+***NOTE:*** *if the random words cannot be fetched from the API (e.g. no internet connection or the API is down), an alert message is displayed to the user.*
 
 ![Alert modal displayed on failure to fetch random words](readme-images/error-fetching-random-words-alert.jpg)
 
