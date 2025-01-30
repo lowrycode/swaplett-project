@@ -549,7 +549,6 @@ async function fetchWordInfo(word) {
             // Fetch request (was successful but) returned a HTTP error
             if (response.status === 404) {
                 // Likely that word was not found in API
-                console.warn(`Unable to find entry for ${word} in dictionary API`);
                 return { word: word, meanings: [{ partOfSpeech: "", definition: "No definition found" }] };
             } else {
                 throw new Error(`HTTP error (status: ${response.status})`);
