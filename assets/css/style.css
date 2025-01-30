@@ -423,6 +423,7 @@ main {
 
 .btn-audio:hover {
     color: var(--highlight-secondary);
+    cursor: pointer;
 }
 
 /* MODALS */
