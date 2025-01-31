@@ -49,7 +49,7 @@ The game is probably most similar to a popular game called [Waffle](https://waff
 ### Main async function - **newGame()**
 1. **resetVisibility()** - adds "hidden" class to hide/show various elements, removes any previous definitions
 2. **initialise game settings** - wordLength (determines gridShape), difficulty (number of swaps required to win), remainingSwaps
-3. **fetchRandomWords()** - from API
+3. **fetchRandomWords()** - from API *(NOTE: changed to local JSON files in later stages of development due to unreliability of the chosen API)*
 4. **assign arrays** - gridWords, gridArr, gridAnswerArr
     - get array of words which meet criteria for grid (recursive DFS)
     - assign to gridArr (e.g. gridArr[r][c] with null for empty spaces)

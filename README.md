@@ -2,9 +2,8 @@
 
 Swaplett is a word puzzle game where players complete a grid of words by swapping letters into their correct positions. Letters can be moved by dragging them with a mouse or finger (on touch-screen devices). To win the game, players have to complete the grid within 15 swaps.
 
-The project uses two third-party APIs:
-- <a href="https://random-word-api.herokuapp.com/home" target="_blank" rel="noopener">**Random Word API**</a> - to fetch a specified number of random words with the correct word length
-- <a href="https://dictionaryapi.dev/" target="_blank" rel="noopener">**Free Dictionary API**</a> - to fetch information about the words such as meanings and links to pronounciation audio clips
+The project uses a third-party API:
+- <a href="https://dictionaryapi.dev/" target="_blank" rel="noopener">**Free Dictionary API**</a> - to fetch information about words such as their meanings and links to pronounciation audio clips
 
 You can visit the deployed website <a href="https://lowrycode.github.io/swaplett-project/" target="_blank" rel="noopener">**here**</a>.
  
@@ -121,7 +120,7 @@ Clicking this button starts a new game by:
     - the relevant DOM elements are shown / hidden
     - a placeholder text ("Generating board...") is added to the gameboard
 2. **Building the grid of words**
-    - an API request fetches an array containing a large number of random words
+    - an array of words of the correct length is fetched from the relevant JSON file in the **assets > json** directory and the array is then shuffled to randomise the order of these words
     - a smaller collection of these words are chosen if they together meet the criteria for the specified grid (i.e. their intersecting characters match)
     - the characters of each word are assigned to a 2D array (called gridAnswerArr) which stores their correct positions (i.e. row and column) in the grid
     - a copy of the gridAnswerArr (called gridArr) is jumbled by making a specified number of swaps (as determined by the difficulty level) - this becomes the initial state of the grid
@@ -129,7 +128,7 @@ Clicking this button starts a new game by:
 3. **Adding event handlers to the grid cells**
     - these relate to the drag-and-drop functionality
 
-***NOTE:*** *if the random words cannot be fetched from the API (e.g. no internet connection or the API is down), an alert message is displayed to the user.*
+***NOTE:*** *if the random words cannot be fetched from the JSON file (e.g. no internet connection), an alert message is displayed to the user.*
 
 ![Alert modal displayed on failure to fetch random words](readme-images/error-fetching-random-words-alert.jpg)
 
