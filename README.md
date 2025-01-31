@@ -2,8 +2,7 @@
 
 Swaplett is a word puzzle game where players complete a grid of words by swapping letters into their correct positions. Letters can be moved by dragging them with a mouse or finger (on touch-screen devices). To win the game, players have to complete the grid within 15 swaps.
 
-The project uses a third-party API:
-- <a href="https://dictionaryapi.dev/" target="_blank" rel="noopener">**Free Dictionary API**</a> - to fetch information about words such as their meanings and links to pronounciation audio clips
+The project uses a third-party API (<a href="https://dictionaryapi.dev/" target="_blank" rel="noopener">**Free Dictionary API**</a>) to fetch information about words such as their meanings and links to pronounciation audio clips.
 
 You can visit the deployed website <a href="https://lowrycode.github.io/swaplett-project/" target="_blank" rel="noopener">**here**</a>.
  
@@ -50,6 +49,17 @@ The following features are included to assist screen readers:
 - **Aria-labelledby** - used for identifying the relevant modal (instructions or alert)
 - **Aria-checked** - used on toggle switch to indicate whether dark-mode is activated
 - **Aria-hidden** - for elements that are only used for aesthetics (e.g. icons) or for hidden functionality (e.g. audio elements)
+
+## Performance
+
+Images have been optimized to ensure fast page loading. Since transparency was required, WebP formats could not be used so carefully scaled PNG files were used instead to maintain a balance between small file sizes and sufficient resolution.
+
+The interactive elements on the page respond quickly, thanks to efficient JavaScript data structures and algorithms that prevent bottlenecks. Key optimizations include:
+- **shuffleArray function:** Uses the *Fisher-Yates (Knuth)* Shuffle Algorithm (O(n) time complexity) to efficiently shuffle large arrays of words.
+- **fetchDefinitionsArr function:** Leverages *Promise.all* to fetch word definitions in parallel, significantly reducing load time compared to sequential requests.
+- **unresolvedGridCells variable:** Implemented as a Set instead of an array for faster item removal. While the performance gain is minor due to the small number of items, it ensures cleaner and more efficient lookups.
+
+In the early stages of development, random words were fetched from the <a href="https://random-word-api.herokuapp.com/home" target="_blank" rel="noopener">Random Words API</a> instead of local JSON files. However, frequent downtime and the use of obscure words (many of which lacked definitions in the Free Dictionary API) led to a poor user experience. To address these issues, words were moved to local JSON files, which also eliminated the need for a blacklist of forbidden words.
 
 # Features
 
