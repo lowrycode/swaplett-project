@@ -482,10 +482,11 @@ async function fetchDefinitionsArr(wordsArr) {
 }
 
 /**
- * Fetches a list of random words of a specified length from an external API.
+ * Fetches a list of random words from a JSON file based on the given word length.
+ * The words are then shuffled before being returned.
  * 
- * @param {number} wordLength - The length of the words to fetch.
- * @returns {Promise<string[]>} Promise which resolves to an array of random words.
+ * @param {number} wordLength - The length of words to fetch (must be between 3 and 7).
+ * @returns {Promise<string[]>} A promise that resolves to an array of shuffled words.
  * @throws {Error} If the word length is invalid or the fetch request fails.
  */
 async function fetchRandomWords(wordLength) {
@@ -498,13 +499,11 @@ async function fetchRandomWords(wordLength) {
     }
 
     // Write query string
-    const NUM_WORDS = 1000;
-    const LANGUAGE = "en";
-    const queryStr = `https://random-word-api.herokuapp.com/word?length=${wordLength}&number=${NUM_WORDS}&lang=${LANGUAGE}`;
+    const filePath = `assets/json/wordbank-${wordLength}-letters.json`;
 
     // Fetch data
     try {
-        const response = await fetch(queryStr);
+        const response = await fetch(filePath);
 
         if (!response.ok) {
             // Fetch request (was successful but) returned a HTTP error
@@ -512,6 +511,7 @@ async function fetchRandomWords(wordLength) {
         }
 
         const data = await response.json();
+        shuffleArray(data);  // Shuffles data (the array of words) in place
         return data;
 
     } catch (error) {
@@ -872,6 +872,24 @@ function setGridCellClassNames(gridCell, r, c, gridArr, gridAnswerArr) {
         }
     }
     return gridCell;
+}
+
+/**
+ * Shuffles an array in place using the Fisher-Yates (Knuth) shuffle algorithm.
+ * It is used within the fetchRandomWords function after fetching the words from a JSON file.
+ * 
+ * This is an efficient method for shuffling arrays - it has a time complexity of O(n).
+ * 
+ * The code for this function was adapted from https://stackoverflow.com/questions/2450954/how-to-randomize-shuffle-a-javascript-array
+ * 
+ * @param {Array} arr - The array to be shuffled.
+ * @returns {void} This function does not return anything - it modifies the input array in place.
+ */
+function shuffleArray(arr) {
+    for (let i = arr.length - 1; i >= 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [arr[i], arr[j]] = [arr[j], arr[i]];
+    }
 }
 
 /**
