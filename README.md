@@ -18,7 +18,7 @@ The [**Project Planning**](project_planning.md) document outlines my personal go
 
 The website was developed using a mobile-first approach, ensuring an optimized experience for mobile users before adapting to larger screens. This applies to functionality (e.g. touch events for dragging letters across the grid), layout (using Flexbox), and sizing (using relative units like rem, %, and vh). The custom .container class, combined with media queries, keeps content centered and prevents it from stretching too wide on larger screens.
 
-Wireframes were produced using <a href="https://balsamiq.com/" target="_blank" rel="noopener">**Balsamiq**</a> at the earliest stages of planning to ensure that the webpage had a good layout on different devices.
+Wireframes were produced using <a href="https://balsamiq.com/" target="_blank" rel="noopener">**Balsamiq**</a> at the earliest stages of planning to ensure an effective layout across different devices.
 
 ![Wireframe for initial page load](readme-images/wire-frame-initial-page-load.jpg)
 ![Wireframe for normal game play](readme-images/wire-frame-normal-game-play.jpg)
@@ -26,6 +26,8 @@ Wireframes were produced using <a href="https://balsamiq.com/" target="_blank" r
 ![Wireframe for definitions](readme-images/wire-frame-scroll-down.jpg)
 ![Wireframe for instructions modal](readme-images/wire-frame-instructions-modal.jpg)
 ![Wireframe for alert modal](readme-images/wire-frame-alert-modal.jpg)
+
+During development, the decision was made to give the header the same background colour as the main body as this was judged to create a more seamless and cohesive page design.
 
 ## User Interaction Design
 
@@ -61,7 +63,7 @@ The interactive elements on the page respond quickly, thanks to efficient JavaSc
 
 In the early stages of development, random words were fetched from the <a href="https://random-word-api.herokuapp.com/home" target="_blank" rel="noopener">Random Words API</a> instead of local JSON files. However, frequent downtime and the use of obscure words (many of which lacked definitions in the Free Dictionary API) led to a poor user experience. To address these issues, words were moved to local JSON files, which also eliminated the need for a blacklist of forbidden words.
 
-# Features
+# Current Features
 
 ## Header Section
 
@@ -200,13 +202,17 @@ This section shows the definitions of any words that were used in the grid. The 
 
 **[IMAGE GOES HERE]**
 
-Since these definitions are fetched from a separate API, sometimes these definitions cannot be found - if so, a "Definition not found" message will be used in place of the definition.
+Since these definitions are fetched from a third-party API, sometimes these definitions cannot be found - if so, a "Definition not found" message will be used in place of the definition.
 
 Sometimes links to audio clips (of word pronounciations) are included - if so, a circle-play button appears next to the word which includes hover effects (to show that it is clickable). The audio clip will play when the user clicks the button.
 
 This section is only visible at the end of the game - it is hidden on initial page load and during game play.
 
 ***NOTE:*** *This section is initially assigned a class called .hidden which removes it from the DOM and hides it from screen readers until the game ends. When the game ends, the .hidden class is removed from this section causing the definitions to be shown. The .hidden class is reassigned when a new game begins to hide it again.*
+
+## Footer
+
+The footer sits at the bottom of the page and includes a link to the GitHub repository. The GitHub icon matches the styling of other hyperlinks and shares the same hover effects so that users recognise it as a clickable element.
 
 ## Instructions Modal
 
@@ -241,3 +247,24 @@ All hyperlinks on the webpage are styled consistently using the same colour and 
 This modal is designed for showing significant notifications to the user and is dynamic by nature (allowing the title and message to be set at runtime). It is currently used for showing when an error occurs (e.g. when an API request fails).
 
 The styling is very similar to the instructions modal but these modals have a smaller maximum width of 480px.
+
+# Possible Future Features
+
+Here are some possible features which would further enhance the user experience:
+1. Use localStorage to:
+    - flag whether a user is a first-time visitor (so can prompt them to read the instructions and learn about the game)
+    - save user preferences about colour theme (so can automatically turn dark-mode on for users who prefer this theme) 
+2. Add animations at the end of the game to reward users who complete the grid successfully
+    - these would be subtle and short (to prevent users becoming irritated by them)
+    - perhaps the animations would involve cycling through the grid cells and enlarging them
+3. Improve the design of the end of game messages
+    - perhaps replace the text with an image and include a zoom animation
+4. Restore scroll and swipe behaviours on grid cells at the end of the game
+    - currently all default events have been removed from grid cells to allow for better control of the drag and drop behaviours during game play
+5. Expand the word banks
+    - this would allow for greater variation between games but could potentially have a negative effect on the time taken to generate the grid of words
+6. Check all words in the word banks are included as entries in the dictionary API
+    -  this would ensure that the "No definition found" message is not displayed to the user
+7. Use more obscure words when the difficulty level is set to "Hard"
+    - this would require addtional JSON files for storing these words
+    - it is more likely that these words would not be found when using the dictionary API
