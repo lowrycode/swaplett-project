@@ -268,3 +268,65 @@ Here are some possible features which would further enhance the user experience:
 7. Use more obscure words when the difficulty level is set to "Hard"
     - this would require addtional JSON files for storing these words
     - it is more likely that these words would not be found when using the dictionary API
+
+# JavaScript Code
+
+Since the aim of this project was to build an interactive website using JavaScript, this section gives special consideration to the JavaScript code itself. In the [**Project Planning**](project_planning.md) document I summarised my goals in demonstrating best coding practices with regards to *readability*, *maintainability* and *logic* so we will structure the discussion using these categories.
+
+## Readability
+
+The code follows standard JavaScript conventions. For example:
+- **Variables and Functions:** have **meaningful names** and are written in **camelCase** (e.g. newGame(), wordLength)
+- **Constants:** written in UPPER_CASE (e.g. MIN_WORD_LENGTH, MAX_WORD_LENGTH)
+- **Code Indentation:** for easily reading code blocks (4 spaces used consistently)
+- **Semicolons:** used consistently (as verified by JSHint)
+- **Template Literals:** using back-ticks with `${placeholder}` instead of string concatenations
+- **Comments:** used to organise and explain code
+- **JSDocs:** used to document all main functions and helper functions
+
+These features ensure that the code is easily understood by other Javascript developers and allows for better collaboration.
+
+HAVE YOU USED ARRAY DESTRUCTURING
+
+## Maintainability
+
+### Separation of Concerns
+
+The way the project is structured ensures that there is a good separation of concerns:
+- The main HTML file (index.html) deals with the content and structure of the page.
+- All css styling rules are written in an external stylesheet (style.css) rather than embedded within style tags within the header of the HTML file.
+- All JavaScript functionality is written in an external js file (script.js) rather than embedded within script tags within the body of the HTML file.
+
+Event listeners are defined within the JavaScript file (rather than with inline event attributes like "onclick").
+
+When JavaScript is used to modify the styling and visibility of elements, it typically does so by adding or removing classes. This approach ensures that styling rules remain exclusively in the stylesheet, maintaining a clean separation between behaviour and presentation. However, when creating the grid cells in the **createGridCell** function, JavaScript is allowed to specify the heights and widths of these elements. This is necessary because the grid dimensions depend on the size chosen by the user, and these values must be calculated dynamically rather than predefined in the stylesheet.
+
+### Code Reusability
+
+There is also a logical separation of functionalities with each function focusing on a single task. This is known as the **Single Responsibility Principle** and ensures that the code is modular and reusable (following the *DRY principle*).
+
+For example, the **makeSwap** function is called whenever a user makes a valid swap on the grid. This function involves carrying out a number of procedures but rather than incorporating all of them directly within this function, each procedure is abstracted into its own helper function:
+- **updateGridArr:** This function updates the array which stores the letters at each location in the grid.
+- **updateGridCellContents:** This function updates the page display to show the new positions of letters within the grid.
+- **setGridCellClassNames:** This function ensures that each grid cell has the relevant classes assigned (.draggable, .green, .yellow) as dictated by the position of the letter in the grid. *This function is called for both the dragged cell and the target cell and is also used by the ***drawGrid*** function when initially setting up a new game.*
+- **processResolvedGridCells:** This function checks if a grid cell is resolved (i.e. the letter is in the correct position) and, if so, removes drag events from the cell and removes its coordinates from the unresolvedGridCells set. *This function is called for both the dragged cell and the target cell separately.*
+- **endGame:** This function is conditionally called if the game has ended and handles multiple procedures.
+
+Structuring the code in this way ensures that it is easy to understand, modify and test.
+
+### Code Extensibility
+
+The code was also written with extensibility in mind. For example, the HTML structure of the modals is consistent and uses the same class names. This means that the same styling rules can be applied to existing modals and any others added in the future. It also has the benefit that JavaScript can target all of the modal close buttons and apply the same event listener to all of them, even ones added in the future.
+
+```javascript
+const closeButtons = document.getElementsByClassName("btn-close-modal");
+for (let btn of closeButtons) {
+    btn.addEventListener("click", (e) => {
+        let modalElement = e.target.closest(".modal-overlay");
+        modalElement.classList.add("hidden");
+    });
+}
+```
+
+This approach ensures that there is minimal disruption to the code when new features are added.
+
