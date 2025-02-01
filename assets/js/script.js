@@ -837,7 +837,7 @@ function resetVisibility() {
 }
 
 /**
- * This function is called by the drawGrid function. It sets the class names for a grid cell element 
+ * This function is called by the drawGrid and makeSwap functions. It sets the class names for a grid cell element 
  * based on whether the letter it contains is in the:
  * - correct position (.green)
  * - correct row or column (.yellow .dragabble),
