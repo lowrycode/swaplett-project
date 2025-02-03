@@ -299,8 +299,8 @@ These features ensure that the code is easily understood by other Javascript dev
 
 The way the project is structured ensures that there is a good separation of concerns:
 - The main HTML file (**index.html**) deals with the content and structure of the page.
-- All css styling rules are written in an external stylesheet (**style.css**) rather than embedded within style tags within the header of the HTML file.
-- All JavaScript functionality is written in an external js file (**script.js**) rather than embedded within script tags within the body of the HTML file.
+- All css styling rules are written in an external stylesheet (**style.css**) rather than embedded within `style` tags within the header of the HTML file.
+- All JavaScript functionality is written in an external js file (**script.js**) rather than embedded within `script` tags within the body of the HTML file.
 
 Event listeners are defined within the JavaScript file (rather than with inline event attributes like `onclick`).
 
@@ -313,8 +313,8 @@ There is also a logical separation of functionalities with each function focusin
 For example, the `makeSwap` function is called whenever a user makes a valid swap on the grid. This function involves carrying out a number of procedures but rather than incorporating all of them directly within this function, each procedure is abstracted into its own helper function:
 - **`updateGridArr`:** This function updates the array which stores the letters at each location in the grid.
 - **`updateGridCellContents`:** This function updates the page display to show the new positions of letters within the grid.
-- **`setGridCellClassNames`:** This function ensures that each grid cell has the relevant classes assigned (.draggable, .green, .yellow) as dictated by the position of the letter in the grid. *This function is called for both the dragged cell and the target cell and is also used by the `drawGrid` function when initially setting up a new game.*
-- **`processResolvedGridCells`:** This function checks if a grid cell is resolved (i.e. the letter is in the correct position) and, if so, removes drag events from the cell and removes its coordinates from the `unresolvedGridCells` set. *This function is called for both the dragged cell and the target cell separately.*
+- **`setGridCellClassNames`:** This function ensures that each grid cell has the relevant classes assigned (`.draggable`, `.green`, `.yellow`) as dictated by the position of the letter in the grid. *This function is called for both the dragged cell and the target cell and is also used by the `drawGrid` function when initially setting up a new game.*
+- **`processResolvedGridCells`:** This function checks if a grid cell is resolved (i.e. the letter is in the correct position) and, if so, removes drag events from the cell and removes its coordinates from the `unresolvedGridCells` `set`. *This function is called for both the dragged cell and the target cell separately.*
 - **`endGame`:** This function is conditionally called if the game has ended and handles multiple procedures that are called at the end of the game.
 
 Structuring the code in this way ensures that it is easy to understand, modify and test.
@@ -351,12 +351,12 @@ This project used the more robust and modern approach which is to define variabl
 
 When doing logical comparisons, strict equality (`===` or `!==`) was used in preference to loose equality (`==` and `!=`) since loose equality allows implicit type coercion and is harder to debug. 
 
-When type conversion is required, a better approach is to handle the type conversion manually to ensure clarity and avoid unexpected behaviour. This was required in the following cases:
-- converting data from form inputs (from text to numbers)
+When type conversion is required, a better approach is to handle the type conversion manually to ensure clarity and avoid unexpected behaviour. This was needed in the following cases:
+- when converting data from form inputs (from text to numbers)
 ```js
 const wordLength = parseInt(document.getElementById("grid-select").value);
 ```
-- converting data from element attributes (e.g. when getting the row number of a grid cell)
+- when converting data from element attributes (e.g. when getting the row number of a grid cell)
 ```js
 let r1 = parseInt(draggedElement.getAttribute("data-row"));
 ```
