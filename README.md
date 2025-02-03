@@ -330,3 +330,54 @@ for (let btn of closeButtons) {
 
 This approach ensures that there is minimal disruption to the code when new features are added.
 
+### Minimising Bugs
+
+To make the code more robust and easier to debug, a number of best practices were adopted.
+
+**1. Variables defined in block scope**
+
+Older Javascript code used the **var** keyword when defining variables. This approach to defining variables is more error prone because the variable is function scoped and accessible throughout the whole function in which it is declared. The variable could be accidentally re-declared and modified later in the function. Global variables were also avoided for similar reasons.
+
+This project used the more robust and modern approach which is to define variables in block scope using the **let** and **const** key words. This prevents bugs caused by accidentally re-declaring variables later in the code. Using **const** for variables that should remain unchanged within the block also helps to catch bugs caused when changing the values of these variables.
+
+***NOTE:*** *variables which are not defined using one of the three declaration words above become global variables by default. Therefore, the code was checked using the JSHint website to ensure that all variables were exlicitly defined.*
+
+**2. Strict Equality and Type Coercion**
+
+When doing logical comparisons, strict equality (`===` or `!==`) was used in preference to loose equality (`==` and `!=`) since loose equality allows implicit type coercion and is harder to debug. 
+
+When type conversion is required, a better approach is to handle the type conversion manually to ensure clarity and avoid unexpected behaviour. This was required in the following cases:
+- converting data from form inputs (from text to numbers)
+```js
+const wordLength = parseInt(document.getElementById("grid-select").value);
+```
+- converting data from element attributes (e.g. when getting the row number of a grid cell)
+```js
+let r1 = parseInt(draggedElement.getAttribute("data-row"));
+```
+
+**3. Avoiding Deep Nesting**
+
+Code that involves deeply nested logic is difficult to read and debug so this was avoided using logical operators to check multiple conditions at the top level.
+
+For example, in the jumbleGridArr function, multiple `&&` operators are used to check criteria within a while loop as follows:
+
+```js
+// Check swap is valid
+if (jumbledGridArr[r1][c1] !== null &&
+    jumbledGridArr[r2][c2] !== null &&
+    jumbledGridArr[r1][c1] !== jumbledGridArr[r2][c2] &&
+    jumbledGridArr[r1][c1] !== gridArr[r2][c2] &&
+    jumbledGridArr[r2][c2] !== gridArr[r1][c1]
+) {
+    // Make the swap
+    ...
+}
+```
+
+For asynchronous operations, using promises with `.then` can sometimes lead to deeply nested `.then` chains. This was avoided by using `async/await` instead.
+
+**4. Error Handling**
+
+When errors occur in helper functions, they are thrown to the caller function and handled at a higher level. This approach ensures that error messages displayed to the end user are managed efficiently, reducing code repetition and maintaining a clear separation between error detection and user-facing error handling.
+
