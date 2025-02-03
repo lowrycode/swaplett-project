@@ -16,7 +16,7 @@ The [**Project Planning**](project_planning.md) document outlines my personal go
 
 ## Responsive Design
 
-The website was developed using a mobile-first approach, ensuring an optimized experience for mobile users before adapting to larger screens. This applies to functionality (e.g. touch events for dragging letters across the grid), layout (using Flexbox), and sizing (using relative units like `rem`, `%`, and `vh`). The custom `.container` class, combined with media queries, keeps content centered and prevents it from stretching too wide on larger screens.
+The website was developed using a mobile-first approach, ensuring an optimized experience for mobile users before adapting to larger screens. This applies to functionality (e.g. touch events for dragging letters across the grid), layout (using `Flexbox`), and sizing (using relative units like `rem`, `%`, and `vh`). The custom `.container` class, combined with media queries, keeps content centered and prevents it from stretching too wide on larger screens.
 
 Wireframes were produced using <a href="https://balsamiq.com/" target="_blank" rel="noopener">**Balsamiq**</a> at the earliest stages of planning to ensure an effective layout across different devices.
 
@@ -83,9 +83,9 @@ Pressing the switch causes a smooth transition to the other colour theme. The co
 
 ### Swaplett Game Logo
 
-The logo in the centre of the header is for improving the aesthetics of the page and is not interactive.
+The logo in the centre of the header is for improving the aesthetics of the page and is not interactive. The colour theme ensures a good colour contrast when using both light mode and dark mode. A png file format was chosen to allow for a transparent background.
 
-A png file format was chosen to allow for a transparent background.
+![Game logo shown for both light mode and dark mode](readme-images/game-logo.jpg)
 
 ### Icon To Open Instructions Modal
 
@@ -103,7 +103,7 @@ When the buttons are in focus, an outline is shown around them to support users 
 
 The Game Settings section appears directly underneath the header and remains visible throughout the game. It includes two `select` inputs and a `button`. All three elements have identical dimensions (width and height) and are dynamically positioned using `flexbox`.
 
-**[IMAGE GOES HERE]**
+![Game Settings section shown for both light mode and dark modes and responsive layout on smaller screens](readme-images/game-settings.jpg)
 
 The two `select` boxes have identical styles and behaviours (e.g. hover effects) and each have an associated `label` (included for semantic reasons as they benefit screen readers) although these are not visible on the screen.
 
@@ -140,15 +140,14 @@ Clicking this button starts a new game by:
 3. **Adding event handlers to the grid cells**
     - these relate to the drag-and-drop functionality
 
-***NOTE:*** *if the random words cannot be fetched from the JSON file (e.g. no internet connection), an alert message is displayed to the uservia the alert modal.*
-
-![Alert modal displayed on failure to fetch random words](readme-images/error-fetching-random-words-alert.jpg)
+***NOTE:*** *if the random words cannot be fetched from the JSON file (e.g. no internet connection), an alert message is displayed to the user via the alert modal.*
 
 ## Game Board Section and Game Functionality
 
 On initial page load, the game board section displays the message: *"Choose your settings, then click the NEW GAME button above"*. When the New Game button is clicked, this text briefly changes to *"Generating board..."* while the grid is being created. Once the grid is ready (usually almost instantly, but sometimes within a couple of seconds) it replaces the message.
 
-**[IMAGE GOES HERE]**
+![Game board section for both colour schemes and multiple grid sizes](readme-images/game-board.jpg)
+
 
 The grid cells contain the letters from the words in the grid and have one of 3 background colours:
 - **GREEN** -  this indicates that the letter is in the correct position. The grid cell will not be draggable and lacks any hover effects (indicating that users cannot interact with this grid cell). 
@@ -177,7 +176,7 @@ If the game has ended (due to all grid cells being green or no more swaps remain
 
 This section shows the count of how many swaps are remaining. Every game allows the user a maximum of 15 swaps to complete the grid. The count is updated (decreased by 1) after every swap.
 
-**[IMAGE GOES HERE]**
+![Remaining Swaps section for both colour schemes](readme-images/remaining-swaps.jpg)
 
 ***NOTE:*** *if a swap is not valid (e.g. when a user attempts to swap two grid cells which contain the same letter), the count of remaining swaps is not decremented for that attempt.*
 
@@ -190,19 +189,21 @@ This section is only visible during game play - it is hidden on initial page loa
 
 This section shows the relevant win or lose message at the end of the game.
 
-**[IMAGE GOES HERE]**
+![Game End section for both colour schemes and both win/lose messages](readme-images/game-end.jpg)
 
 This section is only visible at the end of the game - it is hidden on initial page load and during game play.
 
 ***NOTE:*** *This section is initially assigned a class called `.hidden` (along with the child sections for win and lose messages) which removes them from the DOM and hides them from screen readers until the game ends. When the game ends, the `.hidden` class is removed from this section and the relevant child section (win or lose section) causing the message to be shown. The `.hidden` class is reassigned when a new game begins.*
 
+If the user only had 1 swap remaining, the win message displays the correct grammar by writing **swap** (singular) rather than **swaps** (plural).
+
 ## Definitions Section
 
 This section shows the definitions of any words that were used in the grid. The HTML for this section is generated dynamically.
 
-**[IMAGE GOES HERE]**
+![Definitions section for both colour schemes](readme-images/definitions.jpg)
 
-Since these definitions are fetched from a third-party API, sometimes these definitions cannot be found - if so, a "Definition not found" message will be used in place of the definition.
+Since these definitions are fetched from a third-party API, sometimes these definitions cannot be found - if so, a "No definition found" message will be displayed.
 
 Sometimes links to audio clips (of word pronounciations) are included - if so, a circle-play button appears next to the word which includes hover effects (to show that it is clickable). The audio clip will play when the user clicks the button.
 
@@ -214,6 +215,8 @@ This section is only visible at the end of the game - it is hidden on initial pa
 
 The footer sits at the bottom of the page and includes a link to the GitHub repository. The GitHub icon matches the styling of other hyperlinks and shares the same hover effects so that users recognise it as a clickable element.
 
+![Footer section for both colour schemes](readme-images/footer.jpg)
+
 ## Instructions Modal
 
 As discussed [previously](#icon-to-open-instructions-modal), the instructions modal can be opened by clicking on the `btn-show-instructions` button (the circle-question-mark icon) in the top right corner of the page.
@@ -223,6 +226,8 @@ The modal consists of:
 - the main dialogue box (which sits above the overlay)
 
 On smaller screens, the dialogue box takes nearly the full width of the screen but on larger screens it is centred with a maximum width of 700px.
+
+![Instructions modal for both colour schemes and at different screen sizes](readme-images/instructions-modal-full.jpg)
 
 ### Modal Header
 
@@ -245,6 +250,8 @@ All hyperlinks on the webpage are styled consistently using the same colour and 
 ## Alert Modal
 
 This modal is designed for showing significant notifications to the user and is dynamic by nature (allowing the title and message to be set at runtime). It is currently used for showing when an error occurs (e.g. when an API request fails).
+
+![Alert modal displayed on failure to fetch random words](readme-images/error-fetching-random-words-alert.jpg)
 
 The styling is very similar to the instructions modal but these modals have a smaller maximum width of 480px.
 
