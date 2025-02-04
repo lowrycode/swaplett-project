@@ -358,23 +358,23 @@ async function newGame() {
  * @param {string[]} gridWords - The array of words that is being being built recursively.
  * @param {number[][]} criteria - Constraints defining relationships between grid words.
  * @param {Set<string>} [usedWords=new Set()] - A set of words already being used in the gridWords array.
- * @param {number} [i=0] - The current index in the gridWords array being processed.
+ * @param {number} [wordIndex=0] - The current index in the gridWords array being processed.
  * @returns {{data: string[], success: boolean}} The updated gridWords array and a success flag.
  */
-function assignGridWords(words, gridWords, criteria, usedWords = new Set(), i = 0) {
-    if (i >= gridWords.length) return { data: gridWords, success: true };  // gridWords complete
+function assignGridWords(words, gridWords, criteria, usedWords = new Set(), wordIndex = 0) {
+    if (wordIndex >= gridWords.length) return { data: gridWords, success: true };  // gridWords complete
     for (let word of words) {
         if (usedWords.has(word)) continue;
         // Add word
-        gridWords[i] = word;
+        gridWords[wordIndex] = word;
         usedWords.add(word);
-        if (matchesCriteria(i, gridWords, criteria)) {
+        if (matchesCriteria(wordIndex, gridWords, criteria)) {
             // Recursive call
-            const response = assignGridWords(words, gridWords, criteria, usedWords, i + 1);
+            const response = assignGridWords(words, gridWords, criteria, usedWords, wordIndex + 1);
             if (response.success) return response;
         }
         // Backtrack
-        gridWords[i] = null;
+        gridWords[wordIndex] = null;
         usedWords.delete(word);
     }
     return { data: gridWords, success: false };
