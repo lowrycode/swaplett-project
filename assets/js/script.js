@@ -362,21 +362,31 @@ async function newGame() {
  * @returns {{data: string[], success: boolean}} The updated gridWords array and a success flag.
  */
 function assignGridWords(words, gridWords, criteria, usedWords = new Set(), wordIndex = 0) {
-    if (wordIndex >= gridWords.length) return { data: gridWords, success: true };  // gridWords complete
+    // Base case
+    if (wordIndex >= gridWords.length) return { data: gridWords, success: true };
+
+    // Recursive backtracking
     for (let word of words) {
+        // Check word is not already used
         if (usedWords.has(word)) continue;
-        // Add word
+        
+        // Provisionally add word
         gridWords[wordIndex] = word;
         usedWords.add(word);
+        
+        // Check word against criteria
         if (matchesCriteria(wordIndex, gridWords, criteria)) {
             // Recursive call
             const response = assignGridWords(words, gridWords, criteria, usedWords, wordIndex + 1);
             if (response.success) return response;
         }
+
         // Backtrack
         gridWords[wordIndex] = null;
         usedWords.delete(word);
     }
+
+    // If reaches here, no valid word found for this position
     return { data: gridWords, success: false };
 }
 
