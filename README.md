@@ -698,26 +698,3 @@ If all of these conditions are met, the current state of gridWords has failed to
 
 If after iterating through all the criteria the function has not already been terminated, this means that the current state of `gridArray` has passed all the criteria checks and the function returns with a value of `true`.
 
-
-
-
-
-
-### Generating the Word Grid Using a Recursive Depth First Search
-
-As mentioned above, the `assignGridWords` function is responsible for choosing a specified number of words (from the randomly shuffled word array) and assigning them to the grid. which meet the criteria for a given grid size 
-
-
-
-
-
-
-
-### Carefully Chosen Data Structures
-
-To ensure the
-
-Key optimizations include:
-
-
-
