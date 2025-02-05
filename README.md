@@ -51,6 +51,10 @@ The **Nunito** font (with a sans-serif fallback) was used throughout the website
 
 The game logo uses a font called **Carter One** and was designed using <a href="https://www.canva.com/" target="_blank" rel="noopener">**Canva**</a> and then edited using <a href="https://www.gimp.org/" target="_blank" rel="noopener">**GIMP**</a>.
 
+![Game logo shown for both light mode and dark mode](readme-images/game-logo.jpg)
+
+The colour theme ensures a good colour contrast when using both light mode and dark mode. A png file format was chosen to allow for a transparent background.
+
 ## User Interaction Design
 
 The following features aim to ensure an enjoyable user experience when interacting with the site:
@@ -132,9 +136,7 @@ Pressing the switch causes a smooth transition to the other colour theme. The co
 
 ### Swaplett Game Logo
 
-The logo in the centre of the header is for improving the aesthetics of the page and is not interactive. The colour theme ensures a good colour contrast when using both light mode and dark mode. A png file format was chosen to allow for a transparent background.
-
-![Game logo shown for both light mode and dark mode](readme-images/game-logo.jpg)
+The logo in the centre of the header is for improving the aesthetics of the page and is not interactive.
 
 ### Icon To Open Instructions Modal
 
