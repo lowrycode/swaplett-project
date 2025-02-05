@@ -97,7 +97,7 @@ h2 {
 Code taken from https://gomakethings.com/revisting-aria-label-versus-a-visually-hidden-class/ */
 .visually-hidden {
     border: 0;
-    clip: rect(0 0 0 0);
+    clip: rect(0, 0, 0, 0);
     height: 1px;
     overflow: hidden;
     padding: 0;
