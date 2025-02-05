@@ -15,7 +15,7 @@
     --grid-cell-green: #7adb65;
     --grid-cell-yellow: #eeda43;
     --grid-text: #3f3f3f;
-    --win-green: green;
+    --win-green: #008000;
     --lose-red: #a02020;
     --highlight-primary: #1e5487;
     --highlight-secondary: #2c77bd;
@@ -36,13 +36,12 @@
     --body-bg: #151515;
     --body-text: #dbdbdb;
     --footer-bg: #3f3f3f;
-    --footer-text: #ffffff;
-    --game-board-text: #a0a0a0;
+    --footer-text: #f6f6f6;
     --grid-cell-grey: #3a3a3c;
     --grid-cell-green: #528d4d;
     --grid-cell-yellow: #b59e3a;
     --grid-text: #d5d5d5;
-    --win-green: rgb(3, 188, 3);
+    --win-green: #03bc03;
     --lose-red: #c12525;
     --highlight-primary: #6aa9e5;
     --modal-body-bg: #272727;
@@ -470,7 +469,7 @@ main {
     justify-content: center;
     align-items: center;
     background-color: var(--modal-header-bg);
-    color: #f0f0f0;
+    color: #f6f6f6;
     z-index: 2;
 }
 
@@ -492,7 +491,7 @@ main {
 }
 
 .btn-close-modal:hover {
-    color: #f0f0f0;
+    color: #f6f6f6;
     cursor: pointer;
 }
 
@@ -533,7 +532,7 @@ main {
 
 .modal-footer {
     background-color: var(--modal-footer-bg);
-    color: #f0f0f0;
+    color: #f6f6f6;
     margin-top: 1.5rem;
 }
 
