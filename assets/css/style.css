@@ -10,7 +10,7 @@
     --body-text: #2d2d2d;
     --footer-bg: #1f1f1f;
     --footer-text: #f6f6f6;
-    --game-board-text: #a0a0a0;
+    --game-board-text: #757575;
     --grid-cell-grey: #c8c8c8;
     --grid-cell-green: #7adb65;
     --grid-cell-yellow: #eeda43;
@@ -37,6 +37,7 @@
     --body-text: #dbdbdb;
     --footer-bg: #3f3f3f;
     --footer-text: #f6f6f6;
+    --game-board-text: #a0a0a0;
     --grid-cell-grey: #3a3a3c;
     --grid-cell-green: #528d4d;
     --grid-cell-yellow: #b59e3a;
