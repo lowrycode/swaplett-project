@@ -29,6 +29,28 @@ Wireframes were produced using <a href="https://balsamiq.com/" target="_blank" r
 
 During development, the decision was made to give the header the same background colour as the main body as this was judged to create a more seamless and cohesive page design.
 
+## Visual Design
+
+### Colour Palette
+
+Colours were selected for good visual contrast. Common conventions were followed (e.g. green is associated with correct, red is associated with incorrect, etc.).
+
+The user can choose between two different colour themes. The colour palette of each theme is shown below.
+
+![Colour palette for light theme](readme-images/colour-palette-light.jpg)
+![Colour palette for dark theme](readme-images/colour-palette-dark.jpg)
+
+### Typography
+
+The **Nunito** font (with a sans-serif fallback) was used throughout the website page due to
+- its casual game-like feel
+- its versatility (with a wide range of font weights)
+- being easy to read.
+
+### Game Logo Design
+
+The game logo uses a font called **Carter One** and was designed using <a href="https://www.canva.com/" target="_blank" rel="noopener">**Canva**</a> and then edited using <a href="https://www.gimp.org/" target="_blank" rel="noopener">**GIMP**</a>.
+
 ## User Interaction Design
 
 The following features aim to ensure an enjoyable user experience when interacting with the site:
