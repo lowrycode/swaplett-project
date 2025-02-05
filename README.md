@@ -114,7 +114,7 @@ This approach led to a noticable reduction in the time taken to retrieve the def
 
 **3. Randomising Arrays Using Fisher-Yates (Knuth) Shuffle Algorithm**
 
-This is a well known and very efficient algorithm for shuffling arrays. It is discussed in detail in the [JavaScript Logic section](#logic) later on.
+This is a well known and very efficient algorithm for shuffling arrays. It is discussed in more detail in the [JavaScript Logic section](#logic) below.
 
 # Current Features
 
@@ -722,3 +722,37 @@ If all of these conditions are met, the current state of gridWords has failed to
 
 If after iterating through all the criteria the function has not already been terminated, this means that the current state of `gridArray` has passed all the criteria checks and the function returns with a value of `true`.
 
+
+
+
+# Deployment
+
+The website was deployed using **Github Pages** in the early stages of development to allow for testing on multiple devices.
+
+The following steps were taken to deploy the website using Github Pages:
+1. Within the Github repository, click on **Settings** in the top navigation bar
+2. Choose **Pages** in the left navigation menu
+3. In the Source section, choose **Deploy from a branch**
+4. In the branch section, choose **main** (or whichever branch you wish to deploy) and click **Save**
+
+![Steps to deploy the website](readme-images/deployment.jpg)
+
+# Forking and Cloning
+
+**Forking** refers to making a copy of the repository in your own Github account.
+
+To fork this repository:
+1. Log in to your Github account
+2. Navigate to the repository page, click the caret (down arrow) next to the fork button and choose **Create a new fork**.
+
+![Steps to fork the repository](readme-images/fork.jpg)
+
+**Cloning** a repository refers to making a copy on your local machine and is typically done after forking.
+
+To clone the repository (assuming you already have git installed on your machine):
+1. Navigate to the repository page, click on the **Code** button, ensure the **HTTPS** tab is selected in the dropdown and copy the url
+2. On your local machine, create the directory for the cloned repository
+3. Open up a terminal window (e.g. **Git Bash** or **Command Prompt** on windows) and navigate to the new directory
+4. Type **git clone [url]** (replacing [url] with the url address from step 1) and press Enter
+
+![Steps to clone the repository](readme-images/clone.jpg)
