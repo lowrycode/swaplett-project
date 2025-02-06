@@ -59,11 +59,50 @@ The colour theme ensures a good colour contrast when using both light mode and d
 
 The following features aim to ensure an enjoyable user experience when interacting with the site:
 
-- **Intuitive Design** - icons use standard conventions (e.g. a toggle switch for dark-mode, a question mark icon for instructions), "X" button for closing modals (positioned in top right), placeholder instructions on game-board (shown on initial page load)
-- **Text Legibility** - legible font (sans-serif), suitable text size and spacing, good colour contrast between text and background
-- **Consistent Style** - similar elements look and behave in a similar way (e.g. colour themes for clickable buttons, hyperlinked text, select boxes, modals)
-- **User Feedback** - hover effects (e.g. colour changes, tooltips, mouse cursor changes) to show interactive elements, in-game feedback (colour of grid cells, count of remaining swaps), end of game feedback (win / lose message displayed), elements in focus show outline (e.g. when using tab key to cycle through elements)
-- **Transition Effects** - Smooth transitions for hover events and toggling dark mode colour theme
+### 1. Intuitive Design
+
+The website makes use of standard conventions. For example:
+- A toggle switch is used to allow the user to toggle between light mode and dark mode
+- A question mark icon is used to show users where they can "get help" by viewing the instructions
+- Buttons for closing modals are indicated using an "X" and are positioned in top right corner of the  modal
+
+On initial page load, the game-board section shows some placeholder instructions to prompt users.
+
+### 2. Text Legibility
+
+The website uses a highly legible sans-serif font with suitable font sizes and spacing to ensure that all text is easy to read.
+
+There is a good colour contrast between text and background to ensure good accessibility.
+
+### 3. Consistent Style
+
+Similar elements look and behave in a similar way. For example
+- all clickable buttons have a consistent (blue) colour theme with similar hover effects
+- all hyperlinked text has the same (light blue) colour theme with similar hover effects
+- select boxes have the same colour theme
+- all modals have the same colour scheme and are closed in a similar way
+
+### 4. User Feedback
+
+Interactive elements have hover effects to show that they are clickable. These involve:
+- changes to background or text colour
+- tooltips to show what various buttons do
+- mouse cursor changes to a pointer for elements that can be clicked or dragged
+
+Users are given in-game feedback through:
+- the colours of grid cells (which give information about the positions of letters)
+- the real-time positions of cells being dragged (and the transparency effects that show it is being dragged)
+- the display of how many swaps are remaining
+
+Users are given end-of-game feedback through
+- a win or lose message
+- the win message states how many swaps they still had remaining
+
+For users who are navigating elements on the website using the tab key, the element in focus shows an outline around it.
+
+### 5. Transition Effects
+
+There are smooth transition effects for hover events and when toggling between colour themes. These further enhance the user experience.
 
 ## Accessibility
 
