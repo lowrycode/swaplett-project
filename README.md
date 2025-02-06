@@ -150,9 +150,11 @@ This approach led to a noticable reduction in the time taken to retrieve the def
 (a) ***it avoids sending unnecessary requests to the API***: *if the user abandons the game early, there was no need to make the request*
 (b) ***it allows for better error handling***: *the user could still play the game even if the definitions could not be retrieved after the game has ended*
 
-**3. Randomising Arrays Using Fisher-Yates (Knuth) Shuffle Algorithm**
+**3. Adding Elements to the DOM Using `document.createDocumentFragment`**
 
-This is a well known and very efficient algorithm for shuffling arrays. It is discussed in more detail in the [JavaScript Logic section](#logic) below.
+The `drawGrid` function is responsible for rendering the dynamically generated grid on the page. Appending multiple elements to the DOM one by one can cause multiple reflows and repaints (leading to performance issues).
+
+A more efficient approach is to use a `DocumentFragment`, which exists in memory and does not trigger layout recalculations when modified. This improves performance by ensuring that only a single reflow occurs when the fragment is inserted into the DOM, rather than after each individual modification.
 
 # Current Features
 
