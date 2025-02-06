@@ -134,7 +134,7 @@ In order to quickly determine when a user has successfully completed the grid, a
 
 **2. Parallel Asynchronous Requests Using `Promise.all`**
 
-At the end of the game, the `fetchDefinitionsArr` function is called to fetch the definitions (and other word info) from the (<a href="https://dictionaryapi.dev/" target="_blank" rel="noopener">**Free Dictionary API**</a>) for each of the words used in the game. During the early stages of development, each of these requests were made in sequence using `async/await`. This led to a noticeable bottleneck where the code was waiting for the API to respond before sending the next request.
+At the end of the game, the `fetchDefinitionsArr` function is called to fetch the definitions (and links to audio pronounciation clips) from the (<a href="https://dictionaryapi.dev/" target="_blank" rel="noopener">**Free Dictionary API**</a>) for each of the words used in the game. During the early stages of development, each request was made sequentially using `async/await`. This led to a noticeable bottleneck since the code was waiting for the API to respond before sending the next request.
 
 This issue was resolved by using the `Promise.all` method, which sends the requests in parallel and returns a single promise that resolves when all of the individual promises have resolved successfully.
 
@@ -347,21 +347,21 @@ The styling is very similar to the instructions modal but these modals have a sm
 # Possible Future Features
 
 Here are some possible features which would further enhance the user experience:
-1. Use `localStorage` to:
+1. **Use `localStorage`** to:
     - flag whether a user is a first-time visitor (so can prompt them to read the instructions and learn about the game)
     - save user preferences about colour theme (so can automatically turn dark-mode on for users who prefer this theme) 
-2. Add animations at the end of the game to reward users who complete the grid successfully
+2. **Add animations at the end of the game to reward users who complete the grid successfully**
     - these would be subtle and short (to prevent users becoming irritated by them)
     - perhaps the animations would involve cycling through the grid cells and enlarging them
-3. Improve the design of the end of game messages
+3. **Improve the design of the end of game messages**
     - perhaps replace the text with an image and include a zoom animation
-4. Restore scroll and swipe behaviours on grid cells at the end of the game
+4. **Restore scroll and swipe behaviours on grid cells at the end of the game**
     - currently all default events have been removed from grid cells to allow for better control of the drag and drop behaviours during game play
-5. Expand the word banks
+5. **Expand the word banks**
     - this would allow for greater variation between games but could potentially have a negative effect on the time taken to generate the grid of words
-6. Check all words in the word banks are included as entries in the dictionary API
+6. **Check all words in the word banks are included as entries in the dictionary API**
     -  this would ensure that the "No definition found" message is not displayed to the user
-7. Use more obscure words when the difficulty level is set to "Hard"
+7. **Use more obscure words when the difficulty level is set to "Hard"**
     - this would require addtional JSON files for storing these words
     - it is more likely that these words would not be found when using the dictionary API
 
