@@ -861,7 +861,7 @@ The JavaScript code was validated using <a href="https://jshint.com/" target="_b
 
 ![JavaScript validation message from JSHint](readme-images/js-validator.jpg)
 
-The warnings about async functions were ignored since this is the modern approach for handling asynchronous logic. The undefined `structuredClone` warning was ignored because this is a modern approach for making a deep copy of a nested object or array. The `playAudio` function is not infact an unused variable because when the definitions section is written dynamically, an onclick event is attached to the audio buttons when they are generated. These events reference the playAudio function. 
+The warnings about async functions were ignored since this is the modern approach for handling asynchronous logic. The undefined `structuredClone` warning was ignored because this is a modern approach for making a deep copy of a nested object or array. The `playAudio` function is not in fact an unused variable because when the definitions section is written dynamically, an onclick event is attached to the audio buttons when they are generated. These events reference the `playAudio` function.
 
 ## Lighthouse Analysis
 
