@@ -819,8 +819,8 @@ function playAudio(audioId) {
 }
 
 /**
- * Processes raw word data fetched from a dictionary API into a structured format. 
- * The function is called from the fetchWordInfo function
+ * Validates raw word data fetched from a dictionary API and processes it into a structured format. 
+ * The function is called from the fetchWordInfo function.
  *
  * @param {string} word - The word being processed.
  * @param {Array<Object>} data - The raw API response containing information about the word. 
@@ -834,20 +834,49 @@ function playAudio(audioId) {
  */
 function processWordData(word, data) {
 
-    // Get audioClipUrl
-    const phonetics = data[0]["phonetics"];
-    const audioClipUrl = getAudioClipUrl(phonetics);
-
     // Initialise wordInfo
-    let wordInfo = { word: word, audioClipUrl: audioClipUrl, meanings: [] };
+    let wordInfo = {
+        word: word,
+        audioClipUrl: "",
+        meanings: []
+    };
 
-    // Get meanings and append data to wordInfo
-    const meanings = data[0]["meanings"];
-    for (let meaning of meanings) {
-        const partOfSpeech = meaning["partOfSpeech"];
-        const definitions = meaning["definitions"];
-        const definition = definitions[0]["definition"];
-        wordInfo["meanings"].push({ partOfSpeech: partOfSpeech, definition: definition });
+    // Define fallbacks
+    const fallbackDefinition = "Definition not specified";
+    const fallbackMeaning = {
+        partOfSpeech: "",
+        definition: fallbackDefinition
+    };
+
+    try {
+        // Validate API response data
+        if (!Array.isArray(data) || data.length === 0 || !data[0]) {
+            throw new Error(`Invalid API response for word: ${word}`);
+        }
+
+        // Validate phonetics and assign audioClipUrl
+        const phonetics = data[0].phonetics || [];
+        const audioClipUrl = getAudioClipUrl(phonetics);
+        wordInfo.audioClipUrl = audioClipUrl;
+
+        // Validate meanings
+        const meanings = data[0].meanings;
+        if (!Array.isArray(meanings) || meanings.length === 0) {
+            throw new Error(`Invalid or empty meanings data in API response for word: ${word}`);
+        }
+
+        // Get meanings and append data to wordInfo
+        for (let meaning of meanings) {
+            const partOfSpeech = meaning["partOfSpeech"] || "";
+            const definitions = meaning["definitions"] || [];
+            const definition = definitions[0]["definition"] || fallbackDefinition;
+            wordInfo["meanings"].push({ partOfSpeech: partOfSpeech, definition: definition });
+        }
+
+    } catch (error) {
+        // Return wordInfo with fallback meanings 
+        wordInfo.meanings.push(fallbackMeaning);
+        return wordInfo;
     }
 
     return wordInfo;
