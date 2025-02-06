@@ -207,9 +207,9 @@ This is used to choose the grid size and therefore the length of the words. It i
 This is used to choose the difficulty level of the game and relates to the number of swaps that are required to complete the grid. Players must always complete the grid within 15 swaps to win the game.
 
 ***NOTE:*** *When the grid of words is initially generated, the completed grid is generated first and then it is jumbled up by making a specified number of random swaps to the position of letters. The difficulty level specifies the number of swaps that are made:*
-*- EASY - 6 swaps*
-*- MEDIUM - 8 swaps*
-*- DIFFICULT - 10 swaps*
+- *EASY - 6 swaps*
+- *MEDIUM - 8 swaps*
+- *DIFFICULT - 10 swaps*
 
 *It is possible that a swap may be undone by a subsequent swap and therefore in reality it is possible to complete the grid in fewer swaps than the numbers specified above.*
 
