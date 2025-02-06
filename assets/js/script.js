@@ -368,11 +368,11 @@ function assignGridWords(words, gridWords, criteria, usedWords = new Set(), word
     for (let word of words) {
         // Check word is not already used
         if (usedWords.has(word)) continue;
-        
+
         // Provisionally add word
         gridWords[wordIndex] = word;
         usedWords.add(word);
-        
+
         // Check word against criteria
         if (matchesCriteria(wordIndex, gridWords, criteria)) {
             // Recursive call
@@ -462,6 +462,12 @@ function drawGrid(gridArr, gridAnswerArr) {
     gameBoard.appendChild(fragment);
 }
 
+/**
+ * Displays an alert modal with a given title and message.
+ *
+ * @param {string} title - The title text to display in the alert modal.
+ * @param {string} msg - The message content to display inside the alert modal.
+ */
 function displayAlert(title, msg) {
     document.getElementById("modal-alert-title").innerText = title;
     document.getElementById("modal-alert-msg").innerHTML = `<p>${msg}</p>`;
@@ -677,6 +683,14 @@ function getGridWordsCriteria(wordLength) {
     }
 }
 
+/**
+ * Returns the number of swaps that will be made when jumbling the grid as part of the 
+ * grid generation process. The number depends on the difficulty level in the game settings.
+ *
+ * @param {string} difficulty - The difficulty level ("easy", "medium", or "hard").
+ * @returns {number} The number of swaps allowed for the given difficulty.
+ * @throws {Error} Throws an error if the difficulty level is unrecognized.
+ */
 function getJumbleSwapNum(difficulty) {
     switch (difficulty.toLowerCase()) {
         case "easy":
@@ -691,6 +705,16 @@ function getJumbleSwapNum(difficulty) {
     }
 }
 
+/**
+ * Initialises the gridWords array as a null filled array with the correct length (i.e. number of items).
+ * 
+ * The gridWords array is later used to store the words that are used in the grid and so the length
+ * of the array depends on the grid size which in turn depends on the word length.
+ *
+ * @param {number} wordLength - The length of the word (must be between 3 and 7).
+ * @returns {Array<null>} An array of `null` values representing the initialised grid.
+ * @throws {Error} Throws an error if an unrecognized word length is provided.
+ */
 function initialiseGridWords(wordLength) {
     switch (wordLength) {
         case 3:
