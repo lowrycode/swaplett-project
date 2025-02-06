@@ -109,12 +109,11 @@ There are smooth transition effects for hover events and when toggling between c
 The webpage is primarily designed for touch screen devices and so draggable elements can be moved using finger swipes. However, mouse drag-and-drop events are also supported for those accessing the website from a laptop / desktop computer.
 
 The following features are included to assist screen readers:
-- **Semantic HTML**
+- **Semantic HTML** - through the use of `header`, `main`, `footer` and `section` tags.
 - **Form labels** - associated with inputs (though these are visibly hidden from the screen)
 - **Alt text** - used to describe images
 - **Aria-labels** - used for buttons, icons and checkboxes (e.g. buttons for playing audio clips or closing modals, checkbox  close modal buttons, dark-mode toggle switch)
 - **Aria-labelledby** - used for identifying the relevant modal (instructions or alert)
-- **Aria-checked** - used on toggle switch to indicate whether dark-mode is activated
 - **Aria-hidden** - for elements that are only used for aesthetics (e.g. icons) or for hidden functionality (e.g. audio elements)
 
 ## Performance
@@ -165,7 +164,7 @@ Users can toggle between light mode and dark mode using the toggle switch in the
 
 ![Comparing light mode and dark mode colour themes](readme-images/light-vs-dark-mode.jpg)
 
-Hovering over the toggle switch causes the background colour to change slightly and a tooltip to appear. An `aria-label` and `aria-checked` attribute is used to assist screen readers.
+Hovering over the toggle switch causes the background colour to change slightly and a tooltip to appear. An `aria-label` attribute is used to assist screen readers.
 
 When the switch is in focus, an outline is shown around the switch. This supports users who cycle to this element using the tab key.
 
