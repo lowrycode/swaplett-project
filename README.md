@@ -178,15 +178,15 @@ The logo in the centre of the header is for improving the aesthetics of the page
 
 ### Icon To Open Instructions Modal
 
-Clicking on the "btn-show-instructions" button in the top right of the screen reveals a modal with written instructions about how to play the game. The modal can be closed again by pressing the "X" button in the top right corner of the modal.
+Clicking on the "show instructions" button in the top right of the screen reveals a modal with written instructions about how to play the game. The modal can be closed again by pressing the "close modal" button in the top right corner of the modal.
 
 ![Instructions modal for both light mode and dark mode](readme-images/instructions-modal.jpg)
 
-Hovering over both the "btn-show-instructions" and "X" buttons causes the background colour to change slightly and a tooltip to appear. An `aria-label` is used to assist screen readers.
+Hovering over both the "show instructions" and "close modal" buttons causes the background colour to change slightly and a tooltip to appear. An `aria-label` is used to assist screen readers.
 
 When the buttons are in focus, an outline is shown around them to support users who cycle to this element using the tab key.
 
-***NOTE:*** *The instructions modal is initially assigned a class called `.hidden` which removes it from the DOM and hides it from screen readers until the user chooses to open it. An event listener is attached to both the "btn-show-instructions" button and the "X" buttons in script.js to add / remove the `.hidden` class from this modal.*
+***NOTE:*** *The instructions modal is initially assigned a class called `.hidden` which removes it from the DOM and hides it from screen readers until the user chooses to open it. An event listener is attached to both the "show instructions" button and the "close modal" buttons in script.js to add / remove the `.hidden` class from this modal.*
 
 ## Game Settings Section
 
@@ -320,7 +320,7 @@ On smaller screens, the dialogue box takes nearly the full width of the screen b
 
 ### Modal Header
 
-The header of the dialogue box includes the modal title ("Instructions") and the "X" close button with appropriate hover effects (colour change and tool tip). It remains fixed at the top of the modal.
+The header of the dialogue box includes the modal title ("Instructions") and the "close modal" button with appropriate hover effects (colour change and tool tip). It remains fixed at the top of the modal.
 
 ### Modal Body
 
