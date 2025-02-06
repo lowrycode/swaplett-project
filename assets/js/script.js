@@ -585,8 +585,8 @@ async function fetchWordInfo(word) {
  */
 function getAudioClipUrl(phonetics) {
     for (let item of phonetics) {
-        if (item["audio"]) {
-            return item["audio"];
+        if (item.audio) {
+            return item.audio;
         }
     }
     return "";
@@ -867,10 +867,10 @@ function processWordData(word, data) {
 
         // Get meanings and append data to wordInfo
         for (let meaning of meanings) {
-            const partOfSpeech = meaning["partOfSpeech"] || "";
-            const definitions = meaning["definitions"] || [];
-            const definition = definitions[0]["definition"] || fallbackDefinition;
-            wordInfo["meanings"].push({ partOfSpeech: partOfSpeech, definition: definition });
+            const partOfSpeech = meaning.partOfSpeech || "";
+            const definitions = meaning.definitions || [];
+            const definition = definitions[0].definition || fallbackDefinition;
+            wordInfo.meanings.push({ partOfSpeech: partOfSpeech, definition: definition });
         }
 
     } catch (error) {
