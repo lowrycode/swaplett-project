@@ -722,8 +722,160 @@ If all of these conditions are met, the current state of gridWords has failed to
 
 If after iterating through all the criteria the function has not already been terminated, this means that the current state of `gridArray` has passed all the criteria checks and the function returns with a value of `true`.
 
+# Testing
 
+## Testing With Chrome DevTools
 
+The deployed site was manually tested on various devices and web browsers to check that it is fully responsive and consistent in its appearance and functionality. These manual tests were conducted by myself and others.
+
+The Javascript functionality was extensively tested at various stages of development using the *console* tab in **Google Chrome's DevTools**. When errors were seen to occur, the *Sources* tab was used to debug these (by adding breakpoints which paused the code when an exception occurred). The **Toggle Device Toolbar** feature of DevTools was used to emulate touch screen devices to ensure that the drag-and-drop behaviour worked correctly with touch gestures.
+
+To ensure that errors are handled correctly, temporary adjustments were made to the code to induce an error and the resulting behaviour was analysed in the console. For example:
+- to test what happens when an API request fails, the url for the API was changed to an invalid address
+- to test whether the `processWordsData` function correctly handles API responses with an invalid object structure, the structure of the object was temporarily adjusted and the logic flow was examined by stepping through the code using the DevTools Debugger (in the *sources* tab)
+- to test whether the `initialiseGridWords` function correctly handles invalid grid sizes, a number outside of the valid range was passed as an argument
+- to simulate an error assigning the grid words (using the `assignGridWords` function), the list of words in the JSON files was temporarily altered to ensure that no possible grid could be generated
+
+Other bugs were only discovered when the game was tested by other users. For example, when they tried to drag a non-draggable element onto a draggable element it threw an exception. Although the code correctly removed the event listener from the non-draggable grid cells (so the `onDragStart` function did not get called on the non-draggable cell), the event listeners are still active on the draggable cell. Therefore, the `onDragEnd` function was called on the draggable element despite the fact that no drag was taking place. This bug was easily fixed (by checking that the draggedElement was not null) using the line below:
+
+```js
+// Escape when no element is being dragged
+if (!draggedElement) return;
+```
+
+The only warnings that continue to appear in the console are when a word is not found in the Free Dictionary API. When a word is not found, the API returns a HTTP 404 error and this is displayed in the console in Chrome DevTools as follows:
+
+![An example of a HTTP 404 error message when a word is not found in the Free Dictionary API](readme-images/http-404-error.jpg)
+
+The `fetchWordInfo` function handles this error gracefully using a `try/catch` block so that the user sees a "No definition found" message.
+
+```js
+async function fetchWordInfo(word) {
+
+    const queryStr = `https://api.dictionaryapi.dev/api/v2/entries/en/${word}`;
+    try {
+        const response = await fetch(queryStr);
+
+        if (!response.ok) {
+            // Fetch request (was successful but) returned a HTTP error
+            if (response.status === 404) {
+                // Likely that word was not found in API
+                return { word: word, meanings: [{ partOfSpeech: "", definition: "No definition found" }] };
+            } else {
+                throw new Error(`HTTP error (status: ${response.status})`);
+            }
+        }
+
+        const data = await response.json();
+        return processWordData(word, data);
+
+    } catch (error) {
+        // Includes network errors, JSON parsing errors, and runtime errors
+        throw error;  // to be handled by the caller function
+    }
+}
+```
+
+However, according to <a href="https://stackoverflow.com/questions/4500741/suppress-chrome-failed-to-load-resource-messages-in-console" target="_blank" rel="noopener">**this Stack Overflow post**</a>, Chrome DevTools logs the failed HTTP request regardless (i.e. before the JavaScript code handles it).
+
+> *Alas, the browsers print network error in the console if the status code is 4XX or 5XX no matter what. It is possible to filter the errors as Doug's answer suggests, but those errors are still there (i.e. they are not suppressed, just filtered) and they reappear if you uncheck the checkbox again.*
+
+Since this behaviour of DevTools cannot be changed through settings, in order to remove this "error" I made the decision to remove all words from the JSON files which were not found in the Free Dictionary API.
+
+***NOTE:*** *To do this, I wrote a test script which looped through all the words in the JSON file and sent a fetch request to the API at one second intervals (to avoid exceeding API rate limits) and logging the word to the console if it returned a HTTP 404 error.*  
+
+## Testing With Chrome Inspect Devices
+
+When playing the game on a touch screen device, I noticed that two grid cells could be swapped by keeping a finger down on one cell and briefly touching the other. This behaviour is a consequence of the way the drag-and-drop events are implemented (since these event functions target the first item in `event.changedTouches`). Some users may prefer this alternative method of swapping grid cells so no changes were implemented to stop this behaviour.
+
+However, I was now keen to view the console to see if any errors were being thrown when playing the game on a touch screen device. I was able to do this using <a href="chrome://inspect/#devices" target="_blank" rel="noopener">**Chrome Inspect Devices**</a> by doing the following:
+
+1. In the terminal window in VSCode
+    - Get the ip address of the development computer by typing `ipconfig` and pressing enter (look for the IPv4 Address)
+    - Ensure the current directory is in the root directory of the project (where index.html is) and type `python -m http.server` to start a simple HTTP server - it uses port 8000 by default 
+2. On the Android phone, open **Chrome** and type in the ip address above followed by `:8000`
+    - This allows the phone to access the website being hosted on the development computer 
+3. Enable Developer Mode on the Android phone
+    - In **settings**, go to **About Phone > Software Information** section and press the **Build number** seven times
+4. Enable USB Debugging on the Android phone
+    - In **settings**, go to **Developer options** and ensure **USB debugging** is turned on
+5. Connect the Android phone to the computer using a USB cable
+6. Open Chrome on the computer and go to **chrome://inspect/#devices**
+    - If a permissions notification appears on the Android phone, click to allow USB debugging
+    - The phone should appear in the **Remote Target** section of the page and all tabs open on the phone should also be shown
+7. Click **Inspect** for the relevant tab
+    - This opens up a DevTools window showing the phone display on the left and the console display on the right
+    - Any events on the phone can now be viewed in the console window on the right
+
+Doing this confirmed that the website is working correctly on the Android phone and no errors were shown in the console.
+
+## Browser Testing
+
+The following browsers were used during testing:
+- Google Chrome
+- Microsoft Edge
+- Mozilla Firefox
+- Apple Safari
+
+The Safari testing revealed the need to explicitly style the select inputs to remove the default border-radius that was applied to these elements.
+
+## Device testing
+
+A number of different devices were used in testing:
+- Laptops with different screen sizes
+- Various generations of iPads (1st, 8th and 9th generations)
+- Various Android phones
+- Various iPhones (including a 1st generation iPhone 5)
+
+The website did not function correctly on the 1st generation iPhone 5 or the 1st generation iPad. This was expected because the project uses many features introduced with ES6 (e.g. `let/const`, arrow functions, template literals, promises, etc.). It was deemed to be better to use these modern approaches than to ensure backward compatability.
+
+The website functioned correctly on all other devices.
+
+## Code Validation
+
+### CSS
+
+When the custom stylesheet was tested using the <a href="https://jigsaw.w3.org/css-validator/" target="_blank" rel="noopener">**W3C CSS Jigsaw Validator**</a>, it passed without any errors.
+
+![CSS Validation Results from W3C CSS Jigsaw Validator](readme-images/css-validator.jpg)
+
+### HTML
+
+The HTML was tested using the <a href="https://validator.w3.org/" target="_blank" rel="noopener">**W3C Markup Validator**</a> in the following states:
+- initial page load (before any dynamic content)
+- during game play (since board is dynamically generated)
+- at the end of the game (since definitions are dynamically generated)
+
+This Error message was initially shown when testing the initial page load.
+![HTML validation error message concerning aria-checked](readme-images/html-validator-error.jpg)
+
+The `aria-checked` attribute is not needed for inputs of `type="checkbox"` since the `checked` property is used by screen readers instead. This error was easily resolved by removing the `aria-checked` attribute and the related statement in script.js (which updated the value of `aria-checked` when the toggle switch was pressed).
+
+Once this issue had been resolved, **all three states of the index.html file passed the HTML validation checks** without any errors.
+
+***NOTE:*** *There was a warning about a possible misuse of the aria-label attribute in the instructions modal (when showing what the play-audio icon looks like in the definitions section). This aria-label was deemed to have a valid purpose for screen readers and so it was not removed.*
+
+### JavaScript
+
+The JavaScript code was validated using <a href="https://jshint.com/" target="_blank" rel="noopener">**JSHint**</a>. It **passed the validation without any errors** but the following warnings were seen:
+
+![JavaScript validation message from JSHint](readme-images/js-validator.jpg)
+
+The warnings about async functions were ignored since this is the modern approach for handling asynchronous logic. The undefined `structuredClone` warning was ignored because this is a modern approach for making a deep copy of a nested object or array. The `playAudio` function is not infact an unused variable because when the definitions section is written dynamically, an onclick event is attached to the audio buttons when they are generated. These events reference the playAudio function. 
+
+## Lighthouse Analysis
+
+The *Lighthouse tool* in **Google Chrome's DevTools** was used to analyse the homepage of the deployed site, both on mobile view and desktop view.
+
+Initially, the accessibility score was 95% due to the poor colour contrast between the game-board placeholder text and the body background (when using the light-theme). Therefore, the colour pallette was amended to improve the colour contrast and the accessibility score increased to 100%.
+
+The results for the **mobile view** were as follows:
+
+![Google Lighthouse analysis on mobile view](readme-images/lighthouse-mobile.jpg)
+
+The results for the **desktop view** were as follows:
+
+![Google Lighthouse analysis on desktop view](readme-images/lighthouse-desktop.jpg)
 
 # Deployment
 
