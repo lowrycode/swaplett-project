@@ -361,9 +361,7 @@ Here are some possible features which would further enhance the user experience:
     - currently all default events have been removed from grid cells to allow for better control of the drag and drop behaviours during game play
 5. **Expand the word banks**
     - this would allow for greater variation between games but could potentially have a negative effect on the time taken to generate the grid of words
-6. **Check all words in the word banks are included as entries in the dictionary API**
-    -  this would ensure that the "No definition found" message is not displayed to the user
-7. **Use more obscure words when the difficulty level is set to "Hard"**
+6. **Use more obscure words when the difficulty level is set to "Hard"**
     - this would require addtional JSON files for storing these words
     - it is more likely that these words would not be found when using the dictionary API
 
