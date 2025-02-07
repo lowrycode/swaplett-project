@@ -909,6 +909,8 @@ The *Lighthouse tool* in **Google Chrome's DevTools** was used to analyse the ho
 
 Initially, the accessibility score was 95% due to the poor colour contrast between the game-board placeholder text and the body background (when using the light-theme). Therefore, the colour pallette was amended to improve the colour contrast and the accessibility score increased to 100%.
 
+The Lighthouse test was also performed with dark mode enabled (by manually adding the `.dark-mode` class to the body element) and with the instructions modal (by removing the `.hidden` class from this element). These tests revealed that there was not sufficient colour contrast between the modal-footer background and the hyperlinked text so the background colour was darkened slightly to resolve this issue.
+
 The results for the **mobile view** were as follows:
 
 ![Google Lighthouse analysis on mobile view](readme-images/lighthouse-mobile.jpg)
