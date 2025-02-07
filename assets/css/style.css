@@ -115,13 +115,9 @@ Code taken from https://gomakethings.com/revisting-aria-label-versus-a-visually-
 .text-outline {
     text-shadow:
         1px 1px 0 black,
-        /* Bottom-right shadow */
         -1px 1px 0 black,
-        /* Bottom-left shadow */
         1px -1px 0 black,
-        /* Top-right shadow */
         -1px -1px 0 black;
-    /* Top-left shadow */
 }
 
 /* HEADER */
@@ -427,7 +423,6 @@ main {
 }
 
 /* MODALS */
-
 .modal-overlay {
     position: fixed;
     top: 0;
@@ -598,7 +593,6 @@ footer a:hover {
 }
 
 /* MEDIA QUERIES */
-
 /* Limit container size */
 @media screen and (min-width: 800px) {
     .container {
