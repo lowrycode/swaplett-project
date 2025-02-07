@@ -1,5 +1,4 @@
 // EVENT LISTENERS FOR STATIC ELEMENTS
-
 // Checkbox to toggle dark mode
 const darkModeCheckbox = document.getElementById("dark-mode-checkbox");
 darkModeCheckbox.addEventListener("change", function () {
@@ -36,7 +35,7 @@ async function newGame() {
     let remainingSwaps = 15;
     let jumbleSwaps = getJumbleSwapNum(difficulty);
 
-    // Reset styles (hidden class to hide/display elements) and display remainingSwaps
+    // Reset styles (using hidden class to hide/display elements) and display remainingSwaps
     document.getElementById("swaps-remaining").innerText = remainingSwaps;
     resetVisibility();
 
