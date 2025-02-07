@@ -128,11 +128,11 @@ The interactive elements on the page respond quickly, thanks to the use of effic
 
 Here are some examples: 
 
-**1. Tracking Game State Using `unresolvedGridCells`**
+**1. Tracking Game State Using unresolvedGridCells**
 
 In order to quickly determine when a user has successfully completed the grid, a variable called `unresolvedGridCells` is used to record which grid cells are still unresolved. This is implemented as a `Set`, rather than an `array`, to take advantage of the more efficient lookups (using hash mapping) and therefore quicker removal of items.
 
-**2. Parallel Asynchronous Requests Using `Promise.all`**
+**2. Parallel Asynchronous Requests Using Promise.all**
 
 At the end of the game, the `fetchDefinitionsArr` function is called to fetch the definitions (and links to audio pronounciation clips) from the (<a href="https://dictionaryapi.dev/" target="_blank" rel="noopener">**Free Dictionary API**</a>) for each of the words used in the game. During the early stages of development, each request was made sequentially using `async/await`. This led to a noticeable bottleneck since the code was waiting for the API to respond before sending the next request.
 
@@ -150,7 +150,7 @@ This approach led to a noticable reduction in the time taken to retrieve the def
 (a) ***it avoids sending unnecessary requests to the API***: *if the user abandons the game early, there was no need to make the request*
 (b) ***it allows for better error handling***: *the user could still play the game even if the definitions could not be retrieved after the game has ended*
 
-**3. Adding Elements to the DOM Using `document.createDocumentFragment`**
+**3. Adding Elements to the DOM Using createDocumentFragment**
 
 The `drawGrid` function is responsible for rendering the dynamically generated grid on the page. Appending multiple elements to the DOM one by one can cause multiple reflows and repaints (leading to performance issues).
 
@@ -310,7 +310,7 @@ The footer sits at the bottom of the page and includes a link to the GitHub repo
 
 ## Instructions Modal
 
-As discussed [previously](#icon-to-open-instructions-modal), the instructions modal can be opened by clicking on the `btn-show-instructions` button (the circle-question-mark icon) in the top right corner of the page.
+As discussed [previously](#icon-to-open-instructions-modal), the instructions modal can be opened by clicking on the "show instructions" button (the circle-question-mark icon) in the top right corner of the page.
 
 The modal consists of:
 - a dark semi-transparent overlay (to darken the main page content)
