@@ -10,7 +10,19 @@ You can visit the deployed website <a href="https://lowrycode.github.io/swaplett
 
 # Project Planning
 
-The [**Project Planning**](project_planning.md) document outlines my personal goals for the project as well as the pseudo code for the JavaScript functionality.
+The [**Project Planning**](project_planning.md) document outlines my personal goals for the project as well as the pseudo code for the JavaScript functionality. I decided to make a word game which involved swapping the positions of letters because it would allow opportunities to learn more about:
+- touch screen events and how to implement drag-and-drop behaviour
+- asynchronous programming and how to utilise an API
+
+# Target Audience
+
+The target audience for the website is a user who enjoys playing word games and learning about the definitions of words.
+
+They are most likely to:
+- want a quick game that doesn't take too long to learn
+- access the website using a mobile phone or tablet device
+
+The game is most likely to appeal to adults but children may also want to play the game. Therefore, the words should not be unsuitable for younger aged users.
 
 # User Experience (UX) Design
 
