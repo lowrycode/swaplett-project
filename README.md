@@ -541,7 +541,7 @@ This approach overcame the difficulties that arose when using the Random Word AP
 
 ### 2. Randomising the order of the words
 
-The `shuffleArray` function uses a well known algorithm called the *Fisher-Yates (Knuth)* Shuffle Algorithm.
+The `shuffleArray` function uses a well known algorithm called the *Fisher-Yates (Knuth) Shuffle Algorithm*.
 
 ```js
 // Code adapted from https://stackoverflow.com/questions/2450954/how-to-randomize-shuffle-a-javascript-array
@@ -948,3 +948,27 @@ To clone the repository (assuming you already have git installed on your machine
 4. Type **git clone [url]** (replacing [url] with the url address from step 1) and press Enter
 
 ![Steps to clone the repository](readme-images/clone.jpg)
+
+# Credits
+
+The following features used code from external sources
+- **Toggle Switch:** for switching between dark-mode and light-mode
+    - HTML and CSS code adapted from https://www.w3schools.com/HOWTO/howto_css_switch.asp
+- **`shuffleArray` Function:** an implementation of the *Fisher-Yates (Knuth) Shuffle Algorithm*
+    - JavaScript code adapted from https://stackoverflow.com/questions/2450954/how-to-randomize-shuffle-a-javascript-array
+- **`.visually-hidden` Class:** for hiding elements from the screen but keeping them accessible to screen readers
+    - CSS code adapted from https://gomakethings.com/revisting-aria-label-versus-a-visually-hidden-class/
+
+The following resources were particularly helpful in learning about various aspects of JavaScript:
+- This <a href="https://youtu.be/TaPdgj8mucI?si=GEjDm3TKvSnOKrCu" target="_blank" rel="noopener">**YouTube video**</a> by **Web Dev Simplified** gave a really helpful introduction to touch-screen events and how to debug them using <a href="chrome://inspect/#devices" target="_blank" rel="noopener">**Chrome Inspect Devices**</a>
+- This <a href="https://www.dhiwise.com/post/best-practices-for-error-handling-in-await-expression" target="_blank" rel="noopener">**post**</a> by **Avina Zalavadiya** was very informative about the best practices for error handling in await expressions
+- This <a href="https://stackoverflow.com/questions/45540613/how-document-fragment-works" target="_blank" rel="noopener">**Stack Overflow post**</a> was helpful in learning about how document fragments work 
+- This <a href="https://dev.to/once_dev/efficient-asynchronous-operations-in-javascript-using-promiseall-with-map-and-for-await-of-6df" target="_blank" rel="noopener">**article**</a> by **Ajay Chavan** was helpful in learning about how to use `Promise.all` for efficient API requests
+
+These resources, while not revisited during the project's development, were instrumental in building a strong foundation in data structures and algorithms:
+- The section on <a href="https://www.w3schools.com/dsa/index.php" target="_blank" rel="noopener">**Data Structures and Algorithms**</a> from **W3Schools** was helpful in learning about *time and space complexity*, the use of *hash sets* for efficient lookups and *memoization* within dynamic programming
+- This <a href="https://youtu.be/oBt53YbR9Kk?si=tzu6Pn3R6SR3UKKy" target="_blank" rel="noopener">**YouTube video**</a> from **freeCodeCamp** was helpful in consolidating ideas about *recursive functions* and *dynamic programming* techniques
+
+# Acknowledgments
+
+The website was developed as part of the **Full Stack Developer Course** at <a href="https://codeinstitute.net/" target="_blank" rel="noopener">**Code Institute**</a> and was submitted as my second portfolio project. I would like to thank my mentor <a href="https://www.linkedin.com/in/precious-ijege-908a00168/" target="_blank" rel="noopener">**Precious Ijege**</a> for his encouragement and advice, particularly for the discussions relating to scope declarations and deciding which functions should be encapsulated within the `newGame` function.
