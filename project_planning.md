@@ -21,8 +21,8 @@ The game is probably most similar to a popular game called [Waffle](https://waff
 ### Instructions
 - words are positioned in a grid (both horizontally and vertically)
 - users need to swap the jumbled letters around until they are all in the correct location in the grid
-- grid cells turns green if the letter is in the correct location or yellow if it is found somewhere else in the row or column
-- users are given a limited number of swaps to arrange all letters correctly
+- grid cells turn green if the letter is in the correct location or yellow if it is found somewhere else in the row or column
+- users have a limited number of swaps to arrange all letters correctly
 
 ### Intended Features
 
@@ -54,7 +54,7 @@ The game is probably most similar to a popular game called [Waffle](https://waff
     - get array of words which meet criteria for grid (recursive DFS)
     - assign to gridArr (e.g. gridArr[r][c] with null for empty spaces)
     - copy gridArr (gridAnswerArr) then jumble gridArr
-5. **displayGrid** - dynamically generate div elements, absolute positioning using inline styles
+5. **displayGrid()** - dynamically generate div elements, absolute positioning using inline styles
 6. **add event listeners for dynamic elements** - for both mouse and touch
     - **touchStart()** / **dragStart()**
     - **touchMove()** / **dragMove()**
