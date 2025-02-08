@@ -2,7 +2,7 @@
 
 Swaplett is a word puzzle game where players complete a grid of words by swapping letters into their correct positions. Letters can be moved by dragging them with a mouse or finger (on touch-screen devices). To win the game, players have to complete the grid within 15 swaps.
 
-The project uses a third-party API (<a href="https://dictionaryapi.dev/" target="_blank" rel="noopener">**Free Dictionary API**</a>) to fetch information about words such as their meanings and links to pronounciation audio clips.
+The project uses a third-party API (<a href="https://dictionaryapi.dev/" target="_blank" rel="noopener">**Free Dictionary API**</a>) to fetch information about words such as their meanings and links to pronunciation audio clips.
 
 You can visit the deployed website <a href="https://lowrycode.github.io/swaplett-project/" target="_blank" rel="noopener">**here**</a>.
  
@@ -65,7 +65,7 @@ The game logo uses a font called **Carter One** and was designed using <a href="
 
 ![Game logo shown for both light mode and dark mode](readme-images/game-logo.jpg)
 
-The colour theme ensures a good colour contrast when using both light mode and dark mode. A png file format was chosen to allow for a transparent background.
+The colour theme ensures a good colour contrast when using both light mode and dark mode. A PNG file format was chosen to allow for a transparent background.
 
 ## User Interaction Design
 
@@ -88,7 +88,7 @@ There is a good colour contrast between text and background to ensure good acces
 
 ### 3. Consistent Style
 
-Similar elements look and behave in a similar way. For example
+Similar elements look and behave in a similar way. For example:
 - all clickable buttons have a consistent (blue) colour theme with similar hover effects
 - all hyperlinked text has the same (light blue) colour theme with similar hover effects
 - select boxes have the same colour theme
@@ -146,7 +146,7 @@ In order to quickly determine when a user has successfully completed the grid, a
 
 **2. Parallel Asynchronous Requests Using Promise.all**
 
-At the end of the game, the `fetchDefinitionsArr` function is called to fetch the definitions (and links to audio pronounciation clips) from the (<a href="https://dictionaryapi.dev/" target="_blank" rel="noopener">**Free Dictionary API**</a>) for each of the words used in the game. During the early stages of development, each request was made sequentially using `async/await`. This led to a noticeable bottleneck since the code was waiting for the API to respond before sending the next request.
+At the end of the game, the `fetchDefinitionsArr` function is called to fetch the definitions (and links to audio pronunciation clips) from the (<a href="https://dictionaryapi.dev/" target="_blank" rel="noopener">**Free Dictionary API**</a>) for each of the words used in the game. During the early stages of development, each request was made sequentially using `async/await`. This led to a noticeable bottleneck since the code was waiting for the API to respond before sending the next request.
 
 This issue was resolved by using the `Promise.all` method, which sends the requests in parallel and returns a single promise that resolves when all of the individual promises have resolved successfully.
 
@@ -156,7 +156,7 @@ async function fetchDefinitionsArr(wordsArr) {
 }
 ```
 
-This approach led to a noticable reduction in the time taken to retrieve the definitions.
+This approach led to a noticeable reduction in the time taken to retrieve the definitions.
 
 ***NOTE:*** *Someone may ask why the definitions were not fetched in advance (i.e. when the grid was first generated) to avoid the user having to wait for them at the end of the game. This approach was avoided because:*
 (a) ***it avoids sending unnecessary requests to the API***: *if the user abandons the game early, there was no need to make the request*
@@ -236,7 +236,7 @@ Clicking this button starts a new game by:
     - a placeholder text ("Generating board...") is added to the gameboard
 2. **Building the grid of words**
     - an `array` of words of the correct length is fetched from the relevant JSON file in the **assets > json** directory and the `array` is then shuffled to randomise the order of these words
-    - a smaller collection of these words are chosen if they together meet the criteria for the specified grid (i.e. their intersecting characters match)
+    - a smaller collection of these words is chosen if they together meet the criteria for the specified grid (i.e. their intersecting characters match)
     - the characters of each word are assigned to a 2D `array` (called `gridAnswerArr`) which stores their correct positions (i.e. row and column) in the grid
     - a copy of the `gridAnswerArr` (called `gridArr`) is jumbled by making a specified number of swaps (as determined by the difficulty level) - this becomes the initial state of the grid
     - the grid is drawn on the page (by dynamically writing HTML into the game-board section)
@@ -285,7 +285,7 @@ This section shows the count of how many swaps are remaining. Every game allows 
 
 This section is only visible during game play - it is hidden on initial page load and at the end of each game.
 
-***NOTE:*** *This section is initially assigned a class called `.hidden` which removes it from the DOM and hides it from screen readers until the game starts. When the game starts, the `.hidden` class is removed.*
+***NOTE:*** *This section is initially assigned a class called `.hidden` which removes it from the DOM and hides it from screen readers until the game starts. When a new game starts, the `.hidden` class is removed.*
 
 
 ## Game End Section
@@ -308,7 +308,7 @@ This section shows the definitions of any words that were used in the grid. The 
 
 Since these definitions are fetched from a third-party API, sometimes these definitions cannot be found - if so, a "No definition found" message will be displayed.
 
-Sometimes links to audio clips (of word pronounciations) are included - if so, a circle-play button appears next to the word which includes hover effects (to show that it is clickable). The audio clip will play when the user clicks the button.
+Sometimes links to audio clips (of word pronunciations) are included - if so, a circle-play button appears next to the word which includes hover effects (to show that it is clickable). The audio clip will play when the user clicks the button.
 
 This section is only visible at the end of the game - it is hidden on initial page load and during game play.
 
@@ -366,7 +366,7 @@ Here are some possible features which would further enhance the user experience:
     - save user preferences about colour theme (so can automatically turn dark-mode on for users who prefer this theme) 
 2. **Add animations at the end of the game to reward users who complete the grid successfully**
     - these would be subtle and short (to prevent users becoming irritated by them)
-    - perhaps the animations would involve cycling through the grid cells and enlarging them
+    - perhaps the animations could involve cycling through the grid cells and briefly enlarging them
 3. **Improve the design of the end of game messages**
     - perhaps replace the text with an image and include a zoom animation
 4. **Restore scroll and swipe behaviours on grid cells at the end of the game**
@@ -400,7 +400,7 @@ These features ensure that the code is easily understood by other Javascript dev
 
 The way the project is structured ensures that there is a good separation of concerns:
 - The main HTML file (**index.html**) deals with the content and structure of the page.
-- All css styling rules are written in an external stylesheet (**style.css**) rather than embedded within `style` tags within the header of the HTML file.
+- All CSS styling rules are written in an external stylesheet (**style.css**) rather than embedded within `style` tags within the header of the HTML file.
 - All JavaScript functionality is written in an external js file (**script.js**) rather than embedded within `script` tags within the body of the HTML file.
 
 Event listeners are defined within the JavaScript file (rather than with inline event attributes like `onclick`).
@@ -440,13 +440,13 @@ This approach ensures that there is minimal disruption to the code when new feat
 
 To make the code more robust and easier to debug, a number of best practices were adopted.
 
-**1. Variables defined in block scope**
+**1. Defining Variables in Block Scope**
 
 Older Javascript code used the `var` keyword when defining variables. This approach to defining variables is more error prone because the variable is function scoped and accessible throughout the whole function in which it is declared. The variable could be accidentally re-declared and modified later in the function. Global variables were also avoided for similar reasons.
 
-This project used the more robust and modern approach which is to define variables in block scope using the `let` and `const` key words. This prevents bugs caused by accidentally re-declaring variables later in the code. Using `const` for variables that should remain unchanged within the block also helps to catch bugs caused when changing the values of these variables.
+This project used the more robust and modern approach which is to define variables in block scope using the `let` and `const` keywords. This prevents bugs caused by accidentally re-declaring variables later in the code. Using `const` for variables that should remain unchanged within the block also helps to catch bugs caused when changing the values of these variables.
 
-***NOTE:*** *variables which are not defined using one of the three declaration words above become global variables by default. Therefore, the code was checked using the JSHint website to ensure that all variables were exlicitly defined.*
+***NOTE:*** *variables which are not defined using one of the three declaration words above become global variables by default. Therefore, the code was checked using the JSHint website to ensure that all variables were explicitly defined.*
 
 **2. Strict Equality and Type Coercion**
 
@@ -682,7 +682,7 @@ The function returns an object with the following properties:
 
 Here is a detailed breakdown of how the function works...
 
-**(a) The initial call**
+**(a) Initial Call**
 
 The function is first called from the `newGame` function and takes the following parameters:
 - `words`: The randomly shuffled array of words that was returned by the `fetchRandomWords` function (see step 1)
@@ -694,7 +694,7 @@ The function is first called from the `newGame` function and takes the following
 - `wordIndex`: The index for the word currently being assigned in the `gridWords` array
     - ***NOTE:*** *This is not explicitly defined when first called by the newGame function but is assigned a value of `0` by default. It also relates to the word index used in the `criteria` array.*
 
-**(b) The Base Case**
+**(b) Base Case**
 
 As is common in recursive functions, the **base case** comes first. This ensures that the function returns immediately when a solution is found without making unnecessary recursive calls thus optimising performance.
 
@@ -714,7 +714,7 @@ If the new state of the `gridWords` array passes the checks, another recursive c
 
 If the last line of the function is reached, no valid word could be found at that depth of search and so the function returns a failure message (`success: false`) to the caller function which then continues the search by iterating to the next word.
 
-If the failure message propogates all the way back to the `newGame` function itself (which made the initial call), the function has exhausted all possible variations of the words and no solution was found. ***NOTE:*** *this will never happen with the current words in the JSON files but it could if the list of words in these files was sufficiently small.*
+If the failure message propagates all the way back to the `newGame` function itself (which made the initial call), the function has exhausted all possible variations of the words and no solution was found. ***NOTE:*** *this will never happen with the current words in the JSON files but it could if the list of words in these files was sufficiently small.*
 
 **(e) Success Case**
 
@@ -725,7 +725,7 @@ If the base case finds that the `gridWords` array has been completed, the functi
 if (wordIndex >= gridWords.length) return { data: gridWords, success: true };
 ```
 
-Immediately following the recursive call, the state of the `success` property is checked and (if found to be true) the response is immediately propogated up to the caller function.
+Immediately following the recursive call, the state of the `success` property is checked and (if found to be true) the response is immediately propagated up to the caller function.
 
 ```js
 // Recursive call
@@ -768,7 +768,7 @@ It then checks that both words have been assigned a value in the `gridWords` arr
 
 The final check is to see if the criteria rule is broken by comparing the relevant characters in each word.
 
-If all of these conditions are met, the current state of gridWords has failed to meet the criteria and so the function returns immedietely with a value of `false`. This ensures that there are no unnecessary iterations and optimises the performance of the function.
+If all of these conditions are met, the current state of gridWords has failed to meet the criteria and so the function returns immediately with a value of `false`. This ensures that there are no unnecessary iterations and optimises the performance of the function.
 
 If after iterating through all the criteria the function has not already been terminated, this means that the current state of `gridArray` has passed all the criteria checks and the function returns with a value of `true`.
 
@@ -778,7 +778,7 @@ If after iterating through all the criteria the function has not already been te
 
 The deployed site was manually tested on various devices and web browsers to check that it is fully responsive and consistent in its appearance and functionality. These manual tests were conducted by myself and others.
 
-The Javascript functionality was extensively tested at various stages of development using the *console* tab in **Google Chrome's DevTools**. When errors were seen to occur, the *Sources* tab was used to debug these (by adding breakpoints which paused the code when an exception occurred). The **Toggle Device Toolbar** feature of DevTools was used to emulate touch screen devices to ensure that the drag-and-drop behaviour worked correctly with touch gestures.
+The JavaScript functionality was extensively tested at various stages of development using the *console* tab in **Google Chrome's DevTools**. When errors occured, the *Sources* tab was used to debug these (by adding breakpoints which paused the code when an exception occurred). The **Toggle Device Toolbar** feature of DevTools was used to emulate touch screen devices to ensure that the drag-and-drop behaviour worked correctly with touch gestures.
 
 To ensure that errors are handled correctly, temporary adjustments were made to the code to induce an error and the resulting behaviour was analysed in the console. For example:
 - to test what happens when an API request fails, the url for the API was changed to an invalid address
@@ -857,7 +857,7 @@ However, I was now keen to view the console to see if any errors were being thro
     - This opens up a DevTools window showing the phone display on the left and the console display on the right
     - Any events on the phone can now be viewed in the console window on the right
 
-Doing this confirmed that the website is working correctly on the Android phone and no errors were shown in the console.
+This confirmed that the website worked correctly on the Android phone, with no errors shown in the console.
 
 ## Browser Testing
 
@@ -877,7 +877,7 @@ A number of different devices were used in testing:
 - Various Android phones
 - Various iPhones (including a 1st generation iPhone 5)
 
-The website did not function correctly on the 1st generation iPhone 5 or the 1st generation iPad. This was expected because the project uses many features introduced with ES6 (e.g. `let/const`, arrow functions, template literals, promises, etc.). It was deemed to be better to use these modern approaches than to ensure backward compatability.
+The website did not function correctly on the 1st generation iPhone 5 or the 1st generation iPad. This was expected because the project uses many features introduced with ES6 (e.g. `let/const`, arrow functions, template literals, promises, etc.). It was deemed to be better to use these modern approaches than to ensure backward compatibility.
 
 The website functioned correctly on all other devices.
 
@@ -885,7 +885,7 @@ The website functioned correctly on all other devices.
 
 ### CSS
 
-When the custom stylesheet was tested using the <a href="https://jigsaw.w3.org/css-validator/" target="_blank" rel="noopener">**W3C CSS Jigsaw Validator**</a>, it passed without any errors.
+When the stylesheet was validated using the <a href="https://jigsaw.w3.org/css-validator/" target="_blank" rel="noopener">**W3C CSS Jigsaw Validator**</a>, it passed without any errors.
 
 ![CSS Validation Results from W3C CSS Jigsaw Validator](readme-images/css-validator.jpg)
 
@@ -907,7 +907,7 @@ Once this issue had been resolved, **all three states of the index.html file pas
 
 ### JavaScript
 
-The JavaScript code was validated using <a href="https://jshint.com/" target="_blank" rel="noopener">**JSHint**</a>. It **passed the validation without any errors** but the following warnings were seen:
+The JavaScript code was validated using <a href="https://jshint.com/" target="_blank" rel="noopener">**JSHint**</a>. It **passed the validation without any errors** but the following warnings were displayed:
 
 ![JavaScript validation message from JSHint](readme-images/js-validator.jpg)
 
@@ -917,7 +917,7 @@ The warnings about async functions were ignored since this is the modern approac
 
 The *Lighthouse tool* in **Google Chrome's DevTools** was used to analyse the homepage of the deployed site, both on mobile view and desktop view.
 
-Initially, the accessibility score was 95% due to the poor colour contrast between the game-board placeholder text and the body background (when using the light-theme). Therefore, the colour pallette was amended to improve the colour contrast and the accessibility score increased to 100%.
+Initially, the accessibility score was 95% due to the poor colour contrast between the game-board placeholder text and the body background (when using the light-theme). Therefore, the colour palette was amended to improve the colour contrast and the accessibility score increased to 100%.
 
 The Lighthouse test was also performed with dark mode enabled (by manually adding the `.dark-mode` class to the body element) and with the instructions modal (by removing the `.hidden` class from this element). These tests revealed that there was not sufficient colour contrast between the modal-footer background and the hyperlinked text so the background colour was darkened slightly to resolve this issue.
 
