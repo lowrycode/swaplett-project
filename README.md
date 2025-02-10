@@ -76,7 +76,7 @@ The following features aim to ensure an enjoyable user experience when interacti
 The website makes use of standard conventions. For example:
 - A toggle switch is used to allow the user to toggle between light mode and dark mode
 - A question mark icon is used to show users where they can "get help" by viewing the instructions
-- Buttons for closing modals are indicated using an "X" and are positioned in top right corner of the  modal
+- Buttons for closing modals are indicated using an "X" and are positioned in the top right corner of the  modal
 
 On initial page load, the game-board section shows some placeholder instructions to prompt users.
 
@@ -148,7 +148,7 @@ In order to quickly determine when a user has successfully completed the grid, a
 
 At the end of the game, the `fetchDefinitionsArr` function is called to fetch the definitions (and links to audio pronunciation clips) from the (<a href="https://dictionaryapi.dev/" target="_blank" rel="noopener">**Free Dictionary API**</a>) for each of the words used in the game. During the early stages of development, each request was made sequentially using `async/await`. This led to a noticeable bottleneck since the code was waiting for the API to respond before sending the next request.
 
-This issue was resolved by using the `Promise.all` method, which sends the requests in parallel and returns a single promise that resolves when all of the individual promises have resolved successfully.
+The issue was resolved by using the `Promise.all` method, which sends the requests in parallel and returns a single promise that resolves when all of the individual promises have resolved successfully.
 
 ```js
 async function fetchDefinitionsArr(wordsArr) {
@@ -771,6 +771,24 @@ The final check is to see if the criteria rule is broken by comparing the releva
 If all of these conditions are met, the current state of gridWords has failed to meet the criteria and so the function returns immediately with a value of `false`. This ensures that there are no unnecessary iterations and optimises the performance of the function.
 
 If after iterating through all the criteria the function has not already been terminated, this means that the current state of `gridArray` has passed all the criteria checks and the function returns with a value of `true`.
+
+# Technologies Used
+
+The website uses **HTML**, **CSS** and **JavaScript**. No external frameworks (e.g. Bootstrap or JQuery) were used.
+
+The code was written using **Visual Studio Code** to take advantage of the *Live Preview* extension.
+
+**Git** was used as the version control system and all commits were made to the main branch.
+
+**Github** was used to host the Git repository and for deploying the website. **Github projects** was also used for planning and monitoring the development process.
+
+The wireframes were produced using a local copy of **Balsamiq** (which was downloaded from <a href="https://balsamiq.com/" target="_blank" rel="noopener">**here**</a>).
+
+The logo was designed using <a href="https://www.canva.com/" target="_blank" rel="noopener">**Canva**</a> and then edited using <a href="https://www.gimp.org/" target="_blank" rel="noopener">**GIMP**</a>.
+
+The favicons were produced using <a href="https://favicon.io/" target="_blank" rel="noopener">**favicon.io**</a> from a custom image.
+
+The fonts were sourced from <a href="https://fonts.google.com/" target="_blank" rel="noopener">**Google Fonts**</a> and textual icons were provided by <a href="https://fontawesome.com/" target="_blank" rel="noopener">**Font Awesome**</a>.
 
 # Testing
 
