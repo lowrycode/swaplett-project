@@ -612,7 +612,7 @@ The following browsers were used during testing:
 
 The Safari testing revealed the need to explicitly style the select inputs to remove the default border-radius that was applied to these elements.
 
-## Device testing
+## Device Testing
 
 A number of different devices were used in testing:
 - Laptops with different screen sizes
@@ -624,6 +624,10 @@ The website did not function correctly on the 1st generation iPhone 5 or the 1st
 
 The website functioned correctly on all other devices.
 
+## Other Bug Fixes
+
+When testing the HTML code with the **W3C HTML validator**, it became apparent that an `aria-checked` attribute was being used on an input of `type="checkbox"`. The `aria-checked` attribute is not needed for inputs of `type="checkbox"` since the `checked` property is used by screen readers instead. This error was easily resolved by removing the `aria-checked` attribute and the related statement in script.js (which updated the value of `aria-checked` when the toggle switch was pressed).
+
 ## Code Validation
 
 ### CSS
@@ -634,19 +638,14 @@ When the stylesheet was validated using the <a href="https://jigsaw.w3.org/css-v
 
 ### HTML
 
-The HTML was tested using the <a href="https://validator.w3.org/" target="_blank" rel="noopener">**W3C Markup Validator**</a> in the following states:
+The HTML was tested using the <a href="https://validator.w3.org/" target="_blank" rel="noopener">**W3C Markup Validator**</a> by *Direct Input* in the following states:
 - initial page load (before any dynamic content)
 - during game play (since board is dynamically generated)
 - at the end of the game (since definitions are dynamically generated)
 
-This Error message was initially shown when testing the initial page load.
-![HTML validation error message concerning aria-checked](readme-images/html-validator-error.jpg)
+**All three states of the index.html file passed the HTML validation checks** without any errors.
 
-The `aria-checked` attribute is not needed for inputs of `type="checkbox"` since the `checked` property is used by screen readers instead. This error was easily resolved by removing the `aria-checked` attribute and the related statement in script.js (which updated the value of `aria-checked` when the toggle switch was pressed).
-
-Once this issue had been resolved, **all three states of the index.html file passed the HTML validation checks** without any errors.
-
-***NOTE:*** *There was a warning about a possible misuse of the aria-label attribute in the instructions modal (when showing what the play-audio icon looks like in the definitions section). This aria-label was deemed to have a valid purpose for screen readers and so it was not removed.*
+![HTML Validation Results from W3C HTML Validator](readme-images/css-validator.jpg)
 
 ### JavaScript
 
