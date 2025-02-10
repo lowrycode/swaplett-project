@@ -645,7 +645,7 @@ The HTML was tested using the <a href="https://validator.w3.org/" target="_blank
 
 **All three states of the index.html file passed the HTML validation checks** without any errors.
 
-![HTML Validation Results from W3C HTML Validator](readme-images/css-validator.jpg)
+![HTML Validation Results from W3C HTML Validator](readme-images/html-validator.jpg)
 
 ### JavaScript
 
